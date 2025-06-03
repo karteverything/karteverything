@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KArt Everything</title>
+  <link rel="stylesheet" href="/styles.css"</>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- handles form input data -->
+  <script type="text/javascript"src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+  <script type="text/javascript">
+    (function(){
+        emailjs.init({
+          publicKey: "zZuWx1PcPMwGuBQYn",
+        });
+    })();
+  </script>
+  
+  <!-- handles data analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NMCJXXWRWB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NMCJXXWRWB');
+  </script>
+  
+</head>
+<body>
+  <!-- navigation bar -->
+  <header class="header">
+    <a href="#home" class="logo">KArt Everything</a>
+
+    <nav id="nav">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#portraiture">Portraiture</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="menu-icons">
+      <span class="material-symbols-outlined" id="menu-toggle">menu</span>
+      <span class="material-symbols-outlined" id="menu-close">close</span>
+    </div>
+  </header>
+
+  <!-- home page -->
+  <section class="hero" id="home">
+    <div class="container">
+      <h1>Hi, I'm Kat</h1>
+      <p id="home-intro">
+        This is where I blend my passions — nature through photography, web development, and a little bit of everything else. 
+        <span class="blue-gradient-text">Welcome to my creative journal!</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- about section -->
+  <section class="about-section" id="about">
+
+    <div class="about-container container">
+      <div class="column full-width">
+        <h2 class="section-title">About Kat</h2>
+        <p>I build websites, write Java code, and capture moments through photography. Whether I'm coding or behind the camera, I'm all about bringing ideas to life in fun, meaningful ways.</p>
+      </div>
+
+      <div class="column bottom">
+        <h3>Core Skills</h3>
+        <ul>
+          <li>Web Development</li>
+          <li>Java</li>
+          <li>Database Management Systems</li>
+          <li>Bash Scripting</li>
+        </ul>
+      </div>
+
+      <div class="column bottom">
+        <h3>Resume</h3>
+        <p>Interested in working together?</p>
+        <a href="karteverything_resume.pdf" class="btn" target="_blank" rel="noopener noreferrer">Download CV</a>
+      </div>
+    </div>
+  </section> 
+
+  <!-- portraiture section -->
+  <section id="portraiture" class="gallery">
+    <div class="gallery-title container">
+      <h2>Portraiture</h2>
+      <p class="sunset-quote">Photography is the art of pausing time — capturing light as it slips quietly over the horizon.</p>
+    </div>
+
+    <div class="gallery-grid container">
+    <a href="images/image_1.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_1.jpg" alt="Smartie"></a>
+    <a href="images/image_2.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_2.jpg" alt="Street in Pretoria"></a>
+    <a href="images/image_3.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_3.jpg" alt="Butterfly"></a>
+    <a href="images/image_4.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_4.jpg" alt="Home Sweet Home"></a>
+    <a href="images/image_5.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_5.jpg" alt="Snail"></a>
+    </div>
+  </section>
+
+  <!-- blog section -->
+  <section id="blog">
+    <div class="blog-container container">
+      <div class="blog-title">
+        <h2>Latest Blog Posts</h2>
+        <p>Thoughts, tutorials, insights, and stories behind my work.</p>
+        <p>A litle learning, a litle chaos, always curious!</p>
+      </div>
+
+      <div class="blog-grid">
+        <div class="blog-card">
+          <h3>The Precision of Perfection</h3>
+          <div class="blog-snippet">
+          <article>
+          <p>They say perfection is a sickness - but maybe it's just love, expressed with precision, a desire that makes us more attentive, not obsessive</p>
+          <p>Perfection isn’t about control; it’s about care. The kind of care that shows up in the smallest of details—the second pass on a paragraph, the extra five minutes spent aligning a design, the quiet discipline of someone who chooses patience over shortcuts.</p>
+          <p>In engineering, we test, break, and rebuild. Iteration is not failure—it’s fidelity to improvement. Every version brings us closer not just to functionality, but to harmony. This mindset applies well beyond machines; it touches art, relationships, and even self-growth.</p>
+          <p>So maybe perfection isn’t an end state. Maybe it’s a continual act of attention—refining not because we’re chasing flawlessness, but because we respect the process itself. That’s where real precision lives.</p>
+          </article>
+        </div>
+        <a href="blog-post-1.html" class="btn" target="_blank" rel="noopener noreferrer">Read More</a>
+      </div>
+
+      <div class="blog-card">
+        <h3>Engineering Emotion: Why I Love Cars</h3>
+        <p class="blog-snippet">
+          From roaring engines to sleek design, cars aren’t just machines—they're reflections of passion, culture...
+        </p>
+          <a href="blog-post-2.html" class="btn" target="_blank" rel="noopener noreferrer">Read More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- contact section -->
+  <section id="contact" class="contact-section">
+    <div class="contact-title">
+    <h2>Contact Us</h2>
+    </div>
+      
+    <div class="contact-container">
+      <div class="contact-left">
+        <p>Have questions or feedback? Share with us through the contact form below</p>
+
+        <form id="contact-form" class="contact-form" method="post">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="subject" placeholder="Subject" required>
+        <textarea name="message" rows="3" placeholder="Message" required></textarea>
+        <button type="submit" class="btn" onclick="sendEmail()">Send Message</button>
+        </form>
+      </div>
+
+      <div class="contact-right">
+        <h3>Contact Info:</h3>
+        <p>Email: karteverything@proton.me</p>
+        <p>Phone: +27606588083</p>
+        <p>Address: Pretoria, Guateng</p>
+
+        <div class="social-icons">
+          <h3>Follow Me</h3>
+          <ul>
+            <a href="https://github.com/karteverything" target="_blank" rel="noopener noreferrer"><li><i class="fa-brands fa-github" ></i></li></a>
+            <a href="https://wa.me/qr/GHIPY6VR5PACB1" target="_blank" rel="noopener noreferrer"><li><i class="fa-brands fa-whatsapp"></i></li></a>
+            <a href="http://www.linkedin.com/in/karteverything" target="_blank" rel="noopener noreferrer"><li><i class="fa-brands fa-linkedin"></i></li></a>
+          </ul>
+        </div> 
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer>
+    <div class="footer-container">
+      
+      <div class="footer-content">
+        <p>Buy KArt Everything a coffee:</p>
+
+        <a href="https://buymeacoffee.com/" target="_blank" class="bmc-button" rel="noopener noreferrer">
+          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"/>
+        </a>
+      </div>
+
+      <div class="bottom-bar">
+        <p>&copy; 2025 KArt Everything. All rights reserved</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="https://kit.fontawesome.com/1165876da6.js"></script>
+  <!-- Script to handle contact form -->
+  <script src=" https://smtpjs.com/v3/smtp.js"></script>
+</body>
+</html>
