@@ -588,6 +588,10 @@ li {
     .blog-card p {
         font-size: 0.7rem;
     }
+
+    .blog-card.engineering {
+        margin-bottom: 30px;
+    }
 }
 
 /* blog-post-1 section */
