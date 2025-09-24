@@ -38,6 +38,19 @@ body {
     overflow-y: scroll;
 }
 
+section {
+    padding-top: 80px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--bg-section);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    scroll-snap-align: start
+}
+
 /* header */
 .header {
     position: fixed;
@@ -80,19 +93,6 @@ nav a.active {
     background-color: var(--hover-bg);
     padding: 2px 4px;
     border-radius: 5px;
-}
-
-section {
-    padding-top: 80px;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: var(--bg-section);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    min-height: 100vh;
-    scroll-snap-align: start
 }
 
 section:nth-child(even) {
@@ -429,7 +429,7 @@ li {
 
 .gallery-title p {
     font-size: 1rem;
-    color: var(--text-main-light);
+    color: var(--text-main);
 }
 
 #portraiture > div:nth-last-of-type(2) {
