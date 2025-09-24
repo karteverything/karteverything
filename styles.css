@@ -511,7 +511,7 @@ li {
 
 .blog-title p {
     font-size: 0.8rem;
-    color: var(--text-main-light);
+    color: var(--text-main);
 }
 
 .blog-grid {
@@ -660,6 +660,10 @@ li {
     margin-bottom: 2rem;
 }
 
+.contact-title p {
+    font-size: 0.9rem;
+}
+
 .contact-container {
     display: flex;
     flex-wrap: wrap;
@@ -668,7 +672,6 @@ li {
 }
 
 .contact-left {
-    background-color: rgb(243, 240, 240);
     padding-left: 1.5rem;
     padding-bottom: 1.5rem;
     border-radius: 8px;
@@ -778,6 +781,11 @@ li {
 
     .footer-content ul li a {
         font-size: 0.6rem;
+    }
+
+    .contact-title p {
+        font-size: 0.8rem;
+        margin-bottom: 30px;
     }
 }
 
