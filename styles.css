@@ -383,9 +383,9 @@ li {
     .about-container {
         flex-direction: column;
         align-items: stretch;
-        min-width: 90%;
+        max-width: 80%;
     }
-
+    
     .column p {
         font-size: 0.8rem;
     }
