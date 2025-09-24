@@ -16,7 +16,7 @@
     --hover-bg: #a9a9a9;
 }
 
-/* reset and base styles */
+/* reset base styles */
 * {
     margin: 0;
     padding: 0;
@@ -77,7 +77,7 @@ section:nth-child(even) {
     font-weight: 700;
 }
 
-/* navigation links (inline desktop nav) */
+/* navigation links */
 nav {
     display: flex;
     gap: 1.2rem;
@@ -109,12 +109,11 @@ nav a.active {
     color: var(--text-main);
 }
 
-/* ---- Curtain Nav Styles ---- */
 .curtain-nav {
     height: 0;
-    width: 100%; /* start closed */
+    width: 100%; 
     position: fixed;
-    z-index: 2000; /* above header */
+    z-index: 2000; 
     top: 0;
     left: 0;
     background-color: var(--bg-header);
@@ -122,7 +121,6 @@ nav a.active {
     transition: height 0.5s ease;
 }
 
-/* Close button */
 .curtain-nav .closebtn {
     position: absolute;
     top: 20px;
@@ -133,7 +131,6 @@ nav a.active {
     cursor: pointer;
 }
 
-/* Links inside curtain */
 .curtain-content {
     position: relative;
     top: 25%;
@@ -163,14 +160,12 @@ nav a.active {
     gap: 1.5rem;
 }
 
-/* ---- Responsive Styles ---- */
 @media (max-width: 768px) {
     /* hide desktop nav */
     .desktop-nav {
         display: none;
     }
 
-    /* show toggle icon */
     .menu-icons {
         display: block;
     }
@@ -214,7 +209,7 @@ h1 {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-fill-color: transparent;
+    /*text-fill-color: transparent;*/
 }
 
 .blue-gradient-text {
@@ -276,7 +271,6 @@ h1 {
     max-width: 830px;
 }
 
-/* column layout */
 .column {
     flex: 1 1 280px;
     padding: 2rem;
@@ -297,7 +291,6 @@ h1 {
     transform: translateY(-5px);
 }
 
-/* full-width column for main heading */
 .column.full-width {
     flex: 1 1 100%;
     text-align: center;
@@ -316,7 +309,6 @@ h1 {
     line-height: 1.6;
 }
 
-/* typography */
 .section-title {
     font-size: 1.2rem;
     font-weight: 700;
@@ -357,7 +349,6 @@ li {
     line-height: 1.2;
 }
 
-/* buttons */
 .btn {
     display: inline-block;
     margin-top: 0.5rem;
@@ -378,7 +369,6 @@ li {
     color: var(--text-main);
 }
 
-/* responsive adjustments */
 @media (max-width: 768px) {
     .about-container {
         flex-direction: column;
@@ -566,7 +556,7 @@ li {
     color: var(--text-main);
     margin-bottom: 1rem;
     display: -webkit-box;
-    -webkit-line-clamp: 4; /* limit to 4 lines */
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
