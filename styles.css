@@ -749,6 +749,14 @@ li {
     transform: scale(1.2);
 }
 
+.fa-solid {
+    font-size: 12px;
+}
+
+.contact-right span {
+    margin-left: 15px;
+}
+
 @media (max-width: 768px) {
     .contact-container {
         flex-direction: column;
