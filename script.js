@@ -1,23 +1,17 @@
+// menu toggle
+    const menuToggle = document.getElementById("menu-toggle");
+    const menuClose = document.getElementById("menu-close");
+    const curtainNav = document.getElementById("curtain-nav");
+
+    menuToggle.addEventListener("click", () => {
+      curtainNav.style.height = "100%";
+    });
+    
+    menuClose.addEventListener("click", () => {
+      curtainNav.style.height = "0";
+    });
+    
 document.addEventListener("DOMContentLoaded", function () {
-    // menu toggle
-    const toggle = document.getElementById("menu-toggle");
-    const closeBtn = document.getElementById("menu-close");
-    const nav = document.getElementById("nav");
-
-    if (toggle && closeBtn && nav) {
-        toggle.addEventListener("click", () => {
-            nav.classList.add("open");
-            toggle.style.display = "none";
-            closeBtn.style.display = "block";
-        });
-
-        closeBtn.addEventListener("click", () => {
-            nav.classList.remove("open");
-            toggle.style.display = "block";
-            closeBtn.style.display = "none";
-        });
-    }
-
     // blog "read more" functionality
     document.querySelectorAll('.read-more-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
