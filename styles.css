@@ -369,9 +369,12 @@ li {
 }
 
 @media (max-width: 768px) {
-    .about-container {
+    .column.full-width {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .column.bottom {
         max-width: 80%;
     }
     
