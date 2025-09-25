@@ -422,8 +422,8 @@ li {
 .gallery-title h2 {
     font-size: 1.2rem;
     color: var(--text-main-light);
-    margin-bottom: 0;
-    padding-bottom: 0;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 .gallery-title p {
