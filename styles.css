@@ -471,7 +471,7 @@ li {
     .mySlides img {
         height: 250px;
     }
-    
+
     .prev, .next {
         background-color: #333333;
     }
@@ -505,7 +505,7 @@ li {
     position: absolute;
     top: 50%;
     width: auto;
-    margin-top: -22px;
+    margin-top: -25px;
     padding: 16px;
     color: white;
     font-weight: bold;
@@ -549,7 +549,7 @@ li {
 
 .dots-container {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .dot {
