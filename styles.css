@@ -467,6 +467,14 @@ li {
     #portraiture.gallery {
         padding: 40px 10px;
     }
+
+    .mySlides img {
+        height: 250px;
+    }
+    
+    .prev, .next {
+        background-color: #333333;
+    }
 }
 
 /* slideshow gallery */
