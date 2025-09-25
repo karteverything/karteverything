@@ -452,6 +452,10 @@ li {
         font-size: 1rem;
     }
 
+    .gallery-title.container {
+        width: 80%;
+    }
+
     .gallery-title p {
         font-size: 0.8rem;
     }
