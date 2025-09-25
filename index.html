@@ -116,13 +116,61 @@
       <p class="sunset-quote">Whether it's a random street corner or a glowing sky, I take photos to remember how things felt — the laughter, the stillness, the golden light just before sunsets. Nature's quiet masterpieces!</p>
     </div>
 
-    <div class="gallery-grid container">
-    <a href="images/image_1.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_1.jpg" alt="Smartie"></a>
-    <a href="images/image_2.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_2.jpg" alt="Street in Pretoria"></a>
-    <a href="images/image_3.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_3.jpg" alt="Butterfly"></a>
-    <a href="images/image_4.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_4.jpg" alt="Home Sweet Home"></a>
-    <a href="images/image_5.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_5.jpg" alt="Snail"></a>
-    </div>
+    <!--
+      <div class="gallery-grid container">
+        <a href="images/image_1.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_1.jpg" alt="Smartie"></a>
+        <a href="images/image_2.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_2.jpg" alt="Street in Pretoria"></a>
+        <a href="images/image_3.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_3.jpg" alt="Butterfly"></a>
+        <a href="images/image_4.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_4.jpg" alt="Home Sweet Home"></a>
+        <a href="images/image_5.jpg" target="_blank" rel="noopener noreferrer"><img src="images/image_5.jpg" alt="Snail"></a>
+      </div>
+    -->
+
+    <!-- slideshow container -->
+     <div class="slideshow-container">
+      <div class="mySlides fade">
+        <div class="numbertext">1 / 5</div>
+        <img src="images/image_1.jpg" alt="" style="width:100%">
+        <div class="text">Caption Text</div>
+      </div>
+
+      <div class="mySlides fade">
+        <div class="numbertext">2 / 5</div>
+        <img src="images/image_2.jpg" alt="" style="width:100%">
+        <div class="text">Caption Two</div>
+      </div>
+
+      <div class="mySlides fade">
+        <div class="numbertext">3 / 5</div>
+        <img src="images/image_3.jpg" alt="" style="width:100%">
+        <div class="text">Caption Three</div>
+      </div>
+
+      <div class="mySlides fade">
+        <div class="numbertext">4 / 5</div>
+        <img src="images/image_4.jpg" alt="" style="width:100%">
+        <div class="text">Caption Four</div>
+      </div>
+
+      <div class="mySlides fade">
+        <div class="numbertext">5 / 5</div>
+        <img src="images/image_5.jpg" alt="" style="width:100%">
+        <div class="text">Caption Five</div>
+      </div>
+
+      <!-- next and previous buttons -->
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+     </div>  
+     
+     <!-- bottom dots/circles -->
+      <div class="dots-container" style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+        <span class="dot" onclick="currentSlide(5)"></span>
+      </div>
   </section>
 
   <!-- blog section -->

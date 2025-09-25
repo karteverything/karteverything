@@ -408,8 +408,11 @@ li {
     flex-direction: column;
     align-items: center;
     padding: 90px 20px;
+    max-height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
 }
-
+/*
 #portraiture .gallery-grid {
     display: flex;
     flex-wrap: wrap;
@@ -417,7 +420,7 @@ li {
    max-width: 1000px;
     width: 70%;
     justify-content: center;
-}
+}*/
 
 .gallery-title {
     text-align: center;
@@ -444,7 +447,7 @@ li {
     justify-content: center;
     gap: 2rem;
 }
-
+/*
 #portraiture img {
     width: 170px;
     height: 120px;
@@ -459,7 +462,7 @@ li {
     transform: scale(1.05);
     box-shadow:  0 4px 15px rgba(0, 0, 0, 0.2);
     filter: grayscale(0%);
-}
+}*/
 
 .sunset-quote {
     margin-top: 0;
@@ -475,6 +478,114 @@ li {
     .gallery-title p {
         font-size: 0.8rem;
     }
+
+    .slideshow-container {
+    height: 250px;
+    }
+
+    #portraiture.gallery {
+        padding: 40px 10px;
+    }
+}
+
+/* slideshow gallery */
+.slideshow-container {
+    max-width: 700px;
+    width: 90%;
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+    height: 400px;
+}
+
+.mySlides {
+    display: none;
+    height: 100%;
+}
+
+.mySlide img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    max-height: 100px;
+    object-fit: cover;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+.prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.next {
+    right: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.text {
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+.numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+.dots-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+    background-color: #717171;
+}
+
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
 }
 
 /* blog section */
