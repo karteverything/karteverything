@@ -596,7 +596,7 @@ li {
 
 .blog-title {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 5rem;
     transition: transform 0.3s ease;
 }
 
@@ -607,6 +607,7 @@ li {
 .blog-title h2 {
     font-size: 1.2rem;
     color: var(--text-main-light);
+    margin-top: 1.2rem;
 }
 
 .blog-title p {
