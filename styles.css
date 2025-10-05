@@ -804,7 +804,7 @@ input[type=text], textarea {
 .contact-form input,
 .contact-form textarea {
     width: 90%;
-    padding: 0.2rem;
+    padding: 0.3rem;
     margin-bottom: 1rem;
     border: 2px solid #ccc;
     border-radius: 6px;
