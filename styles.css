@@ -797,6 +797,10 @@ li {
     color: var(--text-main-light);
 }
 
+input[type=text], textarea {
+    resize: none;
+}
+
 .contact-form input,
 .contact-form textarea {
     width: 90%;
