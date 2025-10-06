@@ -608,9 +608,12 @@ li {
 }
 
 /* blog section */
+#blog {
+    background-color: #E0E0E0;
+}
+
 .blog-section {
     padding: 60px 20px;
-    background-color: #E0E0E0;
     scroll-margin-top: 100px;
 }
   
