@@ -50,10 +50,10 @@ section {
     min-height: 100vh;
     scroll-snap-align: start
 }
-
+/*
 section:nth-child(even) {
     background-color: var(--bg-page);
-} 
+} */
 
 /* header */
 .header {
@@ -253,7 +253,7 @@ h1 {
 /* about section */
 .about-section {
     padding: 60px 20px;
-    background-color: var(--bg-section);
+    background-color: #E0E0E0;
     width: 100%;
 }
 
@@ -405,19 +405,24 @@ li {
 }
 
 /* services section */ 
-
-.services-section p {
+.services-section {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-color: var(--text-main-light);
 }
 
 .services-section p {
     font-size: 3rem;
+    color: #fff;
 }
 
 /* portraiture section */
+.gallery {
+    background-color: var(--bg-page);
+}
+
 #portraiture.gallery {
     display: flex;
     flex-direction: column;
@@ -543,7 +548,7 @@ li {
 }
 
 .text {
-    color: #f2f2f2;
+    color: var(--text-main);
     font-size: 15px;
     padding: 8px 12px;
     position: absolute;
@@ -590,10 +595,22 @@ li {
     to {opacity: 1}
 }
 
+@media (max-width: 768px) {
+    .mySlides {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .text {
+        text-align: center;
+    }
+}
+
 /* blog section */
 .blog-section {
     padding: 60px 20px;
-    background-color: var(--bg-page);
+    background-color: #E0E0E0;
     scroll-margin-top: 100px;
 }
   
@@ -671,7 +688,7 @@ li {
     color: var(--text-main);
     margin-bottom: 1rem;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    /*-webkit-line-clamp: 4;*/
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -764,6 +781,7 @@ li {
     max-width: 1200px;
     margin: auto;
     height: auto;
+    background-color: var(--bg-page);
 }
 
 .contact-title h2 {
