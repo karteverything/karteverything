@@ -253,7 +253,7 @@ h1 {
 /* about section */
 .about-section {
     padding: 60px 20px;
-    background-color: #E0E0E0;
+    background-color: var(--bg-page);
     width: 100%;
 }
 
@@ -273,7 +273,7 @@ h1 {
 .column {
     flex: 1 1 280px;
     padding: 2rem;
-    background-color: var(--bg-page);
+    background-color: #E0E0E0;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -295,9 +295,10 @@ h1 {
     text-align: center;
     background-color: transparent;
     box-shadow: none;
-    padding-bottom: 0;
+    padding-bottom: 30px;
     margin-bottom: 2rem;
     border-bottom: 1px solid var(--border-color);
+    background-color: #E0E0E0;
 }
 
 .column.full-width p {
@@ -410,16 +411,16 @@ li {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: var(--text-main-light);
+    background-color: #E0E0E0;
 }
 
 .services-section h2{
-    color: var(--hover-color);
+    color: var(--text-main);
 }
 
 .services-section p {
     font-size: 3rem;
-    color: #fff;
+    color: var(--text-main);
 }
 
 /* Portraiture section */
@@ -783,6 +784,15 @@ li {
     background-color: var(--bg-page);
 }
 
+.contact-title {
+    width: 800px;
+    text-align: center;
+    margin-top: 50px;
+    padding-bottom: 20px;
+    background-color: #E0E0E0;
+    border-radius: 6px;
+}
+
 .contact-title h2 {
     text-align: center;
     margin-top: 2rem;
@@ -933,8 +943,13 @@ input[type=text], textarea {
     }
 
     .contact-title p {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         margin-bottom: 30px;
+    }
+
+    .contact-title {
+        width: 80%;
+        padding-bottom: 10px;
     }
 }
 
