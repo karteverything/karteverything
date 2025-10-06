@@ -413,6 +413,10 @@ li {
     background-color: var(--text-main-light);
 }
 
+.services-section h2{
+    color: var(--hover-color);
+}
+
 .services-section p {
     font-size: 3rem;
     color: #fff;
