@@ -404,6 +404,19 @@ li {
 
 }
 
+/* services section */ 
+
+.services-section p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.services-section p {
+    font-size: 3rem;
+}
+
 /* portraiture section */
 #portraiture.gallery {
     display: flex;
