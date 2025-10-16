@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Upload</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Portrait Upload</h1>
+
+  <!-- Login Form -->
+  <div id="login-section">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button id="login-btn">Log In</button>
+    <p id="login-msg"></p>
+  </div>
+
+  <!-- Upload Form -->
+  <div id="upload-section" style="display:none;">
+    <input type="text" id="title" placeholder="Title">
+    <input type="file" id="image">
+    <button id="upload-btn">Upload</button>
+    <p id="upload-msg"></p>
+  </div>
+
+  <!-- JS -->
+  <script src="supabase.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
