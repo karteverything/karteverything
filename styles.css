@@ -976,3 +976,133 @@ footer {
     color: var(--text-muted);
     font-size: 0.8rem;
 }
+
+/* styles for portriats.html and index.html */
+/* Portrait Gallery Section */
+.gallery {
+    background-color: var(--bg-page);
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gallery-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.gallery-title h2 {
+    font-size: 1.4rem;
+    color: var(--text-main-light);
+    margin-bottom: 10px;
+}
+
+.gallery-title p {
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+/* Grid of portraits */
+#gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.portrait {
+    background-color: var(--bg-section);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-align: center;
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+.portrait:hover {
+    transform: translateY(-5px);
+}
+
+.portrait img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.portrait p {
+    font-size: 0.9rem;
+    color: var(--text-main-light);
+}
+
+/* Upload/Admin Page Styling */
+#login-section, #upload-section {
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+    background-color: var(--bg-section);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+#login-section input,
+#upload-section input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-family: "Poppins", sans-serif;
+}
+
+#login-section button,
+#upload-section button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--bg-header);
+    color: var(--text-main);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+#login-section button:hover,
+#upload-section button:hover {
+    background-color: var(--hover-bg);
+    color: var(--hover-color);
+}
+
+#login-msg,
+#upload-msg {
+    font-size: 0.85rem;
+    color: var(--text-main-light);
+    margin-top: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #gallery {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    #login-section, #upload-section {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .gallery-title h2 {
+        font-size: 1.2rem;
+    }
+
+    .gallery-title p {
+        font-size: 0.9rem;
+    }
+}
+
