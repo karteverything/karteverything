@@ -298,7 +298,7 @@ h1 {
     padding-bottom: 30px;
     margin-bottom: 2rem;
     border-bottom: 1px solid var(--border-color);
-    background-color: #E0E0E0;
+    /*background-color: #E0E0E0;*/
 }
 
 .column.full-width p {
