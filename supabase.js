@@ -2,6 +2,9 @@ const SUPABASE_URL = "https://jzxdkemcoyjepjtiryje.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6eGRrZW1jb3lqZXBqdGlyeWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MTQyMjgsImV4cCI6MjA3NjE5MDIyOH0.Ihu7go09wfNIlGRkueQP9hb-hRIVDP4W4j1B2bR_eBg";
 
 // initialize the Supabase client
-window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-console.log("✅ Supabase initialized:", supabase);
+// expose globally
+window.supabase = client;
+
+console.log("Supabase initialized");

@@ -25,9 +25,11 @@
     <p id="upload-msg"></p>
   </div>
 
-  <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.35.0/dist/supabase.min.js"></script>
+  <!-- load Supabase CDN first-->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.35.0/dist/umd/supabase.min.js"></script>
+  <!-- then load Supabase config -->
   <script src="supabase.js"></script>
+  <!-- then load admin logic -->
   <script src="admin.js"></script>
 </body>
 </html>
