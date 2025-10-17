@@ -606,7 +606,8 @@ li {
 
 /* blog section */
 #blog {
-    background-color: #E0E0E0;
+    /*background-color: #E0E0E0;*/
+    background-color: #4d4d4d;
 }
 
 .blog-section {
@@ -636,13 +637,15 @@ li {
 
 .blog-title h2 {
     font-size: 1.2rem;
-    color: var(--text-main-light);
+    /*color: var(--text-main-light);*/
+    color: lightgray;
     margin-top: 1.2rem;
 }
 
 .blog-title p {
     font-size: 0.9rem;
-    color: var(--text-main);
+    /*color: var(--text-main);*/
+    color: lightgray;
 }
 
 .blog-grid {
@@ -653,7 +656,8 @@ li {
 }
 
 .blog-card {
-    background-color: var(--bg-page);
+    /*background-color: var(--bg-page);*/
+    background-color: lightgray;
     padding: 2rem;
     border-radius: 12px;
     flex: 1 1 300px;
@@ -789,7 +793,7 @@ li {
     text-align: center;
     margin-top: 50px;
     padding-bottom: 20px;
-    background-color: #E0E0E0;
+    /*background-color: #E0E0E0;*/
     border-radius: 6px;
 }
 
