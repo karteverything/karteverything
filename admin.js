@@ -1,4 +1,15 @@
-console.log("✅ admin.js loaded");
+// redirect if not signed in
+supabase.auth.getSession().then(({ data }) => {
+  if (!data.session) {
+    console.log("Not logged in – staying on login page");
+  } else {
+    console.log("✅ Already logged in");
+    document.getElementById('login-section').style.display = 'none';
+    document.getElementById('upload-section').style.display = 'block';
+  }
+});
+
+console.log("admin.js loaded");
 
 // DOM elements
 const loginBtn = document.getElementById('login-btn');
