@@ -23,7 +23,9 @@ async function loadPortraits() {
   }
 
   // display each portrait
-  data.forEach(item => {
+  data
+  .filter(item => item.image_url) // only include items with image URLs
+  .forEach(item => {
     const div = document.createElement('div');
     div.className = "portrait-card";
 
@@ -33,6 +35,7 @@ async function loadPortraits() {
     `;
     gallery.appendChild(div);
   });
+
 }
 
 loadPortraits();
