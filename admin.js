@@ -87,3 +87,10 @@ uploadBtn.addEventListener('click', async () => {
     uploadMsg.textContent = "Unexpected error — check console";
   }
 });
+
+// logout
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  window.location.href = "admin.html"; // refresh back to login
+});
+
