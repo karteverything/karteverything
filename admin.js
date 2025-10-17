@@ -67,6 +67,54 @@ uploadBtn.addEventListener('click', async () => {
       return;
     }
 
+    // load gallery in admin
+    async function loadAdminGallery() {
+      const gallery = document.getElementById('admin-gallery');
+      gallery.innerHTML = "Loading...";
+
+      const { data, error } = await supabase
+        .from('portraits')
+        .select('*')
+        .order('id', { ascending: false });
+
+      if (error) {
+        gallery.innerHTML = "Failed to load gallery.";
+        return;
+      }
+      // clear
+      gallery.innerHTML = ""; 
+
+      data.forEach(item => {
+        const div = document.createElement('div');
+        div.className = "portrait-card";
+        div.innerHTML = `
+          <img src="${item.image_url}" alt="${item.title}">
+          <h3>${item.title}</h3>
+          <button onclick="deletePortrait(${item.id}, '${item.image_url}')">Delete</button>
+        `;
+        gallery.appendChild(div);
+      });
+    }
+    // all gallery after login
+    loadAdminGallery();
+
+    // delete portrait
+    async function deletePortrait(id, imageUrl) {
+      if (!confirm("Delete this portrait?")) return;
+
+      // extract filename from URL
+      const filename = imageUrl.split('/').pop();
+
+      // delete from storage
+      await supabase.storage.from('gallery').remove([filename]);
+
+      // delete from DB
+      await supabase.from('portraits').delete().eq('id', id);
+
+      // refresh gallery
+      loadAdminGallery();
+    }
+
     // get public URL
     const { data: urlData } = window.supabase
       .storage.from('gallery')
