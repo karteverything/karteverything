@@ -22,6 +22,9 @@ async function loadPortraits() {
     return;
   }
 
+  // clear gallery first
+  gallery.innerHTML = "";
+
   // display each portrait
   data
   .filter(item => item.image_url) // only include items with image URLs
