@@ -978,7 +978,7 @@ footer {
 }
 
 /* styles for portriats.html and index.html */
-/* Portrait Gallery Section */
+/* portrait gallery Section */
 .gallery {
     background-color: var(--bg-page);
     padding: 80px 20px;
@@ -1003,7 +1003,7 @@ footer {
     color: var(--text-main);
 }
 
-/* Grid of portraits */
+/* grid of portraits */
 #gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -1038,9 +1038,9 @@ footer {
     color: var(--text-main-light);
 }
 
-/* Upload/Admin Page Styling */
+/* upload & admin page styling */
 #login-section, #upload-section {
-    max-width: 400px;
+    max-width: 800px;
     margin: 50px auto;
     text-align: center;
     background-color: var(--bg-section);
@@ -1085,7 +1085,7 @@ footer {
     margin-top: 8px;
 }
 
-/* Responsive adjustments */
+/* responsive adjustments */
 @media (max-width: 768px) {
     #gallery {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -1115,7 +1115,8 @@ footer {
 }
 
 .portrait-card {
-  text-align: center;
+  flex: 0 0 auto;           /* keep fixed width */
+  width: 220px;
 }
 
 .portrait-card img {
@@ -1123,5 +1124,83 @@ footer {
   height: auto;
   border-radius: 5px;
 }
+
+/* --- admin page layout fix --- */
+/* wraps the whole admin page layout */
+.admin-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 40px;
+}
+
+/* centered login section */
+#login-section {
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 50px; /* spacing from gallery */
+}
+
+/* upload Section stays centered above gallery */
+#upload-section {
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 50px;
+}
+
+/* position gallery wrapper separately at bottom */
+#gallery-wrapper {
+  width: 100%;
+  max-width: 1200px; /* ✅ Your request */
+  margin-top: 40px;
+  padding: 20px;
+}
+
+/* gallery grid (admin view) */
+#admin-gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;        /* prevents wrapping to next line */
+  overflow-x: auto;         /* enables horizontal scroll */
+  gap: 20px;
+  padding-bottom: 10px;
+  max-width: 1200px;
+}
+
+/* portrait cards inside admin */
+#admin-gallery .portrait-card {
+  background: var(--bg-section);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+#admin-gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* delete button spacing */
+.delete-btn {
+  margin-top: 10px;
+}
+
+/* confirmation inside card */
+.confirm-box {
+  margin-top: 10px;
+  padding: 8px;
+  background: #f2f2f2;
+  border-radius: 6px;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  #admin-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
 
 
