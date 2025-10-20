@@ -46,7 +46,7 @@ function showUploadSection(userEmail) {
 uploadBtn.addEventListener('click', async () => {
   uploadMsg.textContent = "Uploading...";
 
-  const title = document.getElementById('title').value;
+  const title = document.getElementById('title').value.trim();
   const file = document.getElementById('image').files[0];
   if (!file || !title) return uploadMsg.textContent = "❗ Title & image required.";
 
@@ -61,6 +61,9 @@ uploadBtn.addEventListener('click', async () => {
   if (dbError) return uploadMsg.textContent = dbError.message;
 
   uploadMsg.textContent = "Upload successful!";
+  document.getElementById('title').value = "";
+  document.getElementById('image').value = "";
+
   loadAdminGallery(); // refresh gallery
 });
 
@@ -89,29 +92,59 @@ async function loadAdminGallery() {
   adminGallery.innerHTML = "";
 
   data.forEach(item => {
-    adminGallery.innerHTML += `
-      <div class="portrait-card">
-        <img src="${item.image_url}" alt="${item.title}">
-        <h3>${item.title}</h3>
-        <button onclick="deletePortrait(${item.id}, '${item.image_url}')">Delete</button>
+    const card = document.createElement('div');
+    card.className = "portrait-card";
+    card.dataset.id = item.id;
+    card.dataset.url = item.image_url;
+
+    card.innerHTML = `
+      <img src="${item.image_url}" alt="${item.title}">
+      <h3>${item.title}</h3>
+      <div class="card-actions">
+        <button class="delete-btn">Delete</button>
+      </div>
+      <div class="confirm-box">
+        <p>Are you sure you want to delete?</p>
+        <button class="confirm-yes">Yes</button>
+        <button class="confirm-no">No</button>
       </div>
     `;
+
+    adminGallery.appendChild(card);
+  });
+
+  // Attach delete button listeners
+  adminGallery.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const card = e.target.closest('.portrait-card');
+      card.classList.add('show-confirm');
+    });
+  });
+
+  adminGallery.querySelectorAll('.confirm-no').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const card = e.target.closest('.portrait-card');
+      card.classList.remove('show-confirm');
+    });
+  });
+
+  adminGallery.querySelectorAll('.confirm-yes').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      const card = e.target.closest('.portrait-card');
+      const id = card.dataset.id;
+      const imageUrl = card.dataset.url;
+      const fileName = imageUrl.split('/').pop();
+
+      // delete from storage
+      await supabase.storage.from('gallery').remove([`portraits/${fileName}`]);
+
+      // delete from DB
+      await supabase.from('portraits').delete().eq('id', id);
+
+      loadAdminGallery();
+    });
   });
 }
-
-// delete portrait
-window.deletePortrait = async function(id, imageUrl) {
-  if (!confirm("Delete portrait?")) return;
-
-  // remove from storage
-  const fileName = imageUrl.split("/").pop();
-  await supabase.storage.from('gallery').remove([`portraits/${fileName}`]);
-
-  // remove from DB
-  await supabase.from('portraits').delete().eq('id', id);
-
-  loadAdminGallery();
-};
 
 // logout
 document.getElementById('logout-btn').addEventListener('click', async () => {
