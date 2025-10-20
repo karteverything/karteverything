@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+html {
+    font-family: poppins, sans-serif;
+}
+
+body {
+background-color: lightgray;
+}
+
+.portrait-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: gray;
+}
+
+.portrait-gallery h1 {
+    font-size: 2rem;
+    color: var(--text-main);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* gallery grid */
+#gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.portrait {
+    background-color: lightgray;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+.portrait:hover {
+    transform: translateY(-5px);
+}
+
+.portrait img {
+    width: 100%;
+    height: auto;
+    border-radius: 3px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.portrait p {
+    font-size: 0.9rem;
+    color: var(--text-main-light);
+}
+
+/* responsive adjustments */
+@media (max-width: 768px) {
+    #gallery {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .portrait-gallery h1 {
+        font-size: 1.6rem;
+        margin-bottom: 30px;
+    }
+}
