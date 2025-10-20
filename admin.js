@@ -66,7 +66,7 @@ uploadBtn.addEventListener('click', async () => {
       uploadMsg.textContent = "Upload failed: " + storageError.message;
       return;
     }
-
+    /*
     // load gallery in admin
     async function loadAdminGallery() {
       const gallery = document.getElementById('admin-gallery');
@@ -113,7 +113,7 @@ uploadBtn.addEventListener('click', async () => {
 
       // refresh gallery
       loadAdminGallery();
-    }
+    }*/
 
     // get public URL
     const { data: urlData } = window.supabase
