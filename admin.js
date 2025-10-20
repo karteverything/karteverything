@@ -137,18 +137,26 @@ async function loadAdminGallery() {
         const id = card.dataset.id;
         const imageUrl = card.dataset.url;
         const fileName = imageUrl.split('/').pop();
+        const filePath = `portraits/${fileName}`;
 
         try {
-          // delete from storage
-          const { error: storageError } = await supabase.storage.from('gallery').remove([`portraits/${fileName}`]);
+          // delete from Supabase Storage
+          const { error: storageError } = await supabase.storage.from('gallery').remove([filePath]);
           if (storageError) throw storageError;
 
           // delete from DB
           const { error: dbError } = await supabase.from('portraits').delete().eq('id', id);
           if (dbError) throw dbError;
 
-          // remove card from DOM immediately
+          // remove from DOM immediately
           card.remove();
+
+          // show temporary message
+          const msg = document.createElement('p');
+          msg.textContent = "Image deleted";
+          msg.className = "info-msg";
+          galleryWrapper.insertBefore(msg, adminGallery);
+          setTimeout(() => msg.remove(), 3000);
 
           // hide gallery if empty
           if (adminGallery.children.length === 0) {
