@@ -1,3 +1,13 @@
+supabase.auth.getSession().then(({ data }) => {
+  if (!data.session) {
+    // not logged in, redirect
+    window.location.href = "login.html"; // or show login inside same page
+  } else {
+    showUploadSection(data.session.user.email);
+    loadAdminGallery();
+  }
+});
+
 console.log("admin.js loaded");
 
 // DOM
