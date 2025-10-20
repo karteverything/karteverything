@@ -60,28 +60,42 @@ uploadBtn.addEventListener('click', async () => {
     .insert([{ title, image_url: urlData.publicUrl }]);
   if (dbError) return uploadMsg.textContent = dbError.message;
 
-  uploadMsg.textContent = "✅ Upload successful!";
+  uploadMsg.textContent = "Upload successful!";
   loadAdminGallery(); // refresh gallery
 });
 
 // load gallery
 async function loadAdminGallery() {
+  const galleryWrapper = document.getElementById('gallery-wrapper');
   adminGallery.innerHTML = "Loading...";
+
   const { data, error } = await supabase
     .from('portraits')
     .select('*')
     .order('id', { ascending: false });
 
-  if (error) return adminGallery.textContent = "Error loading gallery.";
+  if (error) {
+    adminGallery.textContent = "Error loading gallery.";
+    return;
+  }
+
+  // If there ARE images, show the gallery
+  if (data.length > 0) {
+    galleryWrapper.style.display = "block";
+  } else {
+    galleryWrapper.style.display = "none"; // hide if empty
+  }
 
   adminGallery.innerHTML = "";
+
   data.forEach(item => {
     adminGallery.innerHTML += `
       <div class="portrait-card">
         <img src="${item.image_url}" alt="${item.title}">
         <h3>${item.title}</h3>
         <button onclick="deletePortrait(${item.id}, '${item.image_url}')">Delete</button>
-      </div>`;
+      </div>
+    `;
   });
 }
 
