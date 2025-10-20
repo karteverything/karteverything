@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <!-- SEO / privacy -->
+  <meta name="robots" content="noindex, nofollow">
+  
+</head>
+<body>
+  <div class="admin-wrapper">
+    <!-- login -->
+    <section id="login-section" class="card">
+      <h1 class="brand">Portrait Admin</h1>
+      <div class="form-row">
+        <input id="email" type="email" placeholder="Email" autocomplete="username" />
+      </div>
+      <div class="form-row">
+        <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+      </div>
+      <div class="form-row">
+        <button id="login-btn" class="btn">Log in</button>
+      </div>
+      <p id="login-msg" class="muted"></p>
+    </section>
+
+    <!-- upload -->
+    <section id="upload-section" class="card" style="display:none;">
+      <p id="user-status" class="muted small"></p>
+      <div class="form-row">
+        <input id="title" type="text" placeholder="Image title" />
+      </div>
+      <div class="form-row">
+        <input id="image" type="file" accept="image/*" />
+      </div>
+      <div class="form-row action-row">
+        <button id="upload-btn" class="btn primary">Upload</button>
+        <button id="logout-btn" class="btn outline">Logout</button>
+      </div>
+      <p id="upload-msg" class="muted"></p>
+    </section>
+
+    <!-- uploaded images -->
+    <section id="gallery-wrapper" class="card gallery-card" style="display:none;">
+      <div class="gallery-header">
+        <h2>Uploaded Portraits</h2>
+        <p class="muted">Delete or add uploads</p>
+      </div>
+      <div id="admin-gallery" class="grid"></div>
+    </section>
+
+  </div>
+
+  <!-- supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- suoabase client config -->
+  <script src="/supabase.js"></script>
+  <!-- admin logic -->
+  <script src="admin.js"></script>
+</body>
+</html>
