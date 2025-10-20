@@ -9,7 +9,7 @@
 <body>
   <h1>Portrait Upload</h1>
 
-  <!-- Login Form -->
+  <!-- login Section -->
   <div id="login-section">
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
@@ -17,25 +17,24 @@
     <p id="login-msg"></p>
   </div>
 
-  <!-- Upload Form -->
+  <!-- upload Section -->
   <div id="upload-section" style="display:none;">
+    <p id="user-status"></p> <!-- REQUIRED -->
     <input type="text" id="title" placeholder="Title">
     <input type="file" id="image">
     <button id="upload-btn">Upload</button>
     <p id="upload-msg"></p>
     <button id="logout-btn">Logout</button>
+
+    <!-- gallery Wrapper -->
+    <div id="gallery-wrapper" style="display:none;">
+      <h2>Your Uploaded Portraits</h2>
+      <div id="admin-gallery" class="gallery"></div>
+    </div>
   </div>
 
-  <div class="gallery-wrapper" style="display:none;">
-    <h2>Your Uploaded Portraits</h2>
-    <div id="admin-gallery" class="gallery"></div>
-  </div>
-
-  <!-- load Supabase CDN first-->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.35.0/dist/umd/supabase.min.js"></script>
-  <!-- then load Supabase config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
-  <!-- then load admin logic -->
   <script src="admin.js"></script>
 </body>
 </html>
