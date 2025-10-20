@@ -785,6 +785,10 @@ article p {
     background-color: var(--primary-dark, #0056b3);
 }
 
+.coming-soon p {
+    font-size: 3rem;
+}
+
 /* contact section */
 .contact-section {
     padding: 50px 20px;
