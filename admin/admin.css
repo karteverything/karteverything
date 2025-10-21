@@ -183,7 +183,7 @@ body {
   margin-bottom: 18px;
 }
 .gallery-header h2 { margin:0; font-size:1.1rem; color:var(--text-main); padding-bottom: 10px;}
-.gallery-header p { margin:0; color:var(--text-main-light); font-size:0.95rem; }
+/*.gallery-header p { margin:0; color:var(--text-main-light); font-size:0.95rem; }*/
 
 .form-row {
     padding-top: 10px;

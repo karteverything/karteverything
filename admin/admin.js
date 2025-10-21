@@ -54,7 +54,7 @@ uploadBtn.addEventListener("click", async () => {
   const file = document.getElementById("image").files[0];
 
   if (!file || !title) {
-    uploadMsg.textContent = "Title & image required.";
+    uploadMsg.textContent = "Image and title required.";
     return;
   }
 
@@ -76,7 +76,7 @@ uploadBtn.addEventListener("click", async () => {
       .insert([{ title, image_url: urlData.publicUrl }]);
     if (dbError) throw dbError;
 
-    uploadMsg.textContent = "Upload successful!";
+    uploadMsg.textContent = "Image upload successful!";
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
 
