@@ -735,9 +735,9 @@ li {
 }
 
 .blog-post-container h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 0.5rem;
-  color: white;
+  color: #eee;
   /*text-align: center;*/
 }
 
@@ -770,7 +770,7 @@ li {
 
 /* table styling*/
 table {
-  width: 80%;
+  width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
   font-size: 0.95rem;
