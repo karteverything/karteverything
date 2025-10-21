@@ -784,9 +784,15 @@ article p {
 .blog-post-container .btn:hover {
     background-color: var(--primary-dark, #0056b3);
 }
-
+/*
 .coming-soon p {
     font-size: 3rem;
+}*/
+
+/* blog-post-3 */
+table, th, td {
+    border: 2px solid gray;
+    border-collapse: collapse;
 }
 
 /* contact section */

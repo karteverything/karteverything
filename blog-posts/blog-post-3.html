@@ -8,13 +8,76 @@
 </head>
 <body>
     <section class="blog-post">
-        <div class="blog-post-containter">
-            <h1></h1>
-            <p id="date"><i>Published on Oct, 2025</i></p>
+        <div class="blog-post-container">
+            <h1>Supabase Integration</h1>
+            <p id="date"><i>Published on Oct 21, 2025</i></p>
 
-            <article class="coming-soon">
-                <p>Why I chosed Supabase for my Portraiture Gallery?</p> <br>
-                <p>Coming soon. Stay tuned!</p>
+            <article>
+                <p>My portraiture gallery comes with features that enables me to upload images, organize them, and ensuring the database reflects the newly uploaded images.
+                    I choosed Supabase because it makes authentication, storage, and database management much simpler to use. 
+                </p>
+
+                <h1>Setting Up Supabase</h1>
+                <p>First, I created a Supabase project that acts as a container, and set up my database.
+                    My table for storing images looks like this:
+                </p>
+                <table>
+                    <tr>
+                        <th>Data</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>uuid</td>
+                        <td>Primary key, auto-generated</td>
+                    </tr>
+                    <tr>
+                        <td>image_url</td>
+                        <td>text</td>
+                        <td>Supabase Storage URL</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>text</td>
+                        <td>Name or title of the images</td>
+                    </tr>
+                    <tr>
+                        <td>created_at</td>
+                        <td>timestamp</td>
+                        <td>When the image was uploaded</td>
+                    </tr>
+                </table>
+                <p>This simple database schema is enough to store all the relevant details about each portrait.</p>
+
+                <h1>Building the Admin Page</h1>
+                <ol>
+                    <li>Login Authentication:</li>
+                    <p>Using Supabase Auth, I created a secure login page so only I can access the admin interface.</p>
+
+                    <li>Image Upload Form:</li>
+                    <p>A simple form that allows me to select an image, enter a title and description, and submit it.
+                        On submission, the image gets uploaded to Supabase Storage.
+                    </p>
+
+                    <li>Database Insertion:</li>
+                    <p>Once the image is uploaded, I insert a record in the Supabase database with the images url and metadata.</p>
+                </ol>
+
+                <h1>Displaying the Gallery</h1>
+                <p>Once the images are in the database, displaying them is straightforward. I query the database for all images and
+                    map them to my gallery layout, then I render them with a simple grid in my frontend.
+                </p>
+
+                <h1>Conclusion</h1>
+                <p>Integrating Supabase has simplified my workflow. Now, instead of having to modify my static html source code -
+                    I can now add new portraits to my gallery just by logging in, uploading an image, and submitting the form.
+                    The combination of secure authentincation, structured database storage, and hosted images makes Supabase a
+                    perfect fit for my portraiture gallery.
+
+                    If you are looking to manage a visual project without setting up an entire backend from scratch, I highly recommmend
+                    exploring Supabase. It's fast, reliable, and keeps all your data organized. 
+                </p>
             </article>
 
             <a href="../index.html#blog" class="btn">Back to Blog</a>
