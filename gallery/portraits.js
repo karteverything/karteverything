@@ -1,12 +1,16 @@
 console.log("portraits.js loaded");
 
-const gallery = document.getElementById('gallery');
-
-// fetch portraits from Supabase
 async function loadPortraits() {
+  const gallery = document.getElementById('gallery');
+  if (!gallery) {
+    console.error("Gallery element not found");
+    return;
+  }
+
   console.log("Loading portraits...");
 
-  const { data, error } = await supabase
+  // fetch data from Supabase
+  const { data, error } = await window.supabaseClient
     .from('portraits')
     .select('*')
     .order('id', { ascending: false });
@@ -27,18 +31,17 @@ async function loadPortraits() {
 
   // display each portrait
   data
-  .filter(item => item.image_url) // only include items with image URLs
-  .forEach(item => {
-    const div = document.createElement('div');
-    div.className = "portrait-card";
-
-    div.innerHTML = `
-      <img src="${item.image_url}" alt="${item.title}">
-      <h3>${item.title}</h3>
-    `;
-    gallery.appendChild(div);
-  });
-
+    .filter(item => item.image_url)
+    .forEach(item => {
+      const div = document.createElement('div');
+      div.className = "portrait-card";
+      div.innerHTML = `
+        <img src="${item.image_url}" alt="${item.title}">
+        <h3>${item.title}</h3>
+      `;
+      gallery.appendChild(div);
+    });
 }
 
-loadPortraits();
+// Load portraits after DOM is ready
+document.addEventListener('DOMContentLoaded', loadPortraits);

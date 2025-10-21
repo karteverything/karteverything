@@ -1,19 +1,22 @@
-console.log("admin.js loaded");
+console.log("✅ admin.js loaded");
 
-// DOM
-const loginSection = document.getElementById('login-section');
-const uploadSection = document.getElementById('upload-section');
-const loginBtn = document.getElementById('login-btn');
-const loginMsg = document.getElementById('login-msg');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const uploadBtn = document.getElementById('upload-btn');
-const uploadMsg = document.getElementById('upload-msg');
-const adminGallery = document.getElementById('admin-gallery');
-const userStatus = document.getElementById('user-status');
+// DOM references
+const loginSection = document.getElementById("login-section");
+const uploadSection = document.getElementById("upload-section");
+const loginBtn = document.getElementById("login-btn");
+const loginMsg = document.getElementById("login-msg");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const uploadBtn = document.getElementById("upload-btn");
+const uploadMsg = document.getElementById("upload-msg");
+const adminGallery = document.getElementById("admin-gallery");
+const userStatus = document.getElementById("user-status");
+
+// use the correct client
+const client = window.supabaseClient;
 
 // check session
-supabase.auth.getSession().then(({ data }) => {
+client.auth.getSession().then(({ data }) => {
   if (data.session) {
     showUploadSection(data.session.user.email);
     loadAdminGallery();
@@ -21,11 +24,12 @@ supabase.auth.getSession().then(({ data }) => {
 });
 
 // login
-loginBtn.addEventListener('click', async () => {
+loginBtn.addEventListener("click", async () => {
   loginMsg.textContent = "Logging in...";
-  const { data, error } = await supabase.auth.signInWithPassword({
+
+  const { data, error } = await client.auth.signInWithPassword({
     email: emailInput.value,
-    password: passwordInput.value
+    password: passwordInput.value,
   });
 
   if (error) {
@@ -42,30 +46,41 @@ function showUploadSection(userEmail) {
   userStatus.textContent = `Logged in as: ${userEmail}`;
 }
 
-// upload image
-uploadBtn.addEventListener('click', async () => {
+// upload
+uploadBtn.addEventListener("click", async () => {
   uploadMsg.textContent = "Uploading...";
 
-  const title = document.getElementById('title').value.trim();
-  const file = document.getElementById('image').files[0];
-  if (!file || !title) return uploadMsg.textContent = "❗ Title & image required.";
+  const title = document.getElementById("title").value.trim();
+  const file = document.getElementById("image").files[0];
+
+  if (!file || !title) {
+    uploadMsg.textContent = "Title & image required.";
+    return;
+  }
 
   try {
     const filePath = `portraits/${Date.now()}-${file.name}`;
-    const { error: storageError } = await supabase.storage.from('gallery').upload(filePath, file);
+
+    // upload to storage
+    const { error: storageError } = await client.storage
+      .from("gallery")
+      .upload(filePath, file);
     if (storageError) throw storageError;
 
-    const { data: urlData } = supabase.storage.from('gallery').getPublicUrl(filePath);
+    // get public URL
+    const { data: urlData } = client.storage.from("gallery").getPublicUrl(filePath);
 
-    const { error: dbError } = await supabase.from('portraits')
+    // save to DB
+    const { error: dbError } = await client
+      .from("portraits")
       .insert([{ title, image_url: urlData.publicUrl }]);
     if (dbError) throw dbError;
 
     uploadMsg.textContent = "Upload successful!";
-    document.getElementById('title').value = "";
-    document.getElementById('image').value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("image").value = "";
 
-    loadAdminGallery(); // refresh gallery
+    loadAdminGallery();
   } catch (err) {
     console.error(err);
     uploadMsg.textContent = "Error: " + (err.message || err);
@@ -74,28 +89,27 @@ uploadBtn.addEventListener('click', async () => {
 
 // load gallery
 async function loadAdminGallery() {
-  const galleryWrapper = document.getElementById('gallery-wrapper');
+  const galleryWrapper = document.getElementById("gallery-wrapper");
   adminGallery.innerHTML = "Loading...";
 
   try {
-    const { data, error } = await supabase
-      .from('portraits')
-      .select('*')
-      .order('id', { ascending: false });
+    const { data, error } = await client
+      .from("portraits")
+      .select("*")
+      .order("id", { ascending: false });
     if (error) throw error;
 
-    // If there ARE images, show the gallery
     if (data.length > 0) {
       galleryWrapper.style.display = "block";
     } else {
-      galleryWrapper.style.display = "none"; // hide if empty
+      galleryWrapper.style.display = "none";
       return;
     }
 
     adminGallery.innerHTML = "";
 
-    data.forEach(item => {
-      const card = document.createElement('div');
+    data.forEach((item) => {
+      const card = document.createElement("div");
       card.className = "portrait-card";
       card.dataset.id = item.id;
       card.dataset.url = item.image_url;
@@ -116,60 +130,47 @@ async function loadAdminGallery() {
       adminGallery.appendChild(card);
     });
 
-    // Attach delete button listeners
-    adminGallery.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        const card = e.target.closest('.portrait-card');
-        card.classList.add('show-confirm');
+    // delete button logic
+    adminGallery.querySelectorAll(".delete-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.target.closest(".portrait-card").classList.add("show-confirm");
       });
     });
 
-    adminGallery.querySelectorAll('.confirm-no').forEach(btn => {
-      btn.addEventListener('click', e => {
-        const card = e.target.closest('.portrait-card');
-        card.classList.remove('show-confirm');
+    adminGallery.querySelectorAll(".confirm-no").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.target.closest(".portrait-card").classList.remove("show-confirm");
       });
     });
 
-    adminGallery.querySelectorAll('.confirm-yes').forEach(btn => {
-      btn.addEventListener('click', async e => {
-        const card = e.target.closest('.portrait-card');
+    adminGallery.querySelectorAll(".confirm-yes").forEach((btn) => {
+      btn.addEventListener("click", async (e) => {
+        const card = e.target.closest(".portrait-card");
         const id = card.dataset.id;
         const imageUrl = card.dataset.url;
-        const fileName = imageUrl.split('/').pop();
+        const fileName = imageUrl.split("/").pop();
         const filePath = `portraits/${fileName}`;
 
         try {
-          // delete from Supabase Storage
-          const { error: storageError } = await supabase.storage.from('gallery').remove([filePath]);
-          if (storageError) throw storageError;
-
-          // delete from DB
-          const { error: dbError } = await supabase.from('portraits').delete().eq('id', id);
-          if (dbError) throw dbError;
-
-          // remove from DOM immediately
+          await client.storage.from("gallery").remove([filePath]);
+          await client.from("portraits").delete().eq("id", id);
           card.remove();
 
-          // show temporary message
-          const msg = document.createElement('p');
-          msg.textContent = "Image deleted";
+          const msg = document.createElement("p");
+          msg.textContent = "🗑️ Image deleted";
           msg.className = "info-msg";
           galleryWrapper.insertBefore(msg, adminGallery);
           setTimeout(() => msg.remove(), 3000);
 
-          // hide gallery if empty
           if (adminGallery.children.length === 0) {
-            galleryWrapper.style.display = 'none';
+            galleryWrapper.style.display = "none";
           }
-
         } catch (err) {
           console.error("Error deleting portrait:", err.message || err);
           alert("Failed to delete portrait. See console for details.");
         }
       });
     });
-
   } catch (err) {
     console.error(err);
     adminGallery.textContent = "Error loading gallery.";
@@ -177,7 +178,7 @@ async function loadAdminGallery() {
 }
 
 // logout
-document.getElementById('logout-btn').addEventListener('click', async () => {
-  await supabase.auth.signOut();
+document.getElementById("logout-btn").addEventListener("click", async () => {
+  await client.auth.signOut();
   window.location.reload();
 });
