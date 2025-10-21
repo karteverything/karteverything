@@ -90,6 +90,39 @@ body {
   width: 100%;
 }
 
+/* upload button */
+#image {
+  display: none;
+}
+/* custom label as button */
+.file-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--bg-header);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
+  font-family: poppins;
+}
+.file-label:hover {
+  background-color: #4a4a4a;
+}
+/* optional: show filename once selected */
+#image.selected + .file-label span::after {
+  content: attr(data-file);
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-main-light);
+  margin-top: 4px;
+}
+
 /* action row (buttons) */
 .action-row { display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap; }
 

@@ -182,3 +182,13 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
   await client.auth.signOut();
   window.location.reload();
 });
+
+// display file name after upload
+const imageInput = document.getElementById("image");
+const label = document.querySelector(".file-label span");
+
+imageInput.addEventListener("change", () => {
+  const fileName = imageInput.files[0]?.name || "Choose Image";
+  label.textContent = fileName;
+});
+
