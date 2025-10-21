@@ -33,14 +33,15 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* changed from center */
   gap: 24px;
   width: 100%;
-  /*max-width: calc(var(--max-content-width) + 40px);*/
   margin: 0 auto;
   background-color: #4a4a4a;
-  height: 100vh;
+  min-height: 100vh; /* not fixed height anymore */
+  padding-top: 100px;
 }
+
 
 /* card for login / upload / gallery box */
 .card {
@@ -51,7 +52,11 @@ body {
   box-shadow: 0 8px 30px var(--card-shadow);
   padding: 22px;
   border: 1px solid rgba(15,23,36,0.03);
-  transform: translateY(-70px);
+  transform: translateY(-40px);
+}
+
+#upload-section {
+  position: static;
 }
 
 .gallery-card {
@@ -115,11 +120,9 @@ body {
   background-color: #4a4a4a;
 }
 
-/* muted text */
 .muted { color: var(--muted); margin: 8px 0 0 0; }
 .small { font-size: 0.85rem; }
 
-/* gallery header inside the gallery-card */
 .gallery-header {
   display:flex;
   align-items:flex-start;
@@ -133,13 +136,7 @@ body {
 .form-row {
     padding-top: 10px;
 }
-/*
-.form-row .logout-button {
-    color: ;
-}*/
-/* -----------------------------
-   GRID ROWS: images in rows
-   ----------------------------- */
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -176,7 +173,6 @@ body {
   color: var(--text-main);
 }
 
-/* actions area in card */
 .card-actions {
   width: 100%;
   display:flex;
@@ -185,7 +181,6 @@ body {
   margin-top: auto;
 }
 
-/* delete button */
 .delete-btn {
   background: #ff5a5f;
   color: white;
@@ -235,11 +230,8 @@ body {
   display:block;
 }
 
-/* -----------------------------------
-   responsive tweaks
-   ----------------------------------- */
 @media (max-width: 1024px) {
-  .card { max-width: 92%; }
+  .card { max-width: 80%; }
   .gallery-card { padding: 20px; margin-top: 30px; }
   .grid { gap: 16px; }
 }
