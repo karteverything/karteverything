@@ -114,6 +114,23 @@ body {
 .file-label:hover {
   background-color: #4a4a4a;
 }
+.file-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+#clear-file {
+  margin-left: 10px;
+  background: none;
+  color: gray;
+  border: none;
+}
+
+#clear-file:hover {
+  color: #4a4a4a;
+}
+
 /* optional: show filename once selected */
 #image.selected + .file-label span::after {
   content: attr(data-file);

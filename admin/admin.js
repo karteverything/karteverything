@@ -186,9 +186,21 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
 // display file name after upload
 const imageInput = document.getElementById("image");
 const label = document.querySelector(".file-label span");
+const clearBtn = document.getElementById("clear-file");
+const fileNameText = document.getElementById("file-name");
 
 imageInput.addEventListener("change", () => {
-  const fileName = imageInput.files[0]?.name || "Choose Image";
-  label.textContent = fileName;
+  if (imageInput.files.length > 0) {
+    const fileName = imageInput.files[0].name;
+    fileNameText.textContent = `Selected: ${fileName}`;
+    clearBtn.style.display = "inline-block";
+  }
 });
+
+clearBtn.addEventListener("click", () => {
+  imageInput.value = ""; // clears file
+  fileNameText.textContent = "";
+  clearBtn.style.display = "none";
+})
+
 
