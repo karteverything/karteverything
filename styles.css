@@ -768,6 +768,10 @@ li {
   color: #eee;
 }
 
+article p {
+    color: #ccc;
+}
+
 /* table styling*/
 table {
   width: 100%;
