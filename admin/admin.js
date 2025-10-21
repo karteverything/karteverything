@@ -157,7 +157,7 @@ async function loadAdminGallery() {
           card.remove();
 
           const msg = document.createElement("p");
-          msg.textContent = "🗑️ Image deleted";
+          msg.textContent = "Image deleted";
           msg.className = "info-msg";
           galleryWrapper.insertBefore(msg, adminGallery);
           setTimeout(() => msg.remove(), 3000);
