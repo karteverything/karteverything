@@ -1,4 +1,4 @@
-console.log("✅ admin.js loaded");
+console.log("admin.js loaded");
 
 // DOM references
 const loginSection = document.getElementById("login-section");
@@ -80,20 +80,20 @@ uploadBtn.addEventListener("click", async () => {
       .insert([{ title, image_url: urlData.publicUrl }]);
     if (dbError) throw dbError;
 
-    uploadMsg.textContent = "✅ Image upload successful!";
+    uploadMsg.textContent = "Image upload successful!";
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
 
     loadAdminGallery();
   } catch (err) {
     console.error(err);
-    uploadMsg.textContent = "❌ Error: " + (err.message || err);
+    uploadMsg.textContent = "Error: " + (err.message || err);
   }
 });
 
 // load gallery
 async function loadAdminGallery() {
-  console.log("🖼️ Loading admin gallery...");
+  console.log("Loading admin gallery...");
   adminGallery.innerHTML = `<p class="muted">Loading...</p>`;
 
   try {
@@ -107,7 +107,7 @@ async function loadAdminGallery() {
     adminGallery.innerHTML = "";
 
     if (!data || data.length === 0) {
-      adminGallery.innerHTML = `<p class="muted">No portraits uploaded yet.</p>`;
+      adminGallery.innerHTML = `<p class="muted">No portraits found.</p>`;
       galleryWrapper.style.display = "block"; // always show gallery section
       return;
     }
@@ -172,7 +172,7 @@ function addDeleteLogic() {
         card.remove();
 
         const msg = document.createElement("p");
-        msg.textContent = "🗑️ Image deleted";
+        msg.textContent = "Image deleted";
         msg.className = "info-msg";
         galleryWrapper.insertBefore(msg, adminGallery);
         setTimeout(() => msg.remove(), 3000);
