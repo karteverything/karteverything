@@ -48,15 +48,11 @@ html, body {
   text-decoration: none;
   color: var(--accent);
   font-weight: 500;
-  /*border: 1px solid var(--accent);
-  border-radius: 6px;*/
   padding: 6px 14px;
   transition: all 0.3s ease;
 }
 
 .admin-link:hover {
-  /*background: var(--accent);
-  color: var(--bg-dark);*/
   border-bottom: 2px solid #00bfa6;
   border-top: 2px solid #00bfa6;
 }
