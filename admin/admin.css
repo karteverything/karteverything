@@ -100,7 +100,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: var(--bg-header);
+  background: #4a4a4a;
   /*background-color: gray;*/
   color: #fff;
   padding: 10px 16px;
@@ -112,9 +112,7 @@ body {
   text-align: center;
   font-family: poppins;
 }
-.file-label:hover {
-  background-color: #4a4a4a;
-}
+
 .file-row {
   display: flex;
   gap: 12px;
