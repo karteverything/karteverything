@@ -10,15 +10,19 @@ const passwordInput = document.getElementById("password");
 const uploadBtn = document.getElementById("upload-btn");
 const uploadMsg = document.getElementById("upload-msg");
 const adminGallery = document.getElementById("admin-gallery");
+const galleryWrapper = document.getElementById("gallery-wrapper");
 const userStatus = document.getElementById("user-status");
 
-// use the correct client
+// supabase client
 const client = window.supabaseClient;
 
 // check session
 client.auth.getSession().then(({ data }) => {
   if (data.session) {
     showUploadSection(data.session.user.email);
+    loadAdminGallery();
+  } else {
+    // show gallery even if not logged in (empty message)
     loadAdminGallery();
   }
 });
@@ -76,38 +80,39 @@ uploadBtn.addEventListener("click", async () => {
       .insert([{ title, image_url: urlData.publicUrl }]);
     if (dbError) throw dbError;
 
-    uploadMsg.textContent = "Image upload successful!";
+    uploadMsg.textContent = "✅ Image upload successful!";
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
 
     loadAdminGallery();
   } catch (err) {
     console.error(err);
-    uploadMsg.textContent = "Error: " + (err.message || err);
+    uploadMsg.textContent = "❌ Error: " + (err.message || err);
   }
 });
 
 // load gallery
 async function loadAdminGallery() {
-  const galleryWrapper = document.getElementById("gallery-wrapper");
-  adminGallery.innerHTML = "Loading...";
+  console.log("🖼️ Loading admin gallery...");
+  adminGallery.innerHTML = `<p class="muted">Loading...</p>`;
 
   try {
     const { data, error } = await client
       .from("portraits")
       .select("*")
       .order("id", { ascending: false });
-    if (error) throw error;
 
-    if (data.length > 0) {
-      galleryWrapper.style.display = "block";
-    } else {
-      galleryWrapper.style.display = "none";
-      return;
-    }
+    if (error) throw error;
 
     adminGallery.innerHTML = "";
 
+    if (!data || data.length === 0) {
+      adminGallery.innerHTML = `<p class="muted">No portraits uploaded yet.</p>`;
+      galleryWrapper.style.display = "block"; // always show gallery section
+      return;
+    }
+
+    // render all portraits
     data.forEach((item) => {
       const card = document.createElement("div");
       card.className = "portrait-card";
@@ -130,51 +135,57 @@ async function loadAdminGallery() {
       adminGallery.appendChild(card);
     });
 
-    // delete button logic
-    adminGallery.querySelectorAll(".delete-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.target.closest(".portrait-card").classList.add("show-confirm");
-      });
-    });
+    galleryWrapper.style.display = "block";
 
-    adminGallery.querySelectorAll(".confirm-no").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.target.closest(".portrait-card").classList.remove("show-confirm");
-      });
-    });
-
-    adminGallery.querySelectorAll(".confirm-yes").forEach((btn) => {
-      btn.addEventListener("click", async (e) => {
-        const card = e.target.closest(".portrait-card");
-        const id = card.dataset.id;
-        const imageUrl = card.dataset.url;
-        const fileName = imageUrl.split("/").pop();
-        const filePath = `portraits/${fileName}`;
-
-        try {
-          await client.storage.from("gallery").remove([filePath]);
-          await client.from("portraits").delete().eq("id", id);
-          card.remove();
-
-          const msg = document.createElement("p");
-          msg.textContent = "Image deleted";
-          msg.className = "info-msg";
-          galleryWrapper.insertBefore(msg, adminGallery);
-          setTimeout(() => msg.remove(), 3000);
-
-          if (adminGallery.children.length === 0) {
-            galleryWrapper.style.display = "none";
-          }
-        } catch (err) {
-          console.error("Error deleting portrait:", err.message || err);
-          alert("Failed to delete portrait. See console for details.");
-        }
-      });
-    });
+    // delete logic
+    addDeleteLogic();
   } catch (err) {
-    console.error(err);
-    adminGallery.textContent = "Error loading gallery.";
+    console.error("Error loading gallery:", err);
+    adminGallery.innerHTML = `<p class="muted">Error loading gallery.</p>`;
   }
+}
+
+function addDeleteLogic() {
+  adminGallery.querySelectorAll(".delete-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.target.closest(".portrait-card").classList.add("show-confirm");
+    });
+  });
+
+  adminGallery.querySelectorAll(".confirm-no").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.target.closest(".portrait-card").classList.remove("show-confirm");
+    });
+  });
+
+  adminGallery.querySelectorAll(".confirm-yes").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      const card = e.target.closest(".portrait-card");
+      const id = card.dataset.id;
+      const imageUrl = card.dataset.url;
+      const fileName = imageUrl.split("/").pop();
+      const filePath = `portraits/${fileName}`;
+
+      try {
+        await client.storage.from("gallery").remove([filePath]);
+        await client.from("portraits").delete().eq("id", id);
+        card.remove();
+
+        const msg = document.createElement("p");
+        msg.textContent = "🗑️ Image deleted";
+        msg.className = "info-msg";
+        galleryWrapper.insertBefore(msg, adminGallery);
+        setTimeout(() => msg.remove(), 3000);
+
+        if (adminGallery.children.length === 0) {
+          adminGallery.innerHTML = `<p class="muted">No portraits found.</p>`;
+        }
+      } catch (err) {
+        console.error("Error deleting portrait:", err.message || err);
+        alert("Failed to delete portrait. See console for details.");
+      }
+    });
+  });
 }
 
 // logout
@@ -183,9 +194,8 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
   window.location.reload();
 });
 
-// display file name after upload
+// file name display
 const imageInput = document.getElementById("image");
-const label = document.querySelector(".file-label span");
 const clearBtn = document.getElementById("clear-file");
 const fileNameText = document.getElementById("file-name");
 
@@ -198,9 +208,7 @@ imageInput.addEventListener("change", () => {
 });
 
 clearBtn.addEventListener("click", () => {
-  imageInput.value = ""; // clears file
+  imageInput.value = "";
   fileNameText.textContent = "";
   clearBtn.style.display = "none";
-})
-
-
+});

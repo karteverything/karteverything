@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (!data || data.length === 0) {
-      gallery.innerHTML = "<p>No portraits yet.</p>";
+      gallery.innerHTML = "<p>No images found.</p>";
       return;
     }
 
