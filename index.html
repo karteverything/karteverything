@@ -223,7 +223,9 @@
       <div class="bottom-bar">
         <p>&copy; KArt Everything <br>
           <script>
-            document.write(new Date());
+            const date = new Date();
+            const formatted = date.toString().split(' GMT')[0];
+            document.write(formatted);
           </script>
         </p>
         
