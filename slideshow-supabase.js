@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // Count existing static slides
+    // count existing static slides
     const existingSlides = document.querySelectorAll(".mySlides").length;
 
     data.forEach((item, index) => {

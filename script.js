@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 para.setAttribute('data-expanded', 'false');
                 btn.innerText = 'Read More';
             } else {
-                para.innerText = "They say life has no formula—but what if that’s only half true? Perfection isn’t about control; it’s about care. When you treat every detail—with respect—every word, every silence, every gesture, every breath, every choice, every relationship, every failure, and every attempt to begin again, you start to understand something deeper: mastery. It’s not about chasing flawlessness, but about honoring every layer of living. Because when nothing is dismissed as insignificant, everything becomes meaningful.";
+                para.innerText = "They say life has no formula—but what if that's only half true? Perfection isn't about control; it's about care. When you treat every detail—with respect—every word, every silence, every gesture, every breath, every choice, every relationship, every failure, and every attempt to begin again, you start to understand something deeper: mastery. It's not about chasing flawlessness, but about honoring every layer of living. Because when nothing is dismissed as insignificant, everything becomes meaningful.";
                 para.setAttribute('data-expanded', 'true');
                 btn.innerText = 'Read Less';
             }
@@ -61,7 +61,7 @@ function plusSlides(n) {
   showSlides(slideIndex += n);
 }
 
-// thumbnail image controls
+// image controls
 function currentSlide(n) {
   showSlides(slideIndex = n);
 }
