@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KArt Everything</title>
-
-  <link rel="stylesheet" href="/karteverything/styles.css"/>
   <link rel="stylesheet" href="styles.css"/>
   
   <!-- fonts -->
@@ -16,9 +14,11 @@
   <!-- emailjs -->
   <script type="text/javascript"src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="./handlers/email.js"></script>
-  <!-- data analytics -->
+  <!-- handles data analytics -->
   <script async src="./handlers/analytics.js"></script>
-  
+
+  <!-- supabase intergration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- navigation bar -->
@@ -75,12 +75,11 @@
       <div class="column bottom">
         <h3>Technical Skills</h3>
         <ul>
-          <li>Web Development: <br>
-            [HTML | CSS | JavaScript | React]
-          </li>
+          <li>Web Development: <br>[HTML | CSS | JavaScript | React]</li>
           <li>Java</li>
-          <li>Git & GitHub Workflows
-          <li>Database Management Systems</li>
+          <li>DBMS [SQL]</li>
+          <li>Version Control Systems: <br>
+            [Git & GitHub]
           </li>
         </ul>
       </div>
@@ -93,6 +92,7 @@
     </div>
   </section> 
 
+  <!-- services section -->
   <section id="services" class="services-section">
     <h2>My Services</h2>
     <p>Coming Soon!</p>
@@ -105,7 +105,6 @@
       <p class="sunset-quote">Whether it's a random street corner or a glowing sky, I take photos to remember how things felt - the laughter, the stillness, the golden light just before sunsets. Nature's quiet masterpieces!</p>
     </div>
 
-    <!-- slideshow container -->
      <div class="slideshow-container">
       <div class="mySlides fade">
         <div class="numbertext">1 / 5</div>
@@ -172,7 +171,10 @@
           <h3>The Precision of Perfection</h3>
           <div class="blog-snippet">
           <article>
-            <p>They say perfection is a sickness - but maybe it's just love, expressed with precision, a desire that makes us more attentive, not obsessive</p>
+          <p>They say perfection is a sickness - but maybe it's just love, expressed with precision, a desire that makes us more attentive, not obsessive</p>
+          <p>Perfection isn’t about control; it’s about care. The kind of care that shows up in the smallest of details—the second pass on a paragraph, the extra five minutes spent aligning a design, the quiet discipline of someone who chooses patience over shortcuts.</p>
+          <p>In engineering, we test, break, and rebuild. Iteration is not failure—it’s fidelity to improvement. Every version brings us closer not just to functionality, but to harmony. This mindset applies well beyond machines; it touches art, relationships, and even self-growth.</p>
+          <p>So maybe perfection isn’t an end state. Maybe it’s a continual act of attention—refining not because we’re chasing flawlessness, but because we respect the process itself. That’s where real precision lives.</p>
           </article>
         </div>
         <a href="./blog-posts/blog-post-1.html" class="btn" rel="noopener noreferrer">Read More</a>
@@ -180,8 +182,11 @@
 
       <div class="blog-card engineering">
         <h3>Engineering Emotion: Why I Love Cars</h3>
-        <p class="blog-snippet">From roaring engines to sleek design, cars aren't just machines - they're reflections of passion, culture...</p>
-        <a href="./blog-posts/blog-post-2.html" class="btn" rel="noopener noreferrer">Read More</a>
+        <p class="blog-snippet">
+          From roaring engines to sleek design, cars aren’t just machines—they're reflections of passion, culture...
+        </p>
+          <a href="./blog-posts/blog-post-2.html" class="btn" rel="noopener noreferrer">Read More</a>
+        </div>
       </div>
     </div>
   </section>
@@ -245,5 +250,11 @@
   <script src="https://kit.fontawesome.com/1165876da6.js"></script>
   <!-- script to handle contact form -->
   <script src=" https://smtpjs.com/v3/smtp.js"></script>
+
+  <!-- script to handle image admin uploads -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.35.0/dist/supabase.min.js"></script>
+  <script src="/supabase.js"></script>
+  <script src="./gallery/portraits.js"></script>
+  <script src="slideshow-supabase.js"></script>
 </body>
 </html>
