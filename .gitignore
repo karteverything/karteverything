@@ -24,8 +24,12 @@ handlers/analytics.js
 
 # admin
 admin/admin.js
-admin/admin.html
 admin/admin.css
+
+# gallery
+gallery/portraits.html
+gallery/portraits.css
+gallery/portraits.js
 
 # backup files
 *~
