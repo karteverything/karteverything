@@ -22,6 +22,11 @@ supabase.js
 handlers/email.js
 handlers/analytics.js
 
+# admin
+admin/admin.js
+admin/admin.html
+admin/admin.css
+
 # backup files
 *~
 *.bak
