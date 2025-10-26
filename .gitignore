@@ -23,8 +23,8 @@ handlers/email.js
 handlers/analytics.js
 
 # admin
-admin/admin.js
-admin/admin.css
+admin.js
+aadmin.css
 
 # gallery
 gallery/portraits.html
