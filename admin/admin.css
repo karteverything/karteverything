@@ -350,3 +350,40 @@ body {
   .brand { font-size: 1rem; }
   body { padding: 18px; }
 }
+
+/* logout popup */
+.logout-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.6);
+  z-index: 9999;
+}
+
+.logout-box {
+  background: #fff;
+  padding: 28px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.15);
+  max-width: 340px;
+}
+
+.logout-box p {
+  margin: 0 0 16px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.logout-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.logout-modal .btn {
+  min-width: 100px;
+}
+

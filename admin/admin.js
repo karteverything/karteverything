@@ -217,3 +217,74 @@ clearBtn.addEventListener("click", () => {
   fileNameText.textContent = "";
   clearBtn.style.display = "none";
 });
+
+// auto logout
+const AUTO_LOGOUT_TIME = 30 * 60 * 1000; // 30 minutes
+let logoutTimer;
+let warningTimer;
+
+// create logout popup
+const logoutModal = document.createElement("div");
+logoutModal.innerHTML = `
+  <div class="logout-modal">
+    <div class="logout-box">
+      <p>Your session is about to expire due to inactivity.</p>
+      <div class="logout-actions">
+        <button id="stay-logged-in" class="btn primary">Stay Logged In</button>
+        <button id="logout-now" class="btn outline">Logout Now</button>
+      </div>
+    </div>
+  </div>
+`;
+document.body.appendChild(logoutModal);
+
+logoutModal.style.display = "none";
+
+function showLogoutWarning() {
+  logoutModal.style.display = "flex";
+}
+
+function hideLogoutWarning() {
+  logoutModal.style.display = "none";
+}
+
+function startLogoutTimer() {
+  clearTimeout(logoutTimer);
+  clearTimeout(warningTimer);
+
+  // show warning 1 minute before logout
+  warningTimer = setTimeout(() => {
+    showLogoutWarning();
+  }, AUTO_LOGOUT_TIME - 60 * 1000);
+
+  // Auto logout after set time
+  logoutTimer = setTimeout(async () => {
+    await client.auth.signOut();
+    window.location.reload();
+  }, AUTO_LOGOUT_TIME);
+}
+
+function resetLogoutTimer() {
+  hideLogoutWarning();
+  startLogoutTimer();
+}
+
+// listeners to reset timer on activity
+["click", "mousemove", "keydown", "scroll", "touchstart"].forEach(evt =>
+  document.addEventListener(evt, resetLogoutTimer)
+);
+
+// modal button events
+document.getElementById("stay-logged-in").addEventListener("click", resetLogoutTimer);
+document.getElementById("logout-now").addEventListener("click", async () => {
+  await client.auth.signOut();
+  window.location.reload();
+});
+
+// start timer when logged in
+client.auth.getSession().then(({ data }) => {
+  if (data.session) {
+    startLogoutTimer();
+  }
+});
+
