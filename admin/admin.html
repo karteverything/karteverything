@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portrait Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+  <div class="admin-wrapper">
+    
+    <!-- login section -->
+    <section id="login-section" class="card">
+      <h1 class="brand">Portrait Admin</h1>
+      <div class="form-row">
+        <input id="email" type="email" placeholder="Email" autocomplete="username" />
+      </div>
+      <div class="form-row">
+        <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+      </div>
+      <div class="form-row">
+        <button id="login-btn" class="btn">Log in</button>
+      </div>
+      <p id="login-msg" class="muted"></p>
+    </section>
+
+    <!-- upload section -->
+    <section id="upload-section" class="card" style="display:none;">
+      <p id="user-status" class="muted small"></p>
+      <div class="form-row">
+        <input id="title" type="text" placeholder="Image title" />
+      </div>
+      <div class="form-row">
+        <label for="image" class="file-label"><span>Choose Image</span></label>
+        <input id="image" type="file" accept="image/*" />
+        <button id="clear-file" type="button" class="btn outline" style="display:none">Cancel</button>
+      </div>
+      <p id="file-name" class="muted-small"></p>
+
+      <div class="form-row action-row">
+        <button id="upload-btn" class="btn primary">Upload</button>
+        <button id="logout-btn" class="btn outline">Logout</button>
+      </div>
+      <p id="upload-msg" class="muted"></p>
+    </section>
+
+    <!-- gallery -->
+    <section id="gallery-wrapper" class="card gallery-card">
+      <div class="gallery-header">
+        <h2>Uploaded Portraits</h2>
+        <a href="/gallery/portraits.html">G A L L E R Y</a>
+      </div>
+      <div id="admin-gallery" class="grid"></div>
+    </section>
+
+  </div>
+
+  <!-- supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/supabase.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
