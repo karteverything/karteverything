@@ -112,7 +112,7 @@ async function loadAdminGallery() {
 
     // if no images found, display message
     if (data.length === 0) {
-      adminGallery.innerHTML = "<p>No portraits yet. Upload some above 👆</p>";
+      adminGallery.innerHTML = "<p>No images found. Upload some above</p>";
       return;
     }
 
