@@ -214,7 +214,6 @@ body {
   align-items: start;
 }
 
-/* ✨ RESTYLED PORTRAIT CARD ✨ */
 .portrait-card {
   position: relative;
   background: linear-gradient(180deg, #ffffff, #f5f5f5);
@@ -278,11 +277,10 @@ body {
   transform: scale(1.05);
 }
 
-/* confirm box (unchanged recent version) */
 .confirm-box {
   display: none;
   position: absolute;
-  bottom: 15px;
+  bottom: 150px;
   left: 50%;
   transform: translateX(-50%);
   background: #4a4a4a;
