@@ -288,3 +288,42 @@ client.auth.getSession().then(({ data }) => {
   }
 });
 
+// limit login attempts
+let failedAttempts = 0;
+let isLocked = false;
+
+loginBtn.addEventListener("click", async () => {
+  if (isLocked) {
+    loginMsg.textContent = "Too many failed attempts. Try again later.";
+    return;
+  }
+
+  loginMsg.textContent = "Logging in...";
+
+  const { data, error } = await client.auth.signInWithPassword({
+    email: emailInput.value.trim(),
+    password: passwordInput.value.trim(),
+  });
+
+  if (error) {
+    failedAttempts++;
+    loginMsg.textContent = "Login failed: " + error.message;
+
+    // lockout after 5 failed attempts for 1 minute
+    if (failedAttempts >= 3) {
+      isLocked = true;
+      loginMsg.textContent = "Too many failed attempts. Locked for 1 minute.";
+      setTimeout(() => {
+        failedAttempts = 0;
+        isLocked = false;
+        loginMsg.textContent = "";
+      }, 60 * 1000);
+    }
+  } else {
+    failedAttempts = 0;
+    showUploadSection(data.user.email);
+    loadAdminGallery();
+  }
+});
+
+
