@@ -9,18 +9,20 @@
   --accent: #06b6d4;
   --card-shadow: rgba(12, 18, 30, 0.06);
   --muted: #9aa3b2;
-
   --page-padding: 24px;
   --radius: 12px;
   --max-content-width: 1200px;
 }
 
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: poppins;
   background: var(--bg-page);
   color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .admin-wrapper {
@@ -30,6 +32,7 @@ body {
   justify-content: flex-start;
   gap: 24px;
   width: 100%;
+  margin: 0 auto;
   background-color: #4a4a4a;
   min-height: 100vh;
   padding-top: 100px;
@@ -46,6 +49,10 @@ body {
   transform: translateY(-40px);
 }
 
+#upload-section {
+  position: static;
+}
+
 .gallery-card {
   max-width: var(--max-content-width);
   padding: 28px;
@@ -59,7 +66,12 @@ body {
   color: var(--text-main);
 }
 
-.form-row { margin-bottom: 12px; display:flex; justify-content:center; }
+.form-row { 
+  margin-bottom: 12px; 
+  display:flex; 
+  justify-content:center; 
+}
+
 .form-row input[type="text"],
 .form-row input[type="email"],
 .form-row input[type="password"] {
@@ -72,7 +84,13 @@ body {
   font-family: poppins;
 }
 
-#image { display: none; }
+.form-row input[type="file"] {
+  width: 100%;
+}
+
+#image {
+  display: none;
+}
 
 .file-label {
   display: inline-flex;
@@ -85,11 +103,22 @@ body {
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
+  transition: all 0.2s ease;
   width: 100%;
   text-align: center;
   font-family: poppins;
 }
-.file-label:hover { background-color: #4a4a4a; }
+
+.file-label:hover {
+  background-color: #4a4a4a;
+}
+
+.file-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
 
 #clear-file {
   margin-left: 10px;
@@ -97,9 +126,26 @@ body {
   color: gray;
   border: none;
 }
-#clear-file:hover { color: #4a4a4a; }
 
-.action-row { display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap; }
+#clear-file:hover {
+  color: #4a4a4a;
+}
+
+#image.selected + .file-label span::after {
+  content: attr(data-file);
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-main-light);
+  margin-top: 4px;
+}
+
+.action-row { 
+  display:flex; 
+  gap:12px; 
+  justify-content:center; 
+  align-items:center; 
+  flex-wrap:wrap; 
+}
 
 .btn {
   padding: 10px 16px;
@@ -118,11 +164,14 @@ body {
   background-color: gray;
   color: white;
 }
+
 .btn.outline {
   border: 1px solid rgba(15,23,36,0.06);
 }
 
-.btn:hover { background-color: #4a4a4a; }
+.btn:hover {
+  background-color: #4a4a4a;
+}
 
 .muted { color: var(--muted); margin: 8px 0 0 0; }
 .small { font-size: 0.85rem; }
@@ -134,7 +183,14 @@ body {
   gap:12px;
   margin-bottom: 18px;
 }
-.gallery-header h2 { margin:0; font-size:1.1rem; color:var(--text-main); padding-bottom: 10px;}
+
+.gallery-header h2 { 
+  margin:0; 
+  font-size:1.1rem; 
+  color:var(--text-main); 
+  padding-bottom: 10px;
+}
+
 .gallery-header a {
   color: #4a4a4a;
   font-weight: 500;
@@ -142,7 +198,13 @@ body {
   border-bottom: 2px solid #4a4a4a;
 }
 
-.gallery-header a:visited { color: #4a4a4a; }
+.gallery-header a:visited {
+  color: #4a4a4a;
+}
+
+.form-row {
+  padding-top: 10px;
+}
 
 .grid {
   display: grid;
@@ -160,6 +222,7 @@ body {
   display:flex;
   flex-direction:column;
   align-items:center;
+  position: relative;
 }
 
 .portrait-card img {
@@ -194,7 +257,72 @@ body {
   font-weight: 600;
   opacity: 0.9;
 }
-.delete-btn:hover { opacity: 1; }
+
+.delete-btn:hover {
+  opacity: 1;
+}
+
+/* UPDATED CONFIRM BOX */
+.confirm-box {
+  display: none;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4a4a4a;
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  width: 85%;
+  max-width: 250px;
+  text-align: center;
+  font-size: 0.9rem;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease;
+}
+
+.confirm-box p {
+  margin: 0 0 10px 0;
+  color: #fff;
+  font-weight: 300;
+}
+
+.confirm-yes,
+.confirm-no {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 500;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+}
+
+.confirm-yes {
+  background: #ef4444;
+  color: #fff;
+  margin-right: 8px;
+}
+
+.confirm-no {
+  background: gray;
+  color: #fff;
+}
+
+.confirm-yes:hover,
+.confirm-no:hover {
+  opacity: 1;
+}
+
+.portrait-card.show-confirm .confirm-box {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(-4px);
+}
 
 @media (max-width: 1024px) {
   .card { max-width: 80%; }
