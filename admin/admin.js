@@ -57,7 +57,7 @@ uploadBtn.addEventListener("click", async () => {
   const file = document.getElementById("image").files[0];
 
   if (!file || !title) {
-    uploadMsg.textContent = "❗ Image and title required.";
+    uploadMsg.textContent = "Image and title required.";
     return;
   }
 
@@ -82,7 +82,7 @@ uploadBtn.addEventListener("click", async () => {
     if (dbError) throw dbError;
 
     // success
-    uploadMsg.textContent = "✅ Upload successful!";
+    uploadMsg.textContent = "Upload successful!";
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
 
