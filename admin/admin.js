@@ -46,6 +46,8 @@ function showUploadSection(userEmail) {
   loginSection.style.display = "none";
   uploadSection.style.display = "block";
   galleryWrapper.style.display = "block";
+  //show gallery
+  document.getElementById("gallery-wrapper").style.display = "block";
   userStatus.textContent = `Logged in as: ${userEmail}`;
 }
 
@@ -198,6 +200,7 @@ async function loadAdminGallery() {
 // logout handler
 document.getElementById("logout-btn").addEventListener("click", async () => {
   await client.auth.signOut();
+  document.getElementById("gallery-wrapper").style.display = "block";
   window.location.reload();
 });
 
