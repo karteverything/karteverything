@@ -20,10 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // count existing static slides
-    const existingSlides = document.querySelectorAll(".mySlides").length;
-
-    // append new slides from Supabase
+    // append supabase images as slides
     data.forEach((item) => {
       const slide = document.createElement("div");
       slide.classList.add("mySlides", "fade");
@@ -34,7 +31,28 @@ document.addEventListener("DOMContentLoaded", async () => {
       slideshowContainer.appendChild(slide);
     });
 
-    console.log(`Added ${data.length}`);
+    console.log(`Added ${data.length} Supabase images`);
+
+    // restart slideshow safely
+    // wait to ensure DOM updates are complete
+    setTimeout(() => {
+      // if showSlides exists, refresh slideshow
+      if (typeof showSlides === "function") {
+        if (typeof slideIndex === "undefined") {
+          window.slideIndex = 1;
+        }
+        showSlides(slideIndex);
+        console.log("Slideshow refreshed with new images");
+      } else {
+        // fallback: manually display the first slide if slideshow isn't defined
+        const slides = document.querySelectorAll(".mySlides");
+        if (slides.length > 0) {
+          slides.forEach((s, i) => (s.style.display = i === 0 ? "block" : "none"));
+          console.log("First Supabase image shown manually");
+        }
+      }
+    }, 300); // short delay for DOM paint
+
   } catch (err) {
     console.error("Error loading Supabase images:", err.message);
   }
