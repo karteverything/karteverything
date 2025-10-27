@@ -38,4 +38,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   loadPortraits();
+  console.log("Portraits loaded.");
 });

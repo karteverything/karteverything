@@ -199,10 +199,34 @@ async function loadAdminGallery() {
 
 // logout handler
 document.getElementById("logout-btn").addEventListener("click", async () => {
-  await client.auth.signOut();
-  document.getElementById("gallery-wrapper").style.display = "block";
-  window.location.reload();
+  try {
+    // sign out from Supabase
+    await client.auth.signOut();
+
+    // hide all protected sections
+    uploadSection.style.display = "none";
+    galleryWrapper.style.display = "none";
+
+    // show login again
+    loginSection.style.display = "block";
+    loginMsg.textContent = "You have been logged out.";
+
+    // optional: clear form fields
+    emailInput.value = "";
+    passwordInput.value = "";
+
+    // stop any logout timers
+    clearTimeout(logoutTimer);
+    clearTimeout(warningTimer);
+
+    // finally, reload to reset session state
+    setTimeout(() => window.location.reload(), 500);
+  } catch (err) {
+    console.error("Logout error:", err.message || err);
+    alert("Failed to log out. Try refreshing the page.");
+  }
 });
+
 
 // file input handlers
 const imageInput = document.getElementById("image");
