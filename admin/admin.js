@@ -86,6 +86,10 @@ uploadBtn.addEventListener("click", async () => {
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
 
+    // hide file info + cancel button after sucessful upload
+    fileNameText.textContent = "";
+    clearBtn.style.display = "none";
+
     // refresh gallery
     loadAdminGallery(); 
   } catch (err) {
