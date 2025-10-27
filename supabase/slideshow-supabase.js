@@ -31,10 +31,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       slideshowContainer.appendChild(slide);
     });
 
-    console.log(`Added ${data.length} Supabase images`);
+    console.log(`${data.length} Supabase images loaded`);
 
     // restart slideshow safely
-    // wait to ensure DOM updates are complete
+    // wait a moment to ensure DOM updates are complete
     setTimeout(() => {
       // if showSlides exists, refresh slideshow
       if (typeof showSlides === "function") {

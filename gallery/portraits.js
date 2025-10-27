@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const gallery = document.getElementById('gallery');
-  if (!gallery) {
+  const gallery = document.getElementById('slideshow-container');
+  if (!slideshow-container) {
     console.error("Gallery element not found");
     return;
   }
