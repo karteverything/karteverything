@@ -2,7 +2,6 @@ console.log("slideshow-supabase.js loaded");
 
 document.addEventListener("DOMContentLoaded", async () => {
   const slideshowContainer = document.querySelector(".slideshow-container");
-  const dotsContainer = document.querySelector(".dots-container");
 
   if (!window.supabaseClient) {
     console.error("Supabase not initialized. Check supabase.js inclusion order.");
@@ -24,25 +23,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     // count existing static slides
     const existingSlides = document.querySelectorAll(".mySlides").length;
 
-    data.forEach((item, index) => {
-      const slideNumber = existingSlides + index + 1;
-
+    // append new slides from Supabase
+    data.forEach((item) => {
       const slide = document.createElement("div");
       slide.classList.add("mySlides", "fade");
       slide.innerHTML = `
-        <div class="numbertext">${slideNumber} / ${existingSlides + data.length}</div>
         <img src="${item.image_url}" alt="${item.title || ''}" style="width:100%">
         <div class="text">${item.title || ''}</div>
       `;
       slideshowContainer.appendChild(slide);
-
-      const dot = document.createElement("span");
-      dot.classList.add("dot");
-      dot.setAttribute("onclick", "currentSlide(" + slideNumber + ")");
-      dotsContainer.appendChild(dot);
     });
 
-    console.log("Supabase slideshow images added.");
+    console.log(`Added ${data.length}`);
   } catch (err) {
     console.error("Error loading Supabase images:", err.message);
   }
