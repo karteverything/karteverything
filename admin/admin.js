@@ -1,6 +1,6 @@
 console.log("admin.js loaded");
 
-// dom element references
+// DOM references
 const loginSection = document.getElementById("login-section");
 const uploadSection = document.getElementById("upload-section");
 const loginBtn = document.getElementById("login-btn");
@@ -13,45 +13,107 @@ const adminGallery = document.getElementById("admin-gallery");
 const userStatus = document.getElementById("user-status");
 const galleryWrapper = document.getElementById("gallery-wrapper");
 
-// global supabase client (set in supabase.js)
+// supabase client (from supabase.js)
 const client = window.supabaseClient;
 
-// session check — auto-login if active
+// lockout check on page load
+let failedAttempts = parseInt(localStorage.getItem("failedAttempts")) || 0;
+let lockUntil = parseInt(localStorage.getItem("lockUntil")) || 0;
+let isLocked = false;
+
+if (Date.now() < lockUntil) {
+  isLocked = true;
+  lockLoginButton();
+} else {
+  clearLockout();
+}
+
+// auto login if session active
 client.auth.getSession().then(({ data }) => {
   if (data.session) {
     showUploadSection(data.session.user.email);
     loadAdminGallery();
+    startLogoutTimer();
   }
 });
 
-// login handler
+// login handler with lockout
 loginBtn.addEventListener("click", async () => {
+  if (isLocked) {
+    const remaining = Math.ceil((lockUntil - Date.now()) / 1000);
+    loginMsg.textContent = `Locked. Try again in ${remaining}s.`;
+    return;
+  }
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!email || !password) {
+    loginMsg.textContent = "Please enter both email and password.";
+    return;
+  }
+
   loginMsg.textContent = "Logging in...";
 
   const { data, error } = await client.auth.signInWithPassword({
-    email: emailInput.value,
-    password: passwordInput.value,
+    email,
+    password,
   });
 
   if (error) {
+    failedAttempts++;
+    localStorage.setItem("failedAttempts", failedAttempts);
+
     loginMsg.textContent = "Login failed: " + error.message;
+
+    if (failedAttempts >= 3) {
+      const lockDuration = 60 * 1000; // 1 minute
+      lockUntil = Date.now() + lockDuration;
+      localStorage.setItem("lockUntil", lockUntil);
+      isLocked = true;
+      lockLoginButton();
+    }
   } else {
+    failedAttempts = 0;
+    clearLockout();
+
     showUploadSection(data.user.email);
     loadAdminGallery();
+    startLogoutTimer();
   }
 });
 
-// toggle ui after login
+function lockLoginButton() {
+  loginBtn.disabled = true;
+  const interval = setInterval(() => {
+    const remaining = Math.ceil((lockUntil - Date.now()) / 1000);
+    if (remaining <= 0) {
+      clearInterval(interval);
+      clearLockout();
+      return;
+    }
+    loginMsg.textContent = `Locked. Try again in ${remaining}s.`;
+  }, 1000);
+}
+
+function clearLockout() {
+  isLocked = false;
+  failedAttempts = 0;
+  localStorage.removeItem("failedAttempts");
+  localStorage.removeItem("lockUntil");
+  loginBtn.disabled = false;
+  loginMsg.textContent = "";
+}
+
+// ui toggle after login
 function showUploadSection(userEmail) {
   loginSection.style.display = "none";
   uploadSection.style.display = "block";
   galleryWrapper.style.display = "block";
-  //show gallery
-  document.getElementById("gallery-wrapper").style.display = "block";
   userStatus.textContent = `Logged in as: ${userEmail}`;
 }
 
-// image upload handler
+// upload handler ---
 uploadBtn.addEventListener("click", async () => {
   uploadMsg.textContent = "Uploading...";
 
@@ -66,41 +128,34 @@ uploadBtn.addEventListener("click", async () => {
   try {
     const filePath = `portraits/${Date.now()}-${file.name}`;
 
-    // upload to supabase Storage
     const { error: storageError } = await client.storage
       .from("gallery")
       .upload(filePath, file);
     if (storageError) throw storageError;
 
-    // get public url
     const { data: urlData } = client.storage
       .from("gallery")
       .getPublicUrl(filePath);
 
-    // save metadata to dabase
     const { error: dbError } = await client
       .from("portraits")
       .insert([{ title, image_url: urlData.publicUrl }]);
     if (dbError) throw dbError;
 
-    // success
     uploadMsg.textContent = "Upload successful!";
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
-
-    // hide file info + cancel button after sucessful upload
     fileNameText.textContent = "";
     clearBtn.style.display = "none";
 
-    // refresh gallery
-    loadAdminGallery(); 
+    loadAdminGallery();
   } catch (err) {
     console.error(err);
     uploadMsg.textContent = "Error: " + (err.message || err);
   }
 });
 
-// load admin gallery
+// gallery loader
 async function loadAdminGallery() {
   adminGallery.innerHTML = "Loading...";
 
@@ -112,17 +167,14 @@ async function loadAdminGallery() {
 
     if (error) throw error;
 
-    // always show gallery wrapper, even if empty
     galleryWrapper.style.display = "block";
     adminGallery.innerHTML = "";
 
-    // if no images found, display message
     if (data.length === 0) {
       adminGallery.innerHTML = "<p>No images found.</p>";
       return;
     }
 
-    // render each image
     data.forEach((item) => {
       const card = document.createElement("div");
       card.className = "portrait-card";
@@ -141,11 +193,10 @@ async function loadAdminGallery() {
           <button class="confirm-no">No</button>
         </div>
       `;
-
       adminGallery.appendChild(card);
     });
 
-    // delete button login
+    // Delete confirmation logic
     adminGallery.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const card = e.target.closest(".portrait-card");
@@ -153,15 +204,12 @@ async function loadAdminGallery() {
       });
     });
 
-    // cancel delete
     adminGallery.querySelectorAll(".confirm-no").forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        const card = e.target.closest(".portrait-card");
-        card.classList.remove("show-confirm");
+        e.target.closest(".portrait-card").classList.remove("show-confirm");
       });
     });
 
-    // confirm delete
     adminGallery.querySelectorAll(".confirm-yes").forEach((btn) => {
       btn.addEventListener("click", async (e) => {
         const card = e.target.closest(".portrait-card");
@@ -171,15 +219,10 @@ async function loadAdminGallery() {
         const filePath = `portraits/${fileName}`;
 
         try {
-          // delete from storage
           await client.storage.from("gallery").remove([filePath]);
-          // delete from dabase
           await client.from("portraits").delete().eq("id", id);
-
-          // remove card from ui
           card.remove();
 
-          // success message
           const msg = document.createElement("p");
           msg.textContent = "🗑️ Image deleted.";
           msg.className = "info-msg";
@@ -197,64 +240,40 @@ async function loadAdminGallery() {
   }
 }
 
-// logout handler
+// logout handler ---
 document.getElementById("logout-btn").addEventListener("click", async () => {
-  try {
-    // sign out from Supabase
-    await client.auth.signOut();
-
-    // hide all protected sections
-    uploadSection.style.display = "none";
-    galleryWrapper.style.display = "none";
-
-    // show login again
-    loginSection.style.display = "block";
-    loginMsg.textContent = "You have been logged out.";
-
-    // optional: clear form fields
-    emailInput.value = "";
-    passwordInput.value = "";
-
-    // stop any logout timers
-    clearTimeout(logoutTimer);
-    clearTimeout(warningTimer);
-
-    // finally, reload to reset session state
-    setTimeout(() => window.location.reload(), 500);
-  } catch (err) {
-    console.error("Logout error:", err.message || err);
-    alert("Failed to log out. Try refreshing the page.");
-  }
+  await client.auth.signOut();
+  clearLockout(); // reset lockout on logout
+  loginSection.style.display = "block";
+  uploadSection.style.display = "none";
+  galleryWrapper.style.display = "none";
+  localStorage.removeItem("supabase.auth.token"); // ensure full logout
+  loginMsg.textContent = "You have been logged out.";
 });
-
 
 // file input handlers
 const imageInput = document.getElementById("image");
 const clearBtn = document.getElementById("clear-file");
 const fileNameText = document.getElementById("file-name");
 
-// show selected filename
 imageInput.addEventListener("change", () => {
   if (imageInput.files.length > 0) {
-    const fileName = imageInput.files[0].name;
-    fileNameText.textContent = `Selected: ${fileName}`;
+    fileNameText.textContent = `Selected: ${imageInput.files[0].name}`;
     clearBtn.style.display = "inline-block";
   }
 });
 
-// clear selected file
 clearBtn.addEventListener("click", () => {
   imageInput.value = "";
   fileNameText.textContent = "";
   clearBtn.style.display = "none";
 });
 
-// auto logout
+// uto logout (inactivity)
 const AUTO_LOGOUT_TIME = 30 * 60 * 1000; // 30 minutes
 let logoutTimer;
 let warningTimer;
 
-// create logout popup
 const logoutModal = document.createElement("div");
 logoutModal.innerHTML = `
   <div class="logout-modal">
@@ -268,93 +287,34 @@ logoutModal.innerHTML = `
   </div>
 `;
 document.body.appendChild(logoutModal);
-
 logoutModal.style.display = "none";
 
 function showLogoutWarning() {
   logoutModal.style.display = "flex";
 }
-
 function hideLogoutWarning() {
   logoutModal.style.display = "none";
 }
-
 function startLogoutTimer() {
   clearTimeout(logoutTimer);
   clearTimeout(warningTimer);
 
-  // show warning 1 minute before logout
-  warningTimer = setTimeout(() => {
-    showLogoutWarning();
-  }, AUTO_LOGOUT_TIME - 60 * 1000);
-
-  // Auto logout after set time
+  warningTimer = setTimeout(() => showLogoutWarning(), AUTO_LOGOUT_TIME - 60 * 1000);
   logoutTimer = setTimeout(async () => {
     await client.auth.signOut();
     window.location.reload();
   }, AUTO_LOGOUT_TIME);
 }
-
 function resetLogoutTimer() {
   hideLogoutWarning();
   startLogoutTimer();
 }
 
-// listeners to reset timer on activity
 ["click", "mousemove", "keydown", "scroll", "touchstart"].forEach(evt =>
   document.addEventListener(evt, resetLogoutTimer)
 );
 
-// modal button events
-document.getElementById("stay-logged-in").addEventListener("click", resetLogoutTimer);
-document.getElementById("logout-now").addEventListener("click", async () => {
-  await client.auth.signOut();
-  window.location.reload();
+document.addEventListener("click", (e) => {
+  if (e.target.id === "stay-logged-in") resetLogoutTimer();
+  if (e.target.id === "logout-now") client.auth.signOut().then(() => window.location.reload());
 });
-
-// start timer when logged in
-client.auth.getSession().then(({ data }) => {
-  if (data.session) {
-    startLogoutTimer();
-  }
-});
-
-// limit login attempts
-let failedAttempts = 0;
-let isLocked = false;
-
-loginBtn.addEventListener("click", async () => {
-  if (isLocked) {
-    loginMsg.textContent = "Too many failed attempts. Try again later.";
-    return;
-  }
-
-  loginMsg.textContent = "Logging in...";
-
-  const { data, error } = await client.auth.signInWithPassword({
-    email: emailInput.value.trim(),
-    password: passwordInput.value.trim(),
-  });
-
-  if (error) {
-    failedAttempts++;
-    loginMsg.textContent = "Login failed: " + error.message;
-
-    // lockout after 5 failed attempts for 1 minute
-    if (failedAttempts >= 3) {
-      isLocked = true;
-      loginMsg.textContent = "Too many failed attempts. Locked for 1 minute.";
-      setTimeout(() => {
-        failedAttempts = 0;
-        isLocked = false;
-        loginMsg.textContent = "";
-      }, 60 * 1000);
-    }
-  } else {
-    failedAttempts = 0;
-    showUploadSection(data.user.email);
-    loadAdminGallery();
-  }
-});
-
-
