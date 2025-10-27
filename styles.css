@@ -489,14 +489,6 @@ ul {
     width: auto;
     max-width: 90%;
 }
-/*
-.numbertext {
-    color: var(--text-main);
-    font-size: 12px;
-    position: absolute;
-    left: 20px;
-    top: 10px;
-}*/
 
 .prev, .next {
     cursor: pointer;
@@ -525,26 +517,6 @@ ul {
 .prev:hover, .next:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
-/*
-.dots-container {
-    text-align: center;
-    margin-top: 10px;
-}
-
-.dot {
-    cursor: pointer;
-    height: 12px;
-    width: 12px;
-    margin: 0 3px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
-}
-
-.active, .dot:hover {
-    background-color: #717171;
-}*/
 
 .fade {
     animation-name: fade;
