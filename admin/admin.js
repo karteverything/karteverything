@@ -122,6 +122,7 @@ uploadBtn.addEventListener("click", async () => {
 
   if (!file || !title) {
     uploadMsg.textContent = "Image and title required.";
+    setTimeout(() => {uploadMsg.textContent = "";}, 3000);
     return;
   }
 
@@ -143,6 +144,7 @@ uploadBtn.addEventListener("click", async () => {
     if (dbError) throw dbError;
 
     uploadMsg.textContent = "Upload successful!";
+    setTimeout(() => {uploadMsg.textContent = "";}, 3000);
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
     fileNameText.textContent = "";
