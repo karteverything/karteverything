@@ -853,11 +853,11 @@ input[type=text], textarea {
 .contact-form input,
 .contact-form textarea {
     width: 90%;
-    padding: 0.3rem;
+    padding: 0.5rem;
     margin-bottom: 1rem;
     border: 2px solid #ccc;
-    border-radius: 6px;
-    font-size: 0.8rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
 }
 
 .contact-right {
