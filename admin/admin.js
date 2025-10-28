@@ -249,6 +249,8 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
   galleryWrapper.style.display = "none";
   localStorage.removeItem("supabase.auth.token"); // ensure full logout
   loginMsg.textContent = "You have been logged out.";
+
+  setTimeout(() => {loginMsg.textContent = "";}, 3000);
 });
 
 // file input handlers
