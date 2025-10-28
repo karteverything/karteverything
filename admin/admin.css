@@ -188,18 +188,9 @@ body {
   margin:0; 
   font-size:1.1rem; 
   color:var(--text-main); 
-  padding-bottom: 10px;
-}
-
-.gallery-header a {
-  color: #4a4a4a;
-  font-weight: 500;
-  text-decoration: none;
-  border-bottom: 2px solid #4a4a4a;
-}
-
-.gallery-header a:visited {
-  color: #4a4a4a;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #222;
 }
 
 .form-row {
