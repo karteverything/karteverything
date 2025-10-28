@@ -783,7 +783,7 @@ li {
 
 /* contact section */
 .contact-section {
-    padding: 50px 20px;
+    padding: 30px 20px;
     max-width: 1200px;
     margin: auto;
     height: auto;
@@ -891,7 +891,7 @@ input[type=text], textarea {
 }
 
 .social-icons ul li {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     cursor: pointer;
     color: var(--text-muted);
     transition: color 0.3s ease, transform 0.3s ease;
