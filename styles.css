@@ -972,12 +972,30 @@ footer {
     gap: 0;
 }
 
+.bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .bottom-bar p{
     width: 100%;
     text-align: center;
     padding: 10px 0;
     color: var(--text-muted);
     font-size: 0.8rem;
+}
+
+.bottom-bar a {
+    padding-top: 10px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.bottom-bar a:hover {
+    color: #ccc;
 }
 
 
