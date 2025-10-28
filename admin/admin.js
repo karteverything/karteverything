@@ -249,8 +249,19 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
   loginSection.style.display = "block";
   uploadSection.style.display = "none";
   galleryWrapper.style.display = "none";
-  localStorage.removeItem("supabase.auth.token"); // ensure full logout
+
+  // clear supabase token [ensures full logout]
+  localStorage.removeItem("supabase.auth.token");
   loginMsg.textContent = "You have been logged out.";
+
+  // clear form data
+  emailInput.value = "";
+  passwordInput.value = "";
+  document.getElementById("title").value = "";
+  document.getElementById("image").value = "";
+  fileNameText.textContent = "";
+  clearBtn.style.display = "none";
+  uploadMsg.textContent = "";
 
   setTimeout(() => {loginMsg.textContent = "";}, 3000);
 });
