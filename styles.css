@@ -417,7 +417,7 @@ ul {
 }
 
 #portraiture.gallery {
-    display: flex;
+    display:inline-flex;
     flex-direction: column;
     align-items: center;
     padding: 90px 20px;
@@ -531,6 +531,7 @@ ul {
 @media (max-width: 768px) {
     #portraiture.gallery {
         padding: 40px 10px;
+        display: inline-block;
     }
 
     .gallery-title h2 {
@@ -543,6 +544,7 @@ ul {
 
     .slideshow-container {
         height: 300px;
+        margin-top: 0;
     }
 
     .mySlides img {
