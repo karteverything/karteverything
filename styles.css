@@ -563,6 +563,13 @@ ul {
     }
 }
 
+@media (max-width: 400px) {
+    .text {
+        color: #fff;
+        background: rgba(112, 112, 112, 0.7);
+    }
+}
+
 /* blog section */
 #blog {
     background-color: #4d4d4d;
