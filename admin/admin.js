@@ -316,44 +316,69 @@ async function stripImageMetadata(file) {
 }
 
 imageInput.addEventListener("change", async () => {
-  if (imageInput.files.length === 0) return;
-
-  const originalFile = imageInput.files[0];
-  uploadMsg.textContent = "Cleaning image metadata...";
+  const file = imageInput.files[0];
+  if (!file) {
+    fileNameText.textContent = "";
+    clearBtn.style.display = "none";
+    return;
+  }
 
   try {
-    const cleanBlob = await stripImageMetadata(originalFile);
-    // remove original file name 
-    const anonymousName = `image-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
+    // remove metadata 
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    await img.decode();
 
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    // convert to Blob (strips EXIF metadata)
+    const cleanBlob = await new Promise((resolve) =>
+      canvas.toBlob(resolve, "image/jpeg", 0.9)
+    );
+
+    // create new anonymized file
+    const anonymousName = `image-${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2, 8)}.jpg`;
     const cleanFile = new File([cleanBlob], anonymousName, {
       type: "image/jpeg",
     });
 
-    // replace the selected file with the cleaned one
+    // replace file input with new clean file
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(cleanFile);
     imageInput.files = dataTransfer.files;
 
-    // update UI 
-    fileNameText.textContent = `Image title: ${cleanFile.name}`;
+    // show thumbnail preview ---
+    const preview = document.createElement("img");
+    preview.src = URL.createObjectURL(cleanBlob);
+    preview.alt = "Preview";
+    preview.style.width = "100px";
+    preview.style.height = "auto";
+    preview.style.borderRadius = "8px";
+    preview.style.marginTop = "10px";
+    preview.style.display = "block";
+
+    // clear old preview if any
+    const existingPreview = document.getElementById("preview-thumb");
+    if (existingPreview) existingPreview.remove();
+    preview.id = "preview-thumb";
+
+    fileNameText.textContent = `Image selected:`;
+    fileNameText.appendChild(preview);
+
     clearBtn.style.display = "inline-block";
-    uploadMsg.textContent = "Image cleaned and ready to upload.";
   } catch (err) {
-    console.error("Metadata cleanup failed:", err);
-    uploadMsg.textContent = "Failed to clean image metadata.";
-    setTimeout(() => { uploadMsg.textContent = ""; }, 3000);
+    console.error("Error removing metadata:", err);
+    fileNameText.textContent = "Failed to load image.";
   }
 });
 
-clearBtn.addEventListener("click", () => {
-  imageInput.value = "";
-  fileNameText.textContent = "";
-  clearBtn.style.display = "none";
-});
-
-
-// uto logout (inactivity)
+// auto logout (inactivity)
 const AUTO_LOGOUT_TIME = 30 * 60 * 1000; // 30 minutes
 let logoutTimer;
 let warningTimer;
