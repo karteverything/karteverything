@@ -323,19 +323,20 @@ imageInput.addEventListener("change", async () => {
 
   try {
     const cleanBlob = await stripImageMetadata(originalFile);
-    const cleanFile = new File(
-      [cleanBlob],
-      originalFile.name.replace(/\.[^/.]+$/, "") + "-clean.jpg",
-      { type: "image/jpeg" }
-    );
+    // remove original file name 
+    const anonymousName = `image-${Date.now()}.jpg`;
+
+    const cleanFile = new File([cleanBlob], anonymousName, {
+      type: "image/jpeg",
+    });
 
     // replace the selected file with the cleaned one
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(cleanFile);
     imageInput.files = dataTransfer.files;
 
-    // update UI
-    fileNameText.textContent = `Selected (clean): ${cleanFile.name}`;
+    // update UI 
+    fileNameText.textContent = `Image title: ${cleanFile.name}`;
     clearBtn.style.display = "inline-block";
     uploadMsg.textContent = "Image cleaned and ready to upload.";
     setTimeout(() => { uploadMsg.textContent = ""; }, 3000);
