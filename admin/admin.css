@@ -345,7 +345,18 @@ body {
   .brand { font-size: 1rem; }
   body { padding: 18px; }
   .card {
-    width: 80%;
+    width: 90%;
+    padding: 12px;
+  }
+
+  .form-row {
+    padding: 3px;
+  }*
+
+  .form-row input[type="text"],
+  .form-row input[type="email"],
+  .form-row input[type="password"] {
+    padding: 5px 6px;
   }
 }
 
