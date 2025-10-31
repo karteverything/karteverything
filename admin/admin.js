@@ -324,7 +324,7 @@ imageInput.addEventListener("change", async () => {
   try {
     const cleanBlob = await stripImageMetadata(originalFile);
     // remove original file name 
-    const anonymousName = `image-${Date.now()}.jpg`;
+    const anonymousName = `image-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
 
     const cleanFile = new File([cleanBlob], anonymousName, {
       type: "image/jpeg",
