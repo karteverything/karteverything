@@ -334,7 +334,7 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .card { max-width: 80%; }
+  /*.card { max-width: 100%; }*/
   .gallery-card { padding: 20px; margin-top: 30px; }
   .grid { gap: 16px; }
 }
@@ -344,6 +344,9 @@ body {
   .portrait-card h3 { font-size: 0.9rem; }
   .brand { font-size: 1rem; }
   body { padding: 18px; }
+  .card {
+    width: 80%;
+  }
 }
 
 /* logout popup */
