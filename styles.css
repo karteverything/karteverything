@@ -548,6 +548,7 @@ ul {
     .slideshow-container {
         height: 300px;
         margin-top: 0;
+        width: 90%;
     }
 
     .mySlides img {
