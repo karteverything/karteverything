@@ -323,6 +323,10 @@ imageInput.addEventListener("change", async () => {
     return;
   }
 
+  // show metadata removal message
+  fileNameText.textContent = "Removing image metadata...";
+  clearBtn.style.display = "none";
+
   try {
     // remove metadata 
     const img = new Image();
