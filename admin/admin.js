@@ -359,6 +359,7 @@ imageInput.addEventListener("change", async () => {
 
     // create thumbnail preview
     const previewContainer = document.createElement("div");
+    previewContainer.className = "preview-container";
     previewContainer.style.display = "flex";
     previewContainer.style.alignItems = "center";
     previewContainer.style.gap = "10px";
