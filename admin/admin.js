@@ -50,6 +50,7 @@ loginBtn.addEventListener("click", async () => {
 
   if (!email || !password) {
     loginMsg.textContent = "Please enter both email and password.";
+    setTimeout(() => {loginMsg.textContent = "";}, 3000);
     return;
   }
 
