@@ -285,6 +285,73 @@ clearBtn.addEventListener("click", () => {
   clearBtn.style.display = "none";
 });
 
+// helper: remove EXIF metadata from images
+async function stripImageMetadata(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) reject("Failed to create clean image blob");
+            else resolve(blob);
+          },
+          "image/jpeg", // re-encode as JPEG (strips EXIF & title)
+          0.9 // image quality = 90%
+        );
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+imageInput.addEventListener("change", async () => {
+  if (imageInput.files.length === 0) return;
+
+  const originalFile = imageInput.files[0];
+  uploadMsg.textContent = "Cleaning image metadata...";
+
+  try {
+    const cleanBlob = await stripImageMetadata(originalFile);
+    const cleanFile = new File(
+      [cleanBlob],
+      originalFile.name.replace(/\.[^/.]+$/, "") + "-clean.jpg",
+      { type: "image/jpeg" }
+    );
+
+    // replace the selected file with the cleaned one
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(cleanFile);
+    imageInput.files = dataTransfer.files;
+
+    // update UI
+    fileNameText.textContent = `Selected (clean): ${cleanFile.name}`;
+    clearBtn.style.display = "inline-block";
+    uploadMsg.textContent = "Image cleaned and ready to upload.";
+  } catch (err) {
+    console.error("Metadata cleanup failed:", err);
+    uploadMsg.textContent = "Failed to clean image metadata.";
+    setTimeout(() => { uploadMsg.textContent = ""; }, 3000);
+  }
+});
+
+clearBtn.addEventListener("click", () => {
+  imageInput.value = "";
+  fileNameText.textContent = "";
+  clearBtn.style.display = "none";
+});
+
+
 // uto logout (inactivity)
 const AUTO_LOGOUT_TIME = 30 * 60 * 1000; // 30 minutes
 let logoutTimer;
