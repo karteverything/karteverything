@@ -338,6 +338,7 @@ imageInput.addEventListener("change", async () => {
     fileNameText.textContent = `Selected (clean): ${cleanFile.name}`;
     clearBtn.style.display = "inline-block";
     uploadMsg.textContent = "Image cleaned and ready to upload.";
+    setTimeout(() => { uploadMsg.textContent = ""; }, 3000);
   } catch (err) {
     console.error("Metadata cleanup failed:", err);
     uploadMsg.textContent = "Failed to clean image metadata.";
