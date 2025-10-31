@@ -144,7 +144,7 @@ uploadBtn.addEventListener("click", async () => {
       .insert([{ title, image_url: urlData.publicUrl }]);
     if (dbError) throw dbError;
 
-    uploadMsg.textContent = "Upload successful!";
+    uploadMsg.textContent = "Image upload successful!";
     setTimeout(() => {uploadMsg.textContent = "";}, 3000);
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
@@ -199,7 +199,7 @@ async function loadAdminGallery() {
       adminGallery.appendChild(card);
     });
 
-    // Delete confirmation logic
+    // delete confirmation logic
     adminGallery.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const card = e.target.closest(".portrait-card");
@@ -285,7 +285,7 @@ clearBtn.addEventListener("click", () => {
   clearBtn.style.display = "none";
 });
 
-// helper: remove EXIF metadata from images
+// helper: remove metadata from images
 async function stripImageMetadata(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -357,6 +357,13 @@ imageInput.addEventListener("change", async () => {
     dataTransfer.items.add(cleanFile);
     imageInput.files = dataTransfer.files;
 
+    // create thumbnail preview
+    const previewContainer = document.createElement("div");
+    previewContainer.style.display = "flex";
+    previewContainer.style.alignItems = "center";
+    previewContainer.style.gap = "10px";
+    previewContainer.style.marginTop = "10px";
+
     // show thumbnail preview ---
     const preview = document.createElement("img");
     preview.src = URL.createObjectURL(cleanBlob);
@@ -367,18 +374,30 @@ imageInput.addEventListener("change", async () => {
     preview.style.marginTop = "10px";
     preview.style.display = "block";
 
+    // move cancel button next to preview thumbnail
+    clearBtn.style.display = "inline-block";
+    clearBtn.style.marginTop = "0";
+
     // clear old preview if any
     const existingPreview = document.getElementById("preview-thumb");
     if (existingPreview) existingPreview.remove();
     preview.id = "preview-thumb";
 
+    /*
     fileNameText.textContent = `Image selected:`;
-    fileNameText.appendChild(preview);
+    fileNameText.appendChild(preview);*/
 
-    clearBtn.style.display = "inline-block";
+    // append preview + cancel
+    previewContainer.appendChild(preview);
+    previewContainer.appendChild(clearBtn);
+
+    // show "ready" message
+    fileNameText.textContent = "Selected image:";
+    fileNameText.appendChild(previewContainer);
+
   } catch (err) {
     console.error("Error removing metadata:", err);
-    fileNameText.textContent = "Failed to load image.";
+    fileNameText.textContent = "Failed to process image.";
   }
 });
 
