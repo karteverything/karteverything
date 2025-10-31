@@ -111,7 +111,7 @@ function showUploadSection(userEmail) {
   loginSection.style.display = "none";
   uploadSection.style.display = "block";
   galleryWrapper.style.display = "block";
-  userStatus.textContent = `Logged in as: ${userEmail}`;
+  /*userStatus.textContent = `Logged in as: ${userEmail}`;*/
 }
 
 // upload handler ---
