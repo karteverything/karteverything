@@ -237,6 +237,84 @@ async function loadAdminGallery() {
         }
       });
     });
+
+    // edit image title logic
+    adminGallery.querySelectorAll(".edit-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const card = e.target.closet(".portrait-card");
+        const titleEl = card.querySelector("h3");
+        const actions = card.querySelector(".card-actions");
+        const currentTitle = titleEl.textContent.trim();
+
+        // create editable field + buttons
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = currentTitle;
+        input.className = "edit-input";
+
+        const saveBtn = document.createElement("button");
+        saveBtn.textContent = "Save";
+        saveBtn.className = "save-btn";
+
+        const cancelBtn = document.createElement("button");
+        cancelBtn.textContent = "Cancel";
+        cancelBtn.className = "cancel-btn";
+
+        // replace the title with new input
+        titleEl.replaceWith(input);
+        actions.innerHTML = "";
+        actions.appendChild(saveBtn);
+        actions.appendChild(cancelBtn);
+
+        // cancel edit
+        cancelBtn.addEventListener("click", () => {
+          input.replaceWith(titleEl);
+          actions.innerHTML = `
+            <button class="edit-btn></button>
+            <button class="delete-btn></button>
+            `;
+          loadAdminGallery(); // reload to restore listeners
+        });
+
+        // save edit
+        saveBtn.addEventListener("click", async () => {
+          const newTitle = input.value.trim();
+          if(!newTitle) {
+            alert("Title cannot be empty.");
+            return;
+          }
+
+          try {
+            const { error } = await client
+              .from("portraits")
+              .update({ title: newTitle })
+              .eq("id", card.dataset.id);
+            
+            if (error) throw error;
+
+            titleEl.textContent - newTitle;
+            input.replaceWith(titleEl);
+            actions.innerHTML = `
+              <button class="edit-btn></button>
+              <button class="delete-btn></button>
+              `;
+
+            const msg = document.createElement("p");
+            msg.textContent = "Title updated";
+            msg.className = "info-msg";
+            galleryWrapper.insertBefore(msg, adminGallery);
+            setTimeout(() => msg.remove(), 3000);
+
+            //refresh gallery to restore actions
+            loadAdminGallery(); 
+          } catch (err) {
+            onsole.error("Error updating title:", err.message || err);
+            alert("Failed to update title.");
+          }
+        });
+      });
+    });
+
   } catch (err) {
     console.error(err);
     adminGallery.textContent = "Error loading gallery.";
