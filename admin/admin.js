@@ -188,6 +188,7 @@ async function loadAdminGallery() {
         <img src="${item.image_url}" alt="${item.title}">
         <h3>${item.title}</h3>
         <div class="card-actions">
+          <button class="edit-btn">Edit</button>
           <button class="delete-btn">Delete</button>
         </div>
         <div class="confirm-box">
