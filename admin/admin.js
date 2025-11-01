@@ -258,6 +258,7 @@ async function loadAdminGallery() {
         input.className = "edit-input";
         input.style.width = "80%";
         input.style.marginTop = "6px";
+        input.id = `edit-title-${card.dataset.id}`;
 
         const saveButton = document.createElement("button");
         saveButton.textContent = "Save";
@@ -297,7 +298,9 @@ async function loadAdminGallery() {
         const input = card.querySelector(".edit-input");
         const newTitle = input.value.trim();
         const actions = card.querySelector(".card-actions");
-        const id = parseInt(card.dataset.id); // ensure it's a number
+        const id = card.dataset.id;
+
+        //console.log("Attempting to update:", { id, newTitle });
 
         if (!newTitle) {
           alert("Title cannot be empty.");
@@ -305,14 +308,17 @@ async function loadAdminGallery() {
         }
 
         try {
-          // make sure the id exists and the update succeeds
+          console.log("Updating title for ID:", id, "→", newTitle);
+
           const { data, error } = await client
             .from("portraits")
             .update({ title: newTitle })
             .eq("id", id)
-            .select(); // helps verify result
+            .select();
 
           if (error) throw error;
+          if (!data || data.length === 0)
+            console.warn("No rows updated. Check Supabase ID column name.");
 
           const titleEl = document.createElement("h3");
           titleEl.textContent = newTitle;
@@ -324,18 +330,17 @@ async function loadAdminGallery() {
           `;
 
           const msg = document.createElement("p");
-          msg.textContent = "Title updated";
+          msg.textContent = "Title updated successfully!";
           msg.className = "info-msg";
-          msg.style.color = "green";
-          msg.style.fontSize = "0.9em";
+          /*msg.style.color = "green";*/
           galleryWrapper.insertBefore(msg, adminGallery);
-          setTimeout(() => msg.remove(), 2000);
+          setTimeout(() => msg.remove(), 3000);
 
-          // refresh gallery from database
+          // refresh the gallery to reflect DB data
           loadAdminGallery();
         } catch (err) {
           console.error("Error updating title:", err.message || err);
-          alert("Failed to update title.");
+          alert("Failed to update title. Check console for details.");
         }
       }
     });
