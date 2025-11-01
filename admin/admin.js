@@ -1,5 +1,3 @@
-console.log("admin.js loaded");
-
 // DOM references
 const loginSection = document.getElementById("login-section");
 const uploadSection = document.getElementById("upload-section");
@@ -66,9 +64,18 @@ loginBtn.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
-  if (!email || !password) {
+  if (!email && !password) {
     loginMsg.textContent = "Please enter both email and password.";
-    setTimeout(() => {loginMsg.textContent = "";}, 3000);
+  } else if (!email) {
+    loginMsg.textContent = "Please enter your email.";
+  } else if (!password) {
+    loginMsg.textContent = "Please enter your password.";
+  }
+
+  if (!email || !password) {
+    setTimeout(() => {
+      loginMsg.textContent = "";
+    }, 3000);
     return;
   }
 
@@ -206,6 +213,7 @@ async function loadAdminGallery() {
         <img src="${item.image_url}" alt="${item.title}">
         <h3>${item.title}</h3>
         <div class="card-actions">
+          <button class="edit-btn">Edit</button>
           <button class="delete-btn">Delete</button>
         </div>
         <div class="confirm-box">
@@ -255,6 +263,112 @@ async function loadAdminGallery() {
         }
       });
     });
+
+    // edit title logic using event delegation
+    adminGallery.addEventListener("click", async (e) => {
+      const editBtn = e.target.closest(".edit-btn");
+      const saveBtn = e.target.closest(".save-btn");
+      const cancelBtn = e.target.closest(".cancel-btn");
+
+      // when clicking 'edit'
+      if (editBtn) {
+        const card = editBtn.closest(".portrait-card");
+        if (!card) return;
+
+        const titleEl = card.querySelector("h3");
+        const actions = card.querySelector(".card-actions");
+        const currentTitle = titleEl.textContent.trim();
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = currentTitle;
+        input.className = "edit-input";
+        input.style.width = "80%";
+        input.style.marginTop = "6px";
+        input.id = `edit-title-${card.dataset.id}`
+
+        const saveButton = document.createElement("button");
+        saveButton.textContent = "Save";
+        saveButton.className = "save-btn";
+
+        const cancelButton = document.createElement("button");
+        cancelButton.textContent = "Cancel";
+        cancelButton.className = "cancel-btn";
+
+        titleEl.replaceWith(input);
+        actions.innerHTML = "";
+        actions.appendChild(saveButton);
+        actions.appendChild(cancelButton);
+
+        input.focus();
+      }
+
+      // when clicking 'cancel'
+      if (cancelBtn) {
+        const card = cancelBtn.closest(".portrait-card");
+        const input = card.querySelector(".edit-input");
+        const actions = card.querySelector(".card-actions");
+
+        const titleEl = document.createElement("h3");
+        titleEl.textContent = input.value || "(untitled)";
+        input.replaceWith(titleEl);
+
+        actions.innerHTML = `
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        `;
+      }
+
+      // when clicking 'save'
+      if (saveBtn) {
+        const card = saveBtn.closest(".portrait-card");
+        const input = card.querySelector(".edit-input");
+        const newTitle = input.value.trim();
+        const actions = card.querySelector(".card-actions");
+        const id = card.dataset.id.trim();
+
+        if (!newTitle) {
+          alert("Title cannot be empty.");
+          return;
+        }
+
+        try {
+          console.log("Updating title for ID:", id, "→", newTitle);
+
+          const { data, error } = await client
+            .from("portraits")
+            .update({ title: newTitle })
+            .eq("id", id)
+            .select();
+
+          if (error) throw error;
+          if (!data || data.length === 0)
+            console.warn("No rows updated. Check Supabase ID column name.");
+
+          const titleEl = document.createElement("h3");
+          titleEl.textContent = newTitle;
+          input.replaceWith(titleEl);
+
+          actions.innerHTML = `
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          `;
+
+          const msg = document.createElement("p");
+          msg.textContent = "Title updated successfully!";
+          msg.className = "info-msg";
+          galleryWrapper.insertBefore(msg, adminGallery);
+          setTimeout(() => msg.remove(), 3000);
+
+          // refresh the gallery to reflect DB data
+          setTimeout(() => loadAdminGallery(), 500);
+        } catch (err) {
+          console.error("Error updating title:", err.message || err);
+          alert("Failed to update title. Check console for details.");
+        }
+      }
+    });
+
   } catch (err) {
     console.error(err);
     adminGallery.textContent = "Error loading gallery.";
@@ -478,3 +592,24 @@ document.addEventListener("click", (e) => {
   if (e.target.id === "stay-logged-in") resetLogoutTimer();
   if (e.target.id === "logout-now") client.auth.signOut().then(() => window.location.reload());
 });
+
+// edit image title helper 
+function attachGalleryListeners(card) {
+  const editBtn = card.querySelector(".edit-btn");
+  const deleteBtn = card.querySelector(".delete-btn");
+
+  if (editBtn) {
+    editBtn.addEventListener("click", (e) => {
+      // re-run the edit logic above
+      e.target.click(); // triggers existing handler
+    });
+  }
+
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", (e) => {
+      const card = e.target.closest(".portrait-card");
+      card.classList.add("show-confirm");
+    });
+  }
+}
+
