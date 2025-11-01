@@ -48,9 +48,18 @@ loginBtn.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
-  if (!email || !password) {
+  if (!email && !password) {
     loginMsg.textContent = "Please enter both email and password.";
-    setTimeout(() => {loginMsg.textContent = "";}, 3000);
+  } else if (!email) {
+    loginMsg.textContent = "Please enter your email.";
+  } else if (!password) {
+    loginMsg.textContent = "Please enter your password.";
+  }
+
+  if (!email || !password) {
+    setTimeout(() => {
+      loginMsg.textContent = "";
+    }, 3000);
     return;
   }
 
