@@ -31,9 +31,27 @@ if (Date.now() < lockUntil) {
 // auto login if session active
 client.auth.getSession().then(({ data }) => {
   if (data.session) {
-    showUploadSection(data.session.user.email);
-    loadAdminGallery();
-    startLogoutTimer();
+    const { user } = data.session;
+
+    // limit session to 30 minutes 
+    const MAX_SESSION_AGE = 30 * 60 * 1000; // 30 minutes
+    const sessionCreated = new Date(user.created_at).getTime();
+    const now = Date.now();
+    const sessionAge = now - sessionCreated;
+
+    if (sessionAge > MAX_SESSION_AGE) {
+      console.log("Session expired - logging out...");
+      client.auth.signOut().then(() => {
+        console.log("Signed out");
+      });
+      // clear stale token
+      localStorage.removeItem("supabase.auth.token");
+    } else {
+      console.log("Session active - auto-logged in.");
+      showUploadSection(user.email);
+      loadAdminGallery();
+      startLogoutTimer();
+    }
   }
 });
 
