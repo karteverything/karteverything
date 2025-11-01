@@ -1,5 +1,3 @@
-console.log("admin.js loaded");
-
 // DOM references
 const loginSection = document.getElementById("login-section");
 const uploadSection = document.getElementById("upload-section");
@@ -66,9 +64,18 @@ loginBtn.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
-  if (!email || !password) {
+  if (!email && !password) {
     loginMsg.textContent = "Please enter both email and password.";
-    setTimeout(() => {loginMsg.textContent = "";}, 3000);
+  } else if (!email) {
+    loginMsg.textContent = "Please enter your email.";
+  } else if (!password) {
+    loginMsg.textContent = "Please enter your password.";
+  }
+
+  if (!email || !password) {
+    setTimeout(() => {
+      loginMsg.textContent = "";
+    }, 3000);
     return;
   }
 
@@ -129,7 +136,7 @@ function showUploadSection(userEmail) {
   loginSection.style.display = "none";
   uploadSection.style.display = "block";
   galleryWrapper.style.display = "block";
-  userStatus.textContent = `Logged in as: ${userEmail}`;
+  /*userStatus.textContent = `Logged in as: ${userEmail}`;*/
 }
 
 // upload handler ---
@@ -162,7 +169,7 @@ uploadBtn.addEventListener("click", async () => {
       .insert([{ title, image_url: urlData.publicUrl }]);
     if (dbError) throw dbError;
 
-    uploadMsg.textContent = "Upload successful!";
+    uploadMsg.textContent = "Image upload successful!";
     setTimeout(() => {uploadMsg.textContent = "";}, 3000);
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
@@ -206,6 +213,7 @@ async function loadAdminGallery() {
         <img src="${item.image_url}" alt="${item.title}">
         <h3>${item.title}</h3>
         <div class="card-actions">
+          <button class="edit-btn">Edit</button>
           <button class="delete-btn">Delete</button>
         </div>
         <div class="confirm-box">
@@ -255,6 +263,112 @@ async function loadAdminGallery() {
         }
       });
     });
+
+    // edit title logic using event delegation
+    adminGallery.addEventListener("click", async (e) => {
+      const editBtn = e.target.closest(".edit-btn");
+      const saveBtn = e.target.closest(".save-btn");
+      const cancelBtn = e.target.closest(".cancel-btn");
+
+      // when clicking 'edit'
+      if (editBtn) {
+        const card = editBtn.closest(".portrait-card");
+        if (!card) return;
+
+        const titleEl = card.querySelector("h3");
+        const actions = card.querySelector(".card-actions");
+        const currentTitle = titleEl.textContent.trim();
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = currentTitle;
+        input.className = "edit-input";
+        input.style.width = "80%";
+        input.style.marginTop = "6px";
+        input.id = `edit-title-${card.dataset.id}`
+
+        const saveButton = document.createElement("button");
+        saveButton.textContent = "Save";
+        saveButton.className = "save-btn";
+
+        const cancelButton = document.createElement("button");
+        cancelButton.textContent = "Cancel";
+        cancelButton.className = "cancel-btn";
+
+        titleEl.replaceWith(input);
+        actions.innerHTML = "";
+        actions.appendChild(saveButton);
+        actions.appendChild(cancelButton);
+
+        input.focus();
+      }
+
+      // when clicking 'cancel'
+      if (cancelBtn) {
+        const card = cancelBtn.closest(".portrait-card");
+        const input = card.querySelector(".edit-input");
+        const actions = card.querySelector(".card-actions");
+
+        const titleEl = document.createElement("h3");
+        titleEl.textContent = input.value || "(untitled)";
+        input.replaceWith(titleEl);
+
+        actions.innerHTML = `
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        `;
+      }
+
+      // when clicking 'save'
+      if (saveBtn) {
+        const card = saveBtn.closest(".portrait-card");
+        const input = card.querySelector(".edit-input");
+        const newTitle = input.value.trim();
+        const actions = card.querySelector(".card-actions");
+        const id = card.dataset.id.trim();
+
+        if (!newTitle) {
+          alert("Title cannot be empty.");
+          return;
+        }
+
+        try {
+          console.log("Updating title for ID:", id, "→", newTitle);
+
+          const { data, error } = await client
+            .from("portraits")
+            .update({ title: newTitle })
+            .eq("id", id)
+            .select();
+
+          if (error) throw error;
+          if (!data || data.length === 0)
+            console.warn("No rows updated. Check Supabase ID column name.");
+
+          const titleEl = document.createElement("h3");
+          titleEl.textContent = newTitle;
+          input.replaceWith(titleEl);
+
+          actions.innerHTML = `
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          `;
+
+          const msg = document.createElement("p");
+          msg.textContent = "Title updated successfully!";
+          msg.className = "info-msg";
+          galleryWrapper.insertBefore(msg, adminGallery);
+          setTimeout(() => msg.remove(), 3000);
+
+          // refresh the gallery to reflect DB data
+          setTimeout(() => loadAdminGallery(), 500);
+        } catch (err) {
+          console.error("Error updating title:", err.message || err);
+          alert("Failed to update title. Check console for details.");
+        }
+      }
+    });
+
   } catch (err) {
     console.error(err);
     adminGallery.textContent = "Error loading gallery.";
@@ -312,7 +426,124 @@ clearBtn.addEventListener("click", () => {
   clearBtn.style.display = "none";
 });
 
-// uto logout (inactivity)
+// helper: remove metadata from images
+async function stripImageMetadata(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) reject("Failed to create clean image blob");
+            else resolve(blob);
+          },
+          "image/jpeg", // re-encode as JPEG (strips EXIF & title)
+          0.9 // image quality = 90%
+        );
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+imageInput.addEventListener("change", async () => {
+  const file = imageInput.files[0];
+  if (!file) {
+    fileNameText.textContent = "";
+    clearBtn.style.display = "none";
+    return;
+  }
+
+  // show metadata removal message
+  fileNameText.textContent = "Removing image metadata...";
+  clearBtn.style.display = "none";
+
+  try {
+    // remove metadata 
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    await img.decode();
+
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    // convert to Blob (strips EXIF metadata)
+    const cleanBlob = await new Promise((resolve) =>
+      canvas.toBlob(resolve, "image/jpeg", 0.9)
+    );
+
+    // create new anonymized file
+    const anonymousName = `image-${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2, 8)}.jpg`;
+    const cleanFile = new File([cleanBlob], anonymousName, {
+      type: "image/jpeg",
+    });
+
+    // replace file input with new clean file
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(cleanFile);
+    imageInput.files = dataTransfer.files;
+
+    // create thumbnail preview
+    const previewContainer = document.createElement("div");
+    previewContainer.className = "preview-container";
+    previewContainer.style.display = "flex";
+    previewContainer.style.alignItems = "center";
+    previewContainer.style.gap = "10px";
+    previewContainer.style.marginTop = "10px";
+
+    // show thumbnail preview ---
+    const preview = document.createElement("img");
+    preview.src = URL.createObjectURL(cleanBlob);
+    preview.alt = "Preview";
+    preview.style.width = "100px";
+    preview.style.height = "auto";
+    preview.style.borderRadius = "8px";
+    preview.style.marginTop = "10px";
+    preview.style.display = "block";
+
+    // move cancel button next to preview thumbnail
+    clearBtn.style.display = "inline-block";
+    clearBtn.style.marginTop = "0";
+
+    // clear old preview if any
+    const existingPreview = document.getElementById("preview-thumb");
+    if (existingPreview) existingPreview.remove();
+    preview.id = "preview-thumb";
+
+    /*
+    fileNameText.textContent = `Image selected:`;
+    fileNameText.appendChild(preview);*/
+
+    // append preview + cancel
+    previewContainer.appendChild(preview);
+    previewContainer.appendChild(clearBtn);
+
+    // show "ready" message
+    fileNameText.textContent = "Selected image:";
+    fileNameText.appendChild(previewContainer);
+
+  } catch (err) {
+    console.error("Error removing metadata:", err);
+    fileNameText.textContent = "Failed to process image.";
+  }
+});
+
+// auto logout (inactivity)
 const AUTO_LOGOUT_TIME = 30 * 60 * 1000; // 30 minutes
 let logoutTimer;
 let warningTimer;
@@ -361,3 +592,24 @@ document.addEventListener("click", (e) => {
   if (e.target.id === "stay-logged-in") resetLogoutTimer();
   if (e.target.id === "logout-now") client.auth.signOut().then(() => window.location.reload());
 });
+
+// edit image title helper 
+function attachGalleryListeners(card) {
+  const editBtn = card.querySelector(".edit-btn");
+  const deleteBtn = card.querySelector(".delete-btn");
+
+  if (editBtn) {
+    editBtn.addEventListener("click", (e) => {
+      // re-run the edit logic above
+      e.target.click(); // triggers existing handler
+    });
+  }
+
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", (e) => {
+      const card = e.target.closest(".portrait-card");
+      card.classList.add("show-confirm");
+    });
+  }
+}
+

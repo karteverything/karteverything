@@ -14,7 +14,10 @@
   --max-content-width: 1200px;
 }
 
-* { box-sizing: border-box; }
+* { 
+  box-sizing: border-box; 
+  font-family: poppins;
+}
 
 body {
   margin: 0;
@@ -81,7 +84,7 @@ body {
   border: 2px solid rgba(15,23,36,0.06);
   font-size: 0.95rem;
   outline: none;
-  font-family: poppins;
+  /*font-family: poppins;*/
 }
 
 .form-row input[type="file"] {
@@ -105,7 +108,7 @@ body {
   transition: all 0.2s ease;
   width: 100%;
   text-align: center;
-  font-family: poppins;
+  /*font-family: poppins;*/
 }
 
 .file-label:hover {
@@ -124,10 +127,11 @@ body {
   background: none;
   color: gray;
   border: none;
+  font-size: 1rem;
 }
 
 #clear-file:hover {
-  color: #4a4a4a;
+  color: lightcoral;
 }
 
 #image.selected + .file-label span::after {
@@ -155,7 +159,7 @@ body {
   color: #fff;
   background-color: gray;
   width: 50%;
-  font-family: poppins;
+  /*font-family: poppins;*/
   font-size: 0.9rem;
 }
 
@@ -173,9 +177,7 @@ body {
 }
 
 .muted { 
-  /*color: seagreen; */
   margin: 8px 0 0 0; 
-  /*font-weight: 500;*/
 }
 
 .small { 
@@ -260,10 +262,9 @@ body {
   background: #ef4444;
   color: white;
   border: none;
-  padding: 8px 14px;
+  padding: 4px 8px;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
   transition: background 0.25s ease, transform 0.25s ease;
 }
 
@@ -412,4 +413,62 @@ body {
 .logout-modal .btn {
   min-width: 100px;
 }
+
+/* thumbnail preview container */
+.preview-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #ccc;
+  border-radius: 10px;
+  max-width: 100%;
+  transition: all 0.3s ease;
+}
+.preview-container img {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.preview-container button {
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  transition: background 0.2s;
+}
+.preview-container button:hover {
+  background: #eee;
+}
+
+/* edit image title buttons style */
+.edit-input {
+  width: 70%;
+  padding: 4px 8px;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  font-family: poppins;
+}
+
+.edit-btn, .save-btn, .cancel-btn {
+  margin: 10px 4px;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  transition: background 0.2s;
+}
+
+.edit-btn { 
+  background: #4a4a4a; color: white; }
+.save-btn { background: #16a34a; color: white; }
+.cancel-btn { background: #ef4444; color: white; }
+
+.edit-btn:hover { background: #333; }
+.save-btn:hover { background: #15803d; }
+.cancel-btn:hover { background: #b91c1c; }
+
 
