@@ -239,20 +239,23 @@ async function loadAdminGallery() {
       });
     });
 
-    // edit image title logic
+    // edit image title logic (smooth, no reload)
     adminGallery.querySelectorAll(".edit-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        const card = e.target.closest(".portrait-card"); 
+        const card = e.target.closest(".portrait-card");
         const titleEl = card.querySelector("h3");
         const actions = card.querySelector(".card-actions");
         const currentTitle = titleEl.textContent.trim();
 
-        // create editable field + buttons
+        // create editable input
         const input = document.createElement("input");
         input.type = "text";
         input.value = currentTitle;
         input.className = "edit-input";
+        input.style.width = "80%";
+        input.style.marginTop = "6px";
 
+        // create save/cancel buttons
         const saveBtn = document.createElement("button");
         saveBtn.textContent = "Save";
         saveBtn.className = "save-btn";
@@ -261,7 +264,7 @@ async function loadAdminGallery() {
         cancelBtn.textContent = "Cancel";
         cancelBtn.className = "cancel-btn";
 
-        // replace the title with new input
+        // replace title with input
         titleEl.replaceWith(input);
         actions.innerHTML = "";
         actions.appendChild(saveBtn);
@@ -274,7 +277,7 @@ async function loadAdminGallery() {
             <button class="edit-btn">Edit</button>
             <button class="delete-btn">Delete</button>
           `;
-          loadAdminGallery(); // reload to restore listeners
+          attachGalleryListeners(card); // reattach edit/delete
         });
 
         // save edit
@@ -293,20 +296,23 @@ async function loadAdminGallery() {
 
             if (error) throw error;
 
-            titleEl.textContent = newTitle; 
+            titleEl.textContent = newTitle;
             input.replaceWith(titleEl);
             actions.innerHTML = `
               <button class="edit-btn">Edit</button>
               <button class="delete-btn">Delete</button>
             `;
 
+            // Instant feedback message
             const msg = document.createElement("p");
             msg.textContent = "Title updated";
             msg.className = "info-msg";
+            msg.style.color = "green";
+            msg.style.fontSize = "0.9em";
             galleryWrapper.insertBefore(msg, adminGallery);
             setTimeout(() => msg.remove(), 2000);
 
-            loadAdminGallery(); // reload to restore actions
+            attachGalleryListeners(card); // reattach event handlers
           } catch (err) {
             console.error("Error updating title:", err.message || err);
             alert("Failed to update title.");
@@ -314,7 +320,6 @@ async function loadAdminGallery() {
         });
       });
     });
-
 
   } catch (err) {
     console.error(err);
@@ -530,3 +535,24 @@ document.addEventListener("click", (e) => {
   if (e.target.id === "stay-logged-in") resetLogoutTimer();
   if (e.target.id === "logout-now") client.auth.signOut().then(() => window.location.reload());
 });
+
+// edit image title helper 
+function attachGalleryListeners(card) {
+  const editBtn = card.querySelector(".edit-btn");
+  const deleteBtn = card.querySelector(".delete-btn");
+
+  if (editBtn) {
+    editBtn.addEventListener("click", (e) => {
+      // re-run the edit logic above
+      e.target.click(); // triggers existing handler
+    });
+  }
+
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", (e) => {
+      const card = e.target.closest(".portrait-card");
+      card.classList.add("show-confirm");
+    });
+  }
+}
+
