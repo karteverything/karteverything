@@ -440,3 +440,31 @@ body {
   background: #eee;
 }
 
+/* edit image title buttons style */
+.edit-input {
+  width: 90%;
+  padding: 4px 6px;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.edit-btn, .save-btn, .cancel-btn {
+  margin: 5px 4px;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  transition: background 0.2s;
+}
+
+.edit-btn { background: #3b82f6; color: white; }
+.save-btn { background: #16a34a; color: white; }
+.cancel-btn { background: #ef4444; color: white; }
+
+.edit-btn:hover { background: #2563eb; }
+.save-btn:hover { background: #15803d; }
+.cancel-btn:hover { background: #b91c1c; }
+
+
