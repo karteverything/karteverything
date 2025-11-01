@@ -241,7 +241,7 @@ async function loadAdminGallery() {
     // edit image title logic
     adminGallery.querySelectorAll(".edit-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        const card = e.target.closet(".portrait-card");
+        const card = e.target.closest(".portrait-card"); 
         const titleEl = card.querySelector("h3");
         const actions = card.querySelector(".card-actions");
         const currentTitle = titleEl.textContent.trim();
@@ -270,16 +270,16 @@ async function loadAdminGallery() {
         cancelBtn.addEventListener("click", () => {
           input.replaceWith(titleEl);
           actions.innerHTML = `
-            <button class="edit-btn></button>
-            <button class="delete-btn></button>
-            `;
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          `;
           loadAdminGallery(); // reload to restore listeners
         });
 
         // save edit
         saveBtn.addEventListener("click", async () => {
           const newTitle = input.value.trim();
-          if(!newTitle) {
+          if (!newTitle) {
             alert("Title cannot be empty.");
             return;
           }
@@ -289,31 +289,31 @@ async function loadAdminGallery() {
               .from("portraits")
               .update({ title: newTitle })
               .eq("id", card.dataset.id);
-            
+
             if (error) throw error;
 
-            titleEl.textContent - newTitle;
+            titleEl.textContent = newTitle; 
             input.replaceWith(titleEl);
             actions.innerHTML = `
-              <button class="edit-btn></button>
-              <button class="delete-btn></button>
-              `;
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+            `;
 
             const msg = document.createElement("p");
             msg.textContent = "Title updated";
             msg.className = "info-msg";
             galleryWrapper.insertBefore(msg, adminGallery);
-            setTimeout(() => msg.remove(), 3000);
+            setTimeout(() => msg.remove(), 2000);
 
-            //refresh gallery to restore actions
-            loadAdminGallery(); 
+            loadAdminGallery(); // reload to restore actions
           } catch (err) {
-            onsole.error("Error updating title:", err.message || err);
+            console.error("Error updating title:", err.message || err);
             alert("Failed to update title.");
           }
         });
       });
     });
+
 
   } catch (err) {
     console.error(err);
