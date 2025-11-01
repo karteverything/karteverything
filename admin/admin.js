@@ -1,5 +1,3 @@
-console.log("admin.js loaded");
-
 // DOM references
 const loginSection = document.getElementById("login-section");
 const uploadSection = document.getElementById("upload-section");
