@@ -239,15 +239,19 @@ async function loadAdminGallery() {
       });
     });
 
-    // edit image title logic (smooth, no reload)
-    adminGallery.querySelectorAll(".edit-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const card = e.target.closest(".portrait-card");
+    // Edit title logic using event delegation
+    adminGallery.addEventListener("click", async (e) => {
+      const editBtn = e.target.closest(".edit-btn");
+      const saveBtn = e.target.closest(".save-btn");
+      const cancelBtn = e.target.closest(".cancel-btn");
+
+      // when clicking 'edit'
+      if (editBtn) {
+        const card = editBtn.closest(".portrait-card");
         const titleEl = card.querySelector("h3");
         const actions = card.querySelector(".card-actions");
         const currentTitle = titleEl.textContent.trim();
 
-        // create editable input
         const input = document.createElement("input");
         input.type = "text";
         input.value = currentTitle;
@@ -255,70 +259,79 @@ async function loadAdminGallery() {
         input.style.width = "80%";
         input.style.marginTop = "6px";
 
-        // create save/cancel buttons
-        const saveBtn = document.createElement("button");
-        saveBtn.textContent = "Save";
-        saveBtn.className = "save-btn";
+        const saveButton = document.createElement("button");
+        saveButton.textContent = "Save";
+        saveButton.className = "save-btn";
 
-        const cancelBtn = document.createElement("button");
-        cancelBtn.textContent = "Cancel";
-        cancelBtn.className = "cancel-btn";
+        const cancelButton = document.createElement("button");
+        cancelButton.textContent = "Cancel";
+        cancelButton.className = "cancel-btn";
 
-        // replace title with input
         titleEl.replaceWith(input);
         actions.innerHTML = "";
-        actions.appendChild(saveBtn);
-        actions.appendChild(cancelBtn);
+        actions.appendChild(saveButton);
+        actions.appendChild(cancelButton);
 
-        // cancel edit
-        cancelBtn.addEventListener("click", () => {
+        input.focus();
+      }
+
+      // when clicking 'cancel'
+      if (cancelBtn) {
+        const card = cancelBtn.closest(".portrait-card");
+        const input = card.querySelector(".edit-input");
+        const actions = card.querySelector(".card-actions");
+
+        const titleEl = document.createElement("h3");
+        titleEl.textContent = input.value || "(untitled)";
+        input.replaceWith(titleEl);
+
+        actions.innerHTML = `
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        `;
+      }
+
+      // when clicking 'save'
+      if (saveBtn) {
+        const card = saveBtn.closest(".portrait-card");
+        const input = card.querySelector(".edit-input");
+        const newTitle = input.value.trim();
+        const actions = card.querySelector(".card-actions");
+
+        if (!newTitle) {
+          alert("Title cannot be empty.");
+          return;
+        }
+
+        try {
+          const { error } = await client
+            .from("portraits")
+            .update({ title: newTitle })
+            .eq("id", card.dataset.id);
+
+          if (error) throw error;
+
+          const titleEl = document.createElement("h3");
+          titleEl.textContent = newTitle;
           input.replaceWith(titleEl);
+
           actions.innerHTML = `
             <button class="edit-btn">Edit</button>
             <button class="delete-btn">Delete</button>
           `;
-          attachGalleryListeners(card); // reattach edit/delete
-        });
 
-        // save edit
-        saveBtn.addEventListener("click", async () => {
-          const newTitle = input.value.trim();
-          if (!newTitle) {
-            alert("Title cannot be empty.");
-            return;
-          }
-
-          try {
-            const { error } = await client
-              .from("portraits")
-              .update({ title: newTitle })
-              .eq("id", card.dataset.id);
-
-            if (error) throw error;
-
-            titleEl.textContent = newTitle;
-            input.replaceWith(titleEl);
-            actions.innerHTML = `
-              <button class="edit-btn">Edit</button>
-              <button class="delete-btn">Delete</button>
-            `;
-
-            // Instant feedback message
-            const msg = document.createElement("p");
-            msg.textContent = "Title updated";
-            msg.className = "info-msg";
-            msg.style.color = "green";
-            msg.style.fontSize = "0.9em";
-            galleryWrapper.insertBefore(msg, adminGallery);
-            setTimeout(() => msg.remove(), 2000);
-
-            attachGalleryListeners(card); // reattach event handlers
-          } catch (err) {
-            console.error("Error updating title:", err.message || err);
-            alert("Failed to update title.");
-          }
-        });
-      });
+          const msg = document.createElement("p");
+          msg.textContent = "Title updated";
+          msg.className = "info-msg";
+          msg.style.color = "green";
+          msg.style.fontSize = "0.9em";
+          galleryWrapper.insertBefore(msg, adminGallery);
+          setTimeout(() => msg.remove(), 2000);
+        } catch (err) {
+          console.error("Error updating title:", err.message || err);
+          alert("Failed to update title.");
+        }
+      }
     });
 
   } catch (err) {
