@@ -263,26 +263,35 @@ async function loadAdminGallery() {
 
 // logout handler ---
 document.getElementById("logout-btn").addEventListener("click", async () => {
-  await client.auth.signOut();
-  clearLockout(); // reset lockout on logout
-  loginSection.style.display = "block";
-  uploadSection.style.display = "none";
-  galleryWrapper.style.display = "none";
+  try {
+    await client.auth.signOut({ scope: "global"}); // clear only local session
+    localStorage.clear(); //clear any stored tokens
+    sessionStorage.clear();
 
-  // clear supabase token [ensures full logout]
-  localStorage.removeItem("supabase.auth.token");
-  loginMsg.textContent = "You have been logged out.";
+    loginSection.style.display = "block";
+    uploadSection.style.display = "none";
+    galleryWrapper.style.display = "none";
 
-  // clear form data
-  emailInput.value = "";
-  passwordInput.value = "";
-  document.getElementById("title").value = "";
-  document.getElementById("image").value = "";
-  fileNameText.textContent = "";
-  clearBtn.style.display = "none";
-  uploadMsg.textContent = "";
+    // clear supabase token [ensures full logout]
+    //localStorage.removeItem("supabase.auth.token");
+    loginMsg.textContent = "You have been logged out.";
+    setTimeout(() => {loginMsg.textContent = "";}, 3000);
 
-  setTimeout(() => {loginMsg.textContent = "";}, 3000);
+    // clear form data
+    emailInput.value = "";
+    passwordInput.value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("image").value = "";
+    fileNameText.textContent = "";
+    clearBtn.style.display = "none";
+    uploadMsg.textContent = "";
+
+    // force a clean reload
+    setTimeout(() => window.location.reload(), 500);
+
+  } catch (error) {
+    console.error("Logout failed:", error.message);
+  }
 });
 
 // file input handlers
