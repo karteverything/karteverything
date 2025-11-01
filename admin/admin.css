@@ -442,15 +442,16 @@ body {
 
 /* edit image title buttons style */
 .edit-input {
-  width: 90%;
-  padding: 4px 6px;
+  width: 50%;
+  padding: 4px 8px;
   font-size: 1rem;
   border: 1px solid #aaa;
   border-radius: 4px;
+  font-family: poppins;
 }
 
 .edit-btn, .save-btn, .cancel-btn {
-  margin: 5px 4px;
+  margin: 10px 4px;
   padding: 4px 8px;
   font-size: 0.9rem;
   cursor: pointer;
@@ -459,11 +460,11 @@ body {
   transition: background 0.2s;
 }
 
-.edit-btn { background: #3b82f6; color: white; }
+.edit-btn { background: #4a4a4a; color: white; }
 .save-btn { background: #16a34a; color: white; }
 .cancel-btn { background: #ef4444; color: white; }
 
-.edit-btn:hover { background: #2563eb; }
+.edit-btn:hover { background: #333; }
 .save-btn:hover { background: #15803d; }
 .cancel-btn:hover { background: #b91c1c; }
 

@@ -249,7 +249,7 @@ async function loadAdminGallery() {
       if (editBtn) {
         const card = editBtn.closest(".portrait-card");
         if (!card) return;
-        
+
         const titleEl = card.querySelector("h3");
         const actions = card.querySelector(".card-actions");
         const currentTitle = titleEl.textContent.trim();
@@ -302,8 +302,6 @@ async function loadAdminGallery() {
         const actions = card.querySelector(".card-actions");
         const id = card.dataset.id.trim();
 
-        //console.log("Attempting to update:", { id, newTitle });
-
         if (!newTitle) {
           alert("Title cannot be empty.");
           return;
@@ -334,7 +332,6 @@ async function loadAdminGallery() {
           const msg = document.createElement("p");
           msg.textContent = "Title updated successfully!";
           msg.className = "info-msg";
-          /*msg.style.color = "green";*/
           galleryWrapper.insertBefore(msg, adminGallery);
           setTimeout(() => msg.remove(), 3000);
 
