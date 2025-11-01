@@ -39,10 +39,7 @@ client.auth.getSession().then(({ data }) => {
 
     if (sessionAge > MAX_SESSION_AGE) {
       console.log("Session expired - logging out...");
-      client.auth.signOut().then(() => {
-        console.log("Signed out");
-      });
-      // clear stale token
+      client.auth.signOut().then(() => console.log("Signed out"));
       localStorage.removeItem("supabase.auth.token");
     } else {
       console.log("Session active - auto-logged in.");
@@ -73,9 +70,7 @@ loginBtn.addEventListener("click", async () => {
   }
 
   if (!email || !password) {
-    setTimeout(() => {
-      loginMsg.textContent = "";
-    }, 3000);
+    setTimeout(() => (loginMsg.textContent = ""), 3000);
     return;
   }
 
@@ -102,7 +97,6 @@ loginBtn.addEventListener("click", async () => {
   } else {
     failedAttempts = 0;
     clearLockout();
-
     showUploadSection(data.user.email);
     loadAdminGallery();
     startLogoutTimer();
@@ -136,10 +130,9 @@ function showUploadSection(userEmail) {
   loginSection.style.display = "none";
   uploadSection.style.display = "block";
   galleryWrapper.style.display = "block";
-  /*userStatus.textContent = `Logged in as: ${userEmail}`;*/
 }
 
-// upload handler ---
+// upload handler
 uploadBtn.addEventListener("click", async () => {
   uploadMsg.textContent = "Uploading...";
 
@@ -148,13 +141,12 @@ uploadBtn.addEventListener("click", async () => {
 
   if (!file || !title) {
     uploadMsg.textContent = "Image and title required.";
-    setTimeout(() => {uploadMsg.textContent = "";}, 3000);
+    setTimeout(() => (uploadMsg.textContent = ""), 3000);
     return;
   }
 
   try {
     const filePath = `portraits/${Date.now()}-${file.name}`;
-
     const { error: storageError } = await client.storage
       .from("gallery")
       .upload(filePath, file);
@@ -170,7 +162,7 @@ uploadBtn.addEventListener("click", async () => {
     if (dbError) throw dbError;
 
     uploadMsg.textContent = "Image upload successful!";
-    setTimeout(() => {uploadMsg.textContent = "";}, 3000);
+    setTimeout(() => (uploadMsg.textContent = ""), 3000);
     document.getElementById("title").value = "";
     document.getElementById("image").value = "";
     fileNameText.textContent = "";
@@ -195,8 +187,8 @@ async function loadAdminGallery() {
 
     if (error) throw error;
 
-    galleryWrapper.style.display = "block";
     adminGallery.innerHTML = "";
+    galleryWrapper.style.display = "block";
 
     if (data.length === 0) {
       adminGallery.innerHTML = "<p>No images found.</p>";
@@ -208,7 +200,6 @@ async function loadAdminGallery() {
       card.className = "portrait-card";
       card.dataset.id = item.id;
       card.dataset.url = item.image_url;
-
       card.innerHTML = `
         <img src="${item.image_url}" alt="${item.title}">
         <h3>${item.title}</h3>
@@ -223,175 +214,28 @@ async function loadAdminGallery() {
         </div>
       `;
       adminGallery.appendChild(card);
+      attachGalleryListeners(card);
     });
-
-    // delete confirmation logic
-    adminGallery.querySelectorAll(".delete-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const card = e.target.closest(".portrait-card");
-        card.classList.add("show-confirm");
-      });
-    });
-
-    adminGallery.querySelectorAll(".confirm-no").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.target.closest(".portrait-card").classList.remove("show-confirm");
-      });
-    });
-
-    adminGallery.querySelectorAll(".confirm-yes").forEach((btn) => {
-      btn.addEventListener("click", async (e) => {
-        const card = e.target.closest(".portrait-card");
-        const id = card.dataset.id;
-        const imageUrl = card.dataset.url;
-        const fileName = imageUrl.split("/").pop();
-        const filePath = `portraits/${fileName}`;
-
-        try {
-          await client.storage.from("gallery").remove([filePath]);
-          await client.from("portraits").delete().eq("id", id);
-          card.remove();
-
-          const msg = document.createElement("p");
-          msg.textContent = "🗑️ Image deleted.";
-          msg.className = "info-msg";
-          galleryWrapper.insertBefore(msg, adminGallery);
-          setTimeout(() => msg.remove(), 3000);
-        } catch (err) {
-          console.error("Error deleting portrait:", err.message || err);
-          alert("Failed to delete portrait. See console for details.");
-        }
-      });
-    });
-
-    // edit title logic using event delegation
-    adminGallery.addEventListener("click", async (e) => {
-      const editBtn = e.target.closest(".edit-btn");
-      const saveBtn = e.target.closest(".save-btn");
-      const cancelBtn = e.target.closest(".cancel-btn");
-
-      // when clicking 'edit'
-      if (editBtn) {
-        const card = editBtn.closest(".portrait-card");
-        if (!card) return;
-
-        const titleEl = card.querySelector("h3");
-        const actions = card.querySelector(".card-actions");
-        const currentTitle = titleEl.textContent.trim();
-
-        const input = document.createElement("input");
-        input.type = "text";
-        input.value = currentTitle;
-        input.className = "edit-input";
-        input.style.width = "80%";
-        input.style.marginTop = "6px";
-        input.id = `edit-title-${card.dataset.id}`
-
-        const saveButton = document.createElement("button");
-        saveButton.textContent = "Save";
-        saveButton.className = "save-btn";
-
-        const cancelButton = document.createElement("button");
-        cancelButton.textContent = "Cancel";
-        cancelButton.className = "cancel-btn";
-
-        titleEl.replaceWith(input);
-        actions.innerHTML = "";
-        actions.appendChild(saveButton);
-        actions.appendChild(cancelButton);
-
-        input.focus();
-      }
-
-      // when clicking 'cancel'
-      if (cancelBtn) {
-        const card = cancelBtn.closest(".portrait-card");
-        const input = card.querySelector(".edit-input");
-        const actions = card.querySelector(".card-actions");
-
-        const titleEl = document.createElement("h3");
-        titleEl.textContent = input.value || "(untitled)";
-        input.replaceWith(titleEl);
-
-        actions.innerHTML = `
-          <button class="edit-btn">Edit</button>
-          <button class="delete-btn">Delete</button>
-        `;
-      }
-
-      // when clicking 'save'
-      if (saveBtn) {
-        const card = saveBtn.closest(".portrait-card");
-        const input = card.querySelector(".edit-input");
-        const newTitle = input.value.trim();
-        const actions = card.querySelector(".card-actions");
-        const id = card.dataset.id.trim();
-
-        if (!newTitle) {
-          alert("Title cannot be empty.");
-          return;
-        }
-
-        try {
-          console.log("Updating title for ID:", id, "→", newTitle);
-
-          const { data, error } = await client
-            .from("portraits")
-            .update({ title: newTitle })
-            .eq("id", id)
-            .select();
-
-          if (error) throw error;
-          if (!data || data.length === 0)
-            console.warn("No rows updated. Check Supabase ID column name.");
-
-          const titleEl = document.createElement("h3");
-          titleEl.textContent = newTitle;
-          input.replaceWith(titleEl);
-
-          actions.innerHTML = `
-            <button class="edit-btn">Edit</button>
-            <button class="delete-btn">Delete</button>
-          `;
-
-          const msg = document.createElement("p");
-          msg.textContent = "Title updated successfully!";
-          msg.className = "info-msg";
-          galleryWrapper.insertBefore(msg, adminGallery);
-          setTimeout(() => msg.remove(), 3000);
-
-          // refresh the gallery to reflect DB data
-          setTimeout(() => loadAdminGallery(), 500);
-        } catch (err) {
-          console.error("Error updating title:", err.message || err);
-          alert("Failed to update title. Check console for details.");
-        }
-      }
-    });
-
   } catch (err) {
     console.error(err);
     adminGallery.textContent = "Error loading gallery.";
   }
 }
 
-// logout handler ---
+// logout handler
 document.getElementById("logout-btn").addEventListener("click", async () => {
   try {
-    await client.auth.signOut({ scope: "global"}); // clear only local session
-    localStorage.clear(); //clear any stored tokens
+    await client.auth.signOut({ scope: "global" });
+    localStorage.clear();
     sessionStorage.clear();
 
     loginSection.style.display = "block";
     uploadSection.style.display = "none";
     galleryWrapper.style.display = "none";
 
-    // clear supabase token [ensures full logout]
-    //localStorage.removeItem("supabase.auth.token");
     loginMsg.textContent = "You have been logged out.";
-    setTimeout(() => {loginMsg.textContent = "";}, 3000);
+    setTimeout(() => (loginMsg.textContent = ""), 3000);
 
-    // clear form data
     emailInput.value = "";
     passwordInput.value = "";
     document.getElementById("title").value = "";
@@ -400,9 +244,7 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
     clearBtn.style.display = "none";
     uploadMsg.textContent = "";
 
-    // force a clean reload
     setTimeout(() => window.location.reload(), 500);
-
   } catch (error) {
     console.error("Logout failed:", error.message);
   }
@@ -413,49 +255,6 @@ const imageInput = document.getElementById("image");
 const clearBtn = document.getElementById("clear-file");
 const fileNameText = document.getElementById("file-name");
 
-imageInput.addEventListener("change", () => {
-  if (imageInput.files.length > 0) {
-    fileNameText.textContent = `Selected: ${imageInput.files[0].name}`;
-    clearBtn.style.display = "inline-block";
-  }
-});
-
-clearBtn.addEventListener("click", () => {
-  imageInput.value = "";
-  fileNameText.textContent = "";
-  clearBtn.style.display = "none";
-});
-
-// helper: remove metadata from images
-async function stripImageMetadata(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        canvas.toBlob(
-          (blob) => {
-            if (!blob) reject("Failed to create clean image blob");
-            else resolve(blob);
-          },
-          "image/jpeg", // re-encode as JPEG (strips EXIF & title)
-          0.9 // image quality = 90%
-        );
-      };
-      img.onerror = reject;
-      img.src = e.target.result;
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 imageInput.addEventListener("change", async () => {
   const file = imageInput.files[0];
   if (!file) {
@@ -464,12 +263,10 @@ imageInput.addEventListener("change", async () => {
     return;
   }
 
-  // show metadata removal message
   fileNameText.textContent = "Removing image metadata...";
   clearBtn.style.display = "none";
 
   try {
-    // remove metadata 
     const img = new Image();
     img.src = URL.createObjectURL(file);
     await img.decode();
@@ -480,12 +277,10 @@ imageInput.addEventListener("change", async () => {
     const ctx = canvas.getContext("2d");
     ctx.drawImage(img, 0, 0);
 
-    // convert to Blob (strips EXIF metadata)
     const cleanBlob = await new Promise((resolve) =>
       canvas.toBlob(resolve, "image/jpeg", 0.9)
     );
 
-    // create new anonymized file
     const anonymousName = `image-${Date.now()}-${Math.random()
       .toString(36)
       .slice(2, 8)}.jpg`;
@@ -493,12 +288,10 @@ imageInput.addEventListener("change", async () => {
       type: "image/jpeg",
     });
 
-    // replace file input with new clean file
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(cleanFile);
     imageInput.files = dataTransfer.files;
 
-    // create thumbnail preview
     const previewContainer = document.createElement("div");
     previewContainer.className = "preview-container";
     previewContainer.style.display = "flex";
@@ -506,47 +299,39 @@ imageInput.addEventListener("change", async () => {
     previewContainer.style.gap = "10px";
     previewContainer.style.marginTop = "10px";
 
-    // show thumbnail preview ---
     const preview = document.createElement("img");
     preview.src = URL.createObjectURL(cleanBlob);
     preview.alt = "Preview";
     preview.style.width = "100px";
     preview.style.height = "auto";
     preview.style.borderRadius = "8px";
-    preview.style.marginTop = "10px";
-    preview.style.display = "block";
 
-    // move cancel button next to preview thumbnail
     clearBtn.style.display = "inline-block";
     clearBtn.style.marginTop = "0";
 
-    // clear old preview if any
     const existingPreview = document.getElementById("preview-thumb");
     if (existingPreview) existingPreview.remove();
     preview.id = "preview-thumb";
 
-    /*
-    fileNameText.textContent = `Image selected:`;
-    fileNameText.appendChild(preview);*/
-
-    // append preview + cancel
     previewContainer.appendChild(preview);
     previewContainer.appendChild(clearBtn);
-
-    // show "ready" message
     fileNameText.textContent = "Selected image:";
     fileNameText.appendChild(previewContainer);
-
   } catch (err) {
     console.error("Error removing metadata:", err);
     fileNameText.textContent = "Failed to process image.";
   }
 });
 
-// auto logout (inactivity)
-const AUTO_LOGOUT_TIME = 30 * 60 * 1000; // 30 minutes
-let logoutTimer;
-let warningTimer;
+clearBtn.addEventListener("click", () => {
+  imageInput.value = "";
+  fileNameText.textContent = "";
+  clearBtn.style.display = "none";
+});
+
+// auto logout after inactivity
+const AUTO_LOGOUT_TIME = 30 * 60 * 1000;
+let logoutTimer, warningTimer;
 
 const logoutModal = document.createElement("div");
 logoutModal.innerHTML = `
@@ -572,7 +357,6 @@ function hideLogoutWarning() {
 function startLogoutTimer() {
   clearTimeout(logoutTimer);
   clearTimeout(warningTimer);
-
   warningTimer = setTimeout(() => showLogoutWarning(), AUTO_LOGOUT_TIME - 60 * 1000);
   logoutTimer = setTimeout(async () => {
     await client.auth.signOut();
@@ -593,23 +377,111 @@ document.addEventListener("click", (e) => {
   if (e.target.id === "logout-now") client.auth.signOut().then(() => window.location.reload());
 });
 
-// edit image title helper 
+// handles edit/cancel/delete 
 function attachGalleryListeners(card) {
+  if (!card) return;
+
   const editBtn = card.querySelector(".edit-btn");
   const deleteBtn = card.querySelector(".delete-btn");
+  const confirmYes = card.querySelector(".confirm-yes");
+  const confirmNo = card.querySelector(".confirm-no");
 
   if (editBtn) {
-    editBtn.addEventListener("click", (e) => {
-      // re-run the edit logic above
-      e.target.click(); // triggers existing handler
+    editBtn.addEventListener("click", () => {
+      const titleEl = card.querySelector("h3");
+      const actions = card.querySelector(".card-actions");
+      const currentTitle = titleEl.textContent.trim();
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.value = currentTitle;
+      input.className = "edit-input";
+
+      const saveBtn = document.createElement("button");
+      saveBtn.textContent = "Save";
+      saveBtn.className = "save-btn";
+
+      const cancelBtn = document.createElement("button");
+      cancelBtn.textContent = "Cancel";
+      cancelBtn.className = "cancel-btn";
+
+      titleEl.replaceWith(input);
+      actions.innerHTML = "";
+      actions.appendChild(saveBtn);
+      actions.appendChild(cancelBtn);
+
+      cancelBtn.addEventListener("click", () => {
+        input.replaceWith(titleEl);
+        actions.innerHTML = `
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        `;
+        attachGalleryListeners(card);
+      });
+
+      saveBtn.addEventListener("click", async () => {
+        const newTitle = input.value.trim();
+        const id = card.dataset.id;
+
+        if (!newTitle) {
+          alert("Title cannot be empty.");
+          return;
+        }
+
+        try {
+          const { data, error } = await client
+            .from("portraits")
+            .update({ title: newTitle })
+            .eq("id", id)
+            .select();
+
+          if (error) throw error;
+          if (!data || data.length === 0)
+            console.warn("No rows updated - check Supabase ID column name.");
+
+          titleEl.textContent = newTitle;
+          input.replaceWith(titleEl);
+
+          actions.innerHTML = `
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+          `;
+          attachGalleryListeners(card);
+        } catch (err) {
+          console.error("Error updating title:", err.message || err);
+          alert("Failed to update title.");
+        }
+      });
     });
   }
 
   if (deleteBtn) {
-    deleteBtn.addEventListener("click", (e) => {
-      const card = e.target.closest(".portrait-card");
+    deleteBtn.addEventListener("click", () => {
       card.classList.add("show-confirm");
     });
   }
-}
 
+  if (confirmNo) {
+    confirmNo.addEventListener("click", () => {
+      card.classList.remove("show-confirm");
+    });
+  }
+
+  if (confirmYes) {
+    confirmYes.addEventListener("click", async () => {
+      const id = card.dataset.id;
+      const imageUrl = card.dataset.url;
+      const fileName = imageUrl.split("/").pop();
+      const filePath = `portraits/${fileName}`;
+
+      try {
+        await client.storage.from("gallery").remove([filePath]);
+        await client.from("portraits").delete().eq("id", id);
+        card.remove();
+      } catch (err) {
+        console.error("Error deleting portrait:", err.message || err);
+        alert("Failed to delete portrait. See console for details.");
+      }
+    });
+  }
+}
