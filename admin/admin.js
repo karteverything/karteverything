@@ -248,6 +248,8 @@ async function loadAdminGallery() {
       // when clicking 'edit'
       if (editBtn) {
         const card = editBtn.closest(".portrait-card");
+        if (!card) return;
+        
         const titleEl = card.querySelector("h3");
         const actions = card.querySelector(".card-actions");
         const currentTitle = titleEl.textContent.trim();
@@ -258,7 +260,7 @@ async function loadAdminGallery() {
         input.className = "edit-input";
         input.style.width = "80%";
         input.style.marginTop = "6px";
-        input.id = `edit-title-${card.dataset.id}`;
+        input.id = `edit-title-${card.dataset.id}`
 
         const saveButton = document.createElement("button");
         saveButton.textContent = "Save";
@@ -298,7 +300,7 @@ async function loadAdminGallery() {
         const input = card.querySelector(".edit-input");
         const newTitle = input.value.trim();
         const actions = card.querySelector(".card-actions");
-        const id = card.dataset.id;
+        const id = card.dataset.id.trim();
 
         //console.log("Attempting to update:", { id, newTitle });
 
@@ -337,7 +339,7 @@ async function loadAdminGallery() {
           setTimeout(() => msg.remove(), 3000);
 
           // refresh the gallery to reflect DB data
-          loadAdminGallery();
+          setTimeout(() => loadAdminGallery(), 500);
         } catch (err) {
           console.error("Error updating title:", err.message || err);
           alert("Failed to update title. Check console for details.");
