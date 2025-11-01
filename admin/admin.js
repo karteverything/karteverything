@@ -239,7 +239,7 @@ async function loadAdminGallery() {
       });
     });
 
-    // Edit title logic using event delegation
+    // edit title logic using event delegation
     adminGallery.addEventListener("click", async (e) => {
       const editBtn = e.target.closest(".edit-btn");
       const saveBtn = e.target.closest(".save-btn");
@@ -297,6 +297,7 @@ async function loadAdminGallery() {
         const input = card.querySelector(".edit-input");
         const newTitle = input.value.trim();
         const actions = card.querySelector(".card-actions");
+        const id = parseInt(card.dataset.id); // ensure it's a number
 
         if (!newTitle) {
           alert("Title cannot be empty.");
@@ -304,10 +305,12 @@ async function loadAdminGallery() {
         }
 
         try {
-          const { error } = await client
+          // make sure the id exists and the update succeeds
+          const { data, error } = await client
             .from("portraits")
             .update({ title: newTitle })
-            .eq("id", card.dataset.id);
+            .eq("id", id)
+            .select(); // helps verify result
 
           if (error) throw error;
 
@@ -327,6 +330,9 @@ async function loadAdminGallery() {
           msg.style.fontSize = "0.9em";
           galleryWrapper.insertBefore(msg, adminGallery);
           setTimeout(() => msg.remove(), 2000);
+
+          // refresh gallery from database
+          loadAdminGallery();
         } catch (err) {
           console.error("Error updating title:", err.message || err);
           alert("Failed to update title.");
