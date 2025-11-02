@@ -58,14 +58,14 @@
                 <ol>
                     <li>Login Authentication:</li>
                     <p>Using Supabase Auth, I created a secure login page so only I can access the admin interface.</p>
-
                     <li>Image Upload Form:</li>
-                    <p>A simple form that allows me to select an image, enter a title and description, and submit it.
-                        On submission, the image gets uploaded to Supabase Storage.
-                    </p>
-
+                    <p>A simple form that allows me to select an image, enter a title and description, and submit it. On submission, the image gets uploaded to Supabase Storage.</p>
+                    <li>Image Metadata Scripting:</li>
+                    <p>Once uploaded, a script automatically extracts metadata and a thumbnail appears.</p>
                     <li>Database Insertion:</li>
-                    <p>Once the image is uploaded, I insert a record in the Supabase database with the images url and metadata.</p>
+                    <p>Once the image is uploaded, I insert a record in the Supabase database with new image url and metadata.</p>
+                    <li>Cancel, Delete, Edit Options:</li>
+                    <p>Before confirming the upload, I can cancel it. After upload, I can delete an image or edit its title directly from the admin dashboard, and changes immediately reflect in the database.</p>
                 </ol>
 
                 <h2>Displaying the Gallery</h2>
