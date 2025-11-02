@@ -31,18 +31,20 @@ client.auth.getSession().then(({ data }) => {
   if (data.session) {
     const { user } = data.session;
 
-    // limit session to 30 minutes 
-    const MAX_SESSION_AGE = 30 * 60 * 1000; // 30 minutes
-    const sessionCreated = new Date(user.created_at).getTime();
+    // use stored login time 
+    const sessionStart = parseInt(localStorage.getItem("sessionStart")) || 0;
     const now = Date.now();
-    const sessionAge = now - sessionCreated;
+    const MAX_SESSION_AGE = 30 * 60 * 1000; // 30 minutes
 
-    if (sessionAge > MAX_SESSION_AGE) {
+    if (sessionStart && now - sessionStart > MAX_SESSION_AGE) {
       console.log("Session expired - logging out...");
       client.auth.signOut().then(() => console.log("Signed out"));
+      localStorage.removeItem("sessionStart");
       localStorage.removeItem("supabase.auth.token");
     } else {
       console.log("Session active - auto-logged in.");
+      // set timestamp if there is none
+      if (!sessionStart) localStorage.setItem("sessionStart", Date.now());
       showUploadSection(user.email);
       loadAdminGallery();
       startLogoutTimer();
@@ -84,7 +86,6 @@ loginBtn.addEventListener("click", async () => {
   if (error) {
     failedAttempts++;
     localStorage.setItem("failedAttempts", failedAttempts);
-
     loginMsg.textContent = "Login failed: " + error.message;
 
     if (failedAttempts >= 3) {
@@ -97,6 +98,10 @@ loginBtn.addEventListener("click", async () => {
   } else {
     failedAttempts = 0;
     clearLockout();
+
+    // use actual session start
+    localStorage.setItem("sessionStart", Date.now());
+
     showUploadSection(data.user.email);
     loadAdminGallery();
     startLogoutTimer();
