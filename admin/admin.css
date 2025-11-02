@@ -75,6 +75,10 @@ body {
   justify-content:center; 
 }
 
+.form-row .btn {
+  border: none;
+}
+
 .form-row input[type="text"],
 .form-row input[type="email"],
 .form-row input[type="password"] {
