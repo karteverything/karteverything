@@ -376,6 +376,13 @@ body {
   .form-row input[type="password"] {
     padding: 5px 6px;
   }
+
+  .portrait-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    object-fit: cover;
+  }
 }
 
 /* logout popup */
