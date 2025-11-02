@@ -84,7 +84,6 @@ body {
   border: 2px solid rgba(15,23,36,0.06);
   font-size: 0.95rem;
   outline: none;
-  /*font-family: poppins;*/
 }
 
 .form-row input[type="file"] {
@@ -108,7 +107,6 @@ body {
   transition: all 0.2s ease;
   width: 100%;
   text-align: center;
-  /*font-family: poppins;*/
 }
 
 .file-label:hover {
@@ -145,31 +143,28 @@ body {
 .action-row { 
   display:flex; 
   gap:12px; 
-  justify-content:center; 
+  justify-content:space-between; 
   align-items:center; 
-  flex-wrap:wrap; 
+}
+
+.action-row .btn {
+  border: none;
 }
 
 .btn {
   padding: 10px 16px;
   border-radius: 5px;
-  border: 2px solid transparent;
   cursor: pointer;
   background: transparent;
   color: #fff;
   background-color: gray;
   width: 50%;
-  /*font-family: poppins;*/
   font-size: 0.9rem;
 }
 
 .btn.primary {
   background-color: gray;
   color: white;
-}
-
-.btn.outline {
-  border: 1px solid rgba(15,23,36,0.06);
 }
 
 .btn:hover {
