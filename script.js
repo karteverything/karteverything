@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // script for gallery slideshow
 let slideIndex = 1
-showSlides(slideIndex);
+//showSlides(slideIndex);
 
 // next/previous controls
 function plusSlides(n) {
