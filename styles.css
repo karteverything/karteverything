@@ -699,6 +699,10 @@ ul {
   color: #eee;
 }
 
+.engineering {
+    margin-bottom: 0;
+}
+
 .dates-container {
     display: flex;
     justify-content: space-between;
