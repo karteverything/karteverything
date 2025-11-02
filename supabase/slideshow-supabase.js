@@ -1,5 +1,3 @@
-console.log("slideshow-supabase.js loaded");
-
 document.addEventListener("DOMContentLoaded", async () => {
   const slideshowContainer = document.querySelector(".slideshow-container");
 
@@ -31,10 +29,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       slideshowContainer.appendChild(slide);
     });
 
-    console.log(`${data.length} Supabase images loaded`);
+    //console.log(`${data.length} Supabase images loaded`);
 
-    // restart slideshow safely
-    // wait a moment to ensure DOM updates are complete
+    /* restart slideshow safely
+      wait a moment to ensure DOM updates are complete */
     setTimeout(() => {
       // if showSlides exists, refresh slideshow
       if (typeof showSlides === "function") {
@@ -42,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           window.slideIndex = 1;
         }
         showSlides(slideIndex);
-        console.log("Slideshow refreshed with new images");
+        //console.log("Slideshow refreshed with new images");
       } else {
         // fallback: manually display the first slide if slideshow isn't defined
         const slides = document.querySelectorAll(".mySlides");
