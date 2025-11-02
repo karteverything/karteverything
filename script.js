@@ -85,4 +85,16 @@ function showSlides(n) {
   //dots[slideIndex - 1].className += " active";
 }
 
+// slideshow fullscreen button
+function openFullScreen() {
+  const elem = document.querySelector(".slideshow-container");
+
+  if(elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}
 
