@@ -1,8 +1,9 @@
 // initialize emailjs
-(function() {
-  emailjs.init("zZuWx1PcPMwGuBQYn");
-})();
-
+(function(){
+      emailjs.init({
+        publicKey: "9zNP_beerJm18CHZq",
+      });
+   })();
 // function to send email
 function sendEmail(templateParams) {
   return emailjs.send("service_7ouy9fv", "template_chz5zq8", templateParams)
