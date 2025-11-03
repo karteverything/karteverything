@@ -471,7 +471,7 @@ ul {
   }
 
   .services-section h2 {
-    font-size: 2rem;
+    font-size: 1.1rem;
   }
 
   .services-section p {
@@ -480,6 +480,10 @@ ul {
 
   .box {
     max-width: 100%;
+  }
+
+  .details h3 {
+    font-size: 1rem;
   }
 }
 
