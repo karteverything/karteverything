@@ -416,7 +416,6 @@ ul {
 /* portraiture section */
 .gallery {
     background-color: var(--bg-page);
-    scroll-margin-top: 60px;
 }
 
 #portraiture.gallery {
@@ -555,7 +554,6 @@ ul {
 
 @media (max-width: 768px) {
     #portraiture.gallery {
-        padding: 40px 10px;
         display: inline-block;
     }
 
