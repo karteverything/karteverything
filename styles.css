@@ -416,7 +416,7 @@ ul {
 /* portraiture section */
 .gallery {
     background-color: var(--bg-page);
-    scroll-margin-top: 50px;
+    scroll-margin-top: 60px;
 }
 
 #portraiture.gallery {
