@@ -395,22 +395,21 @@ ul {
     }
 }
 
-/* Services Section */
+/* services Section */
 .services-section {
   background-color: #e0e0e0;
   padding: 80px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* prevents vertical centering pushing other sections down */
+  justify-content: flex-start; 
   text-align: center;
   box-sizing: border-box;
   width: 100%;
 }
 
-/* Title and intro text */
 .services-section h2 {
-  font-size: 2.5rem;
+  font-size: 1.2rem;
   color: #333;
   margin-bottom: 20px;
 }
@@ -423,7 +422,6 @@ ul {
   line-height: 1.6;
 }
 
-/* Services container */
 .services-container {
   display: flex;
   flex-wrap: wrap;
@@ -433,12 +431,10 @@ ul {
   max-width: 1200px;
 }
 
-/* Individual service box */
 .box {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  padding: 30px 25px;
+  padding: 10px 25px;
   flex: 1 1 300px;
   max-width: 360px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -449,18 +445,17 @@ ul {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
 }
 
-/* Icon styling */
 .icon {
   font-size: 50px;
   color: #708090;
   margin-bottom: 20px;
 }
 
-/* Details */
 .details h3 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   color: #222;
   margin-bottom: 10px;
+  text-align: left;
 }
 
 .details p {
@@ -470,7 +465,6 @@ ul {
   text-align: left;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .services-section {
     padding: 60px 15px;
@@ -488,7 +482,6 @@ ul {
     max-width: 100%;
   }
 }
-
 
 /* portraiture section */
 .gallery {
