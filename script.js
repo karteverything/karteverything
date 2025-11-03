@@ -86,15 +86,29 @@ function showSlides(n) {
 }
 
 // slideshow fullscreen button
-function openFullScreen() {
-  const elem = document.querySelector(".slideshow-container");
+const fullscreenBtn = document.getElementById("fullscreenToggle");
+const slideshow = document.querySelector(".slideshow-container");
 
-  if(elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.webkitRequestFullscreen) { /* Safari */
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) { /* IE11 */
-    elem.msRequestFullscreen();
+fullscreenBtn.addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    // enter fullscreen
+    if (slideshow.requestFullscreen) {
+      slideshow.requestFullscreen();
+    } else if (slideshow.webkitRequestFullscreen) { 
+      slideshow.webkitRequestFullscreen();
+    } else if (slideshow.msRequestFullscreen) { 
+      slideshow.msRequestFullscreen();
+    }
+  } else {
+    // exit fullscreen
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
   }
-}
+});
+
 
