@@ -406,6 +406,7 @@ ul {
   text-align: center;
   box-sizing: border-box;
   width: 100%;
+  scroll-margin-top: 30px;
 }
 
 .services-section h2 {
@@ -446,9 +447,9 @@ ul {
 }
 
 .icon {
-  font-size: 50px;
-  color: #708090;
-  margin-bottom: 20px;
+  font-size: 30px;
+  color: #5c5c5c;
+  margin: 20px 0;
 }
 
 .details h3 {
