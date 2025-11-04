@@ -42,7 +42,7 @@ client.auth.getSession().then(({ data }) => {
       localStorage.removeItem("sessionStart");
       localStorage.removeItem("supabase.auth.token");
     } else {
-      console.log("Session active - auto-logged in.");
+      //console.log("Session active - auto-logged in.");
       // set timestamp if there is none
       if (!sessionStart) localStorage.setItem("sessionStart", Date.now());
       showUploadSection(user.email);
@@ -249,7 +249,7 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
     clearBtn.style.display = "none";
     uploadMsg.textContent = "";
 
-    setTimeout(() => window.location.reload(), 500);
+    setTimeout(() => window.location.reload(), 5000);
   } catch (error) {
     console.error("Logout failed:", error.message);
   }
