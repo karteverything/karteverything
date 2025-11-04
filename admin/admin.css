@@ -56,6 +56,10 @@ body {
   position: static;
 }
 
+.upload {
+  font-size:larger;
+}
+
 .gallery-card {
   max-width: var(--max-content-width);
   padding: 28px;
