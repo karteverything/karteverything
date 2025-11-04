@@ -68,9 +68,9 @@ body {
 
 .brand {
   margin: 0 0 8px 0;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   text-align: center;
-  color: #4a4a4a;
+  color: #333;
 }
 
 .form-row { 
