@@ -141,7 +141,7 @@ body {
 }
 
 #clear-file:hover {
-  color: lightcoral;
+  color: #4a4a4a;
 }
 
 #image.selected + .file-label span::after {
