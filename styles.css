@@ -632,6 +632,11 @@ ul {
         display: inline-block;
     }
 
+    .gallery-title {
+        margin-bottom: 50px;
+        /*padding-bottom: 10px;*/
+    }
+
     .gallery-title h2 {
         font-size: 1rem;
     }
