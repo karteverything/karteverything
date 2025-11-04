@@ -747,6 +747,14 @@ ul {
     transform: translateY(-5px);
 }
 
+.blog-card .btn {
+    background-color: #888;
+}
+
+.blog-card .btn:hover {
+    background-color: #666;
+}
+
 .blog-snippet {
     font-size: 0.8rem;
     color: var(--text-main);
