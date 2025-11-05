@@ -72,11 +72,21 @@ body {
   margin-top: 40px; 
 }
 
+#login-section {
+  padding-top: 0;
+}
+
 .brand {
-  margin: 0 0 8px 0;
-  font-size: 1.3rem;
+  /*margin: 0 0 8px 0;
+  font-size: 1.3rem;*/
   text-align: center;
   color: #333;
+  font-size:larger;
+  text-align: center;
+  background-color: #9aa3b2;
+  padding: 20px 5px;
+  margin: 20px 0;
+  border-radius: 8px;
 }
 
 .form-row { 
