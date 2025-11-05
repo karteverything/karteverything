@@ -194,13 +194,13 @@ body {
   cursor: pointer;
   background: transparent;
   color: #fff;
-  background-color: gray;
+  background-color: #5a5a5a;
   width: 50%;
   font-size: 0.9rem;
 }
 
 .btn.primary {
-  background-color: gray;
+  background-color: #5a5a5a;
   color: white;
 }
 
