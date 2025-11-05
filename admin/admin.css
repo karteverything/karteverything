@@ -54,10 +54,16 @@ body {
 
 #upload-section {
   position: static;
+  padding-top: 0;
 }
 
 .upload {
   font-size:larger;
+  text-align: center;
+  background-color: #9aa3b2;
+  padding: 20px 5px;
+  margin-bottom: 30px;
+  border-radius: 8px;
 }
 
 .gallery-card {
