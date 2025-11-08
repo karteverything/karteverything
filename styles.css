@@ -393,6 +393,11 @@ ul {
     .btn {
         font-size: 0.85rem;
     }
+
+    .about-container.container {
+        width: 100%;
+        padding: 0;
+    }
 }
 
 /* services Section */
