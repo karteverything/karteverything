@@ -892,6 +892,14 @@ li {
     font-size: 1rem;
 }
 
+.blog-post .btn {
+    background-color: #888;
+}
+
+.blog-post .btn:hover {
+    background-color: #999;
+}
+
 @media (max-width: 768px) {
   .blog-post-container {
     padding: 0 0.5rem;
