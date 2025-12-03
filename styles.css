@@ -1051,6 +1051,13 @@ input[type=text], textarea {
     margin-left: 15px;
 }
 
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #ccc;
+    box-shadow: none;
+}
+
 @media (max-width: 768px) {
     .contact-container {
         flex-direction: column;
