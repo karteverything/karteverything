@@ -1103,6 +1103,11 @@ input[type=text], textarea {
         width: 80%;
         padding-bottom: 10px;
     }
+
+    .contact-form input,
+    .contact-form textarea {
+        padding: 0.5rem;
+    }
 }
 
 /* footer */ 
