@@ -92,6 +92,7 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
+// logout handler
 async function logoutUser() {
   await client.auth.signOut();  // logs out from supabase
   localStorage.clear();         // clears session data
@@ -108,6 +109,10 @@ async function logoutUser() {
   document.getElementById("title").value = "";
   clearPreview(); 
 }
+
+document.getElementById("logout-btn").addEventListener("click", () => {
+  logoutUser();
+});
 
 function lockLoginButton() {
   loginBtn.disabled = true;
