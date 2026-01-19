@@ -128,23 +128,36 @@ const fileNameText = document.getElementById("file-name");
 
 imageInput.addEventListener("change", () => {
   const file = imageInput.files[0];
+
   if (!file) {
     fileNameText.textContent = "";
     clearBtn.style.display = "none";
     return;
   }
 
-  fileNameText.textContent = file.name;
+  // clear previous preview
+  fileNameText.innerHTML = "";
+
+  // filename text
+  const nameEl = document.createElement("span");
+  nameEl.textContent = file.name;
+
+  // image preview on upload
+  const preview = document.createElement("img");
+  preview.src = URL.createObjectURL(file);
+  preview.alt = "Preview";
+  preview.style.width = "100px";
+  preview.style.marginTop = "8px";
+  preview.style.borderRadius = "8px";
+  preview.onload = () => URL.revokeObjectURL(preview.src);
+
+  fileNameText.appendChild(nameEl);
+  fileNameText.appendChild(preview);
+
   clearBtn.style.display = "inline-block";
 });
 
-clearBtn.addEventListener("click", () => {
-  imageInput.value = "";
-  fileNameText.textContent = "";
-  clearBtn.style.display = "none";
-});
-
-// reusable metadata-stripper (used ONLY on upload)
+// reusable metadata-stripper 
 async function stripImageMetadata(file) {
   const img = new Image();
   img.src = URL.createObjectURL(file);
