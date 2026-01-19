@@ -772,15 +772,15 @@ ul {
 
 @media (max-width: 768px) {
     .blog-title h2 {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     .blog-title p {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     .blog-card h3 {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     .blog-card p {
@@ -789,6 +789,10 @@ ul {
 
     .blog-card.engineering {
         margin-bottom: 30px;
+    }
+
+    .blog-snippet {
+        font-size: 0.9rem;
     }
 }
 
@@ -1051,6 +1055,13 @@ input[type=text], textarea {
     margin-left: 15px;
 }
 
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #ccc;
+    box-shadow: none;
+}
+
 @media (max-width: 768px) {
     .contact-container {
         flex-direction: column;
@@ -1095,6 +1106,11 @@ input[type=text], textarea {
     .contact-title {
         width: 80%;
         padding-bottom: 10px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        padding: 0.5rem;
     }
 }
 
