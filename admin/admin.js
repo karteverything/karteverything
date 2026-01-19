@@ -134,17 +134,17 @@ imageInput.addEventListener("change", () => {
     return;
   }
 
-  // Clear previous preview (FIX: prevents stacking)
+  // clear previous preview (prevents stacking)
   fileNameText.innerHTML = "";
 
-  // Wrapper to center everything
+  // wrapper to center everything
   const previewWrapper = document.createElement("div");
   previewWrapper.style.display = "flex";
   previewWrapper.style.flexDirection = "column";
   previewWrapper.style.alignItems = "center";
   previewWrapper.style.gap = "8px";
 
-  // Image preview (NO metadata stripping here)
+  // image preview 
   const previewImg = document.createElement("img");
   previewImg.src = URL.createObjectURL(file);
   previewImg.alt = "Image preview";
@@ -152,10 +152,10 @@ imageInput.addEventListener("change", () => {
   previewImg.style.borderRadius = "10px";
   previewImg.style.display = "block";
 
-  // Prevent memory leaks
+  // prevent memory leaks
   previewImg.onload = () => URL.revokeObjectURL(previewImg.src);
 
-  // Filename BELOW image
+  // filename below image
   const nameEl = document.createElement("div");
   nameEl.textContent = file.name;
   nameEl.style.fontSize = "0.9rem";
@@ -166,15 +166,16 @@ imageInput.addEventListener("change", () => {
   previewWrapper.appendChild(nameEl);
   fileNameText.appendChild(previewWrapper);
 
-  clearBtn.style.display = "inline-block"; // FIX: always show cancel
+  // show cancel
+  clearBtn.style.display = "inline-block"; 
 });
 
-// FIXED cancel button
+// cancel button
 clearBtn.addEventListener("click", () => {
   clearPreview();
 });
 
-// Reusable clear function (NEW)
+// reusable clear function
 function clearPreview() {
   imageInput.value = "";
   fileNameText.innerHTML = "";
