@@ -92,6 +92,23 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
+async function logoutUser() {
+  await client.auth.signOut();  // logs out from supabase
+  localStorage.clear();         // clears session data
+  sessionStorage.clear();
+
+  // reset ui
+  loginSection.style.display = "block";
+  uploadSection.style.display = "none";
+  galleryWrapper.style.display = "none";
+
+  // clear input values
+  emailInput.value = "";
+  passwordInput.value = "";
+  document.getElementById("title").value = "";
+  clearPreview(); 
+}
+
 function lockLoginButton() {
   loginBtn.disabled = true;
   const interval = setInterval(() => {
