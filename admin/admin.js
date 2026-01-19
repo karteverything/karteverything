@@ -121,7 +121,7 @@ function showUploadSection() {
   galleryWrapper.style.display = "block";
 }
 
-// file input handlers (UI only)
+// file input handlers
 const imageInput = document.getElementById("image");
 const clearBtn = document.getElementById("clear-file");
 const fileNameText = document.getElementById("file-name");
@@ -130,32 +130,56 @@ imageInput.addEventListener("change", () => {
   const file = imageInput.files[0];
 
   if (!file) {
-    fileNameText.textContent = "";
-    clearBtn.style.display = "none";
+    clearPreview();
     return;
   }
 
-  // clear previous preview
+  // Clear previous preview (FIX: prevents stacking)
   fileNameText.innerHTML = "";
 
-  // filename text
-  const nameEl = document.createElement("span");
+  // Wrapper to center everything
+  const previewWrapper = document.createElement("div");
+  previewWrapper.style.display = "flex";
+  previewWrapper.style.flexDirection = "column";
+  previewWrapper.style.alignItems = "center";
+  previewWrapper.style.gap = "8px";
+
+  // Image preview (NO metadata stripping here)
+  const previewImg = document.createElement("img");
+  previewImg.src = URL.createObjectURL(file);
+  previewImg.alt = "Image preview";
+  previewImg.style.maxWidth = "160px";
+  previewImg.style.borderRadius = "10px";
+  previewImg.style.display = "block";
+
+  // Prevent memory leaks
+  previewImg.onload = () => URL.revokeObjectURL(previewImg.src);
+
+  // Filename BELOW image
+  const nameEl = document.createElement("div");
   nameEl.textContent = file.name;
+  nameEl.style.fontSize = "0.9rem";
+  nameEl.style.opacity = "0.8";
+  nameEl.style.textAlign = "center";
 
-  // image preview on upload
-  const preview = document.createElement("img");
-  preview.src = URL.createObjectURL(file);
-  preview.alt = "Preview";
-  preview.style.width = "100px";
-  preview.style.marginTop = "8px";
-  preview.style.borderRadius = "8px";
-  preview.onload = () => URL.revokeObjectURL(preview.src);
+  previewWrapper.appendChild(previewImg);
+  previewWrapper.appendChild(nameEl);
+  fileNameText.appendChild(previewWrapper);
 
-  fileNameText.appendChild(nameEl);
-  fileNameText.appendChild(preview);
-
-  clearBtn.style.display = "inline-block";
+  clearBtn.style.display = "inline-block"; // FIX: always show cancel
 });
+
+// FIXED cancel button
+clearBtn.addEventListener("click", () => {
+  clearPreview();
+});
+
+// Reusable clear function (NEW)
+function clearPreview() {
+  imageInput.value = "";
+  fileNameText.innerHTML = "";
+  clearBtn.style.display = "none";
+}
 
 // reusable metadata-stripper 
 async function stripImageMetadata(file) {
