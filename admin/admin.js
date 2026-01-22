@@ -297,16 +297,15 @@ async function loadAdminGallery() {
       card.dataset.url = item.image_url;
 
       card.innerHTML = `
+        <label class="select-box">
+          <input type="checkbox" class="select-checkbox">
+        </label>
+
         <img src="${item.image_url}" alt="${item.title}">
         <h3>${item.title}</h3>
+        
         <div class="card-actions">
           <button class="edit-btn">Edit</button>
-          <button class="delete-btn">Delete</button>
-        </div>
-        <div class="confirm-box">
-          <p>Are you sure you want to delete?</p>
-          <button class="confirm-yes">Yes</button>
-          <button class="confirm-no">No</button>
         </div>
       `;
 
