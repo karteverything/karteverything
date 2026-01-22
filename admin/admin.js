@@ -367,6 +367,11 @@ function attachGalleryListeners(card) {
       input.type = "text";
       input.value = originalTitle;
       input.className = "edit-input";
+      // full card width
+      input.style.width = "100%";
+      input.style.boxSizing = "border-box";
+      input.style.fontSize = "inherit";
+      input.style.fontFamily = "inherit";
 
       const saveBtn = document.createElement("button");
       saveBtn.textContent = "Save";
