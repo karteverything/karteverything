@@ -453,3 +453,11 @@ function attachGalleryListeners(card) {
   }
 }
 
+// delete button
+const deleteSelectedBtn = document.getElementById("delete-selected");
+
+document.addEventListener("change", () => {
+  const checked = document.querySelectorAll(".select-checkbox:checked");
+  deleteSelectedBtn.disabled = checked.length === 0;
+});
+
