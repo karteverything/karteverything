@@ -345,45 +345,107 @@ function resetLogoutTimer() {
   document.addEventListener(evt, resetLogoutTimer)
 );
 
-// handles edit / delete
+// handles edit / cancel / delete
 function attachGalleryListeners(card) {
+  if (!card) return;
+
   const editBtn = card.querySelector(".edit-btn");
   const deleteBtn = card.querySelector(".delete-btn");
   const confirmYes = card.querySelector(".confirm-yes");
   const confirmNo = card.querySelector(".confirm-no");
 
-  editBtn?.addEventListener("click", () => {
-    const titleEl = card.querySelector("h3");
-    const input = document.createElement("input");
-    input.value = titleEl.textContent;
+  // ===== edit / save / cancel =====
+  if (editBtn) {
+    editBtn.addEventListener("click", () => {
+      const titleEl = card.querySelector("h3");
+      const actions = card.querySelector(".card-actions");
+      const originalTitle = titleEl.textContent.trim();
 
-    titleEl.replaceWith(input);
+      const originalActionsHTML = actions.innerHTML;
 
-    editBtn.textContent = "Save";
-    editBtn.onclick = async () => {
-      const newTitle = input.value.trim();
-      if (!newTitle) return;
+      const input = document.createElement("input");
+      input.type = "text";
+      input.value = originalTitle;
+      input.className = "edit-input";
 
-      await client.from("portraits").update({ title: newTitle }).eq("id", card.dataset.id);
-      input.replaceWith(titleEl);
-      titleEl.textContent = newTitle;
-      editBtn.textContent = "Edit";
-      attachGalleryListeners(card);
-    };
-  });
+      const saveBtn = document.createElement("button");
+      saveBtn.textContent = "Save";
+      saveBtn.className = "save-btn";
 
-  deleteBtn?.addEventListener("click", () => {
-    card.classList.add("show-confirm");
-  });
+      const cancelBtn = document.createElement("button");
+      cancelBtn.textContent = "Cancel";
+      cancelBtn.className = "cancel-btn";
 
-  confirmNo?.addEventListener("click", () => {
-    card.classList.remove("show-confirm");
-  });
+      // swap title for input
+      titleEl.replaceWith(input);
 
-  confirmYes?.addEventListener("click", async () => {
-    const filePath = `portraits/${card.dataset.url.split("/").pop()}`;
-    await client.storage.from("gallery").remove([filePath]);
-    await client.from("portraits").delete().eq("id", card.dataset.id);
-    card.remove();
-  });
+      // replace buttons
+      actions.innerHTML = "";
+      actions.appendChild(saveBtn);
+      actions.appendChild(cancelBtn);
+
+      // ---- cancel ----
+      cancelBtn.addEventListener("click", () => {
+        input.replaceWith(titleEl);
+        actions.innerHTML = originalActionsHTML;
+        attachGalleryListeners(card);
+      });
+
+      // ---- save ----
+      saveBtn.addEventListener("click", async () => {
+        const newTitle = input.value.trim();
+        if (!newTitle) {
+          alert("Title cannot be empty.");
+          return;
+        }
+
+        try {
+          await client
+            .from("portraits")
+            .update({ title: newTitle })
+            .eq("id", card.dataset.id);
+
+          titleEl.textContent = newTitle;
+          input.replaceWith(titleEl);
+          actions.innerHTML = originalActionsHTML;
+          attachGalleryListeners(card);
+        } catch (err) {
+          console.error("Error updating title:", err);
+          alert("Failed to update title.");
+        }
+      });
+    });
+  }
+
+  // ===== delete =====
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", () => {
+      card.classList.add("show-confirm");
+    });
+  }
+
+  if (confirmNo) {
+    confirmNo.addEventListener("click", () => {
+      card.classList.remove("show-confirm");
+    });
+  }
+
+  if (confirmYes) {
+    confirmYes.addEventListener("click", async () => {
+      const id = card.dataset.id;
+      const imageUrl = card.dataset.url;
+      const fileName = imageUrl.split("/").pop();
+      const filePath = `portraits/${fileName}`;
+
+      try {
+        await client.storage.from("gallery").remove([filePath]);
+        await client.from("portraits").delete().eq("id", id);
+        card.remove();
+      } catch (err) {
+        console.error("Error deleting portrait:", err);
+        alert("Failed to delete portrait.");
+      }
+    });
+  }
 }
+
