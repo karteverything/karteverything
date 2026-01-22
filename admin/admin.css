@@ -274,11 +274,11 @@ body {
   margin-bottom: 12px;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
-
+/*
 .portrait-card:hover img {
   transform: scale(1.03);
   filter: brightness(1.05);
-}
+}*/
 
 .portrait-card h3 {
   font-size: 1rem;
@@ -515,4 +515,15 @@ body {
 .save-btn:hover { background: #15803d; }
 .cancel-btn:hover { background: #b91c1c; }
 
+/* delete checkbox */
+.select-box {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
 
+.select-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}

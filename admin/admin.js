@@ -461,3 +461,28 @@ document.addEventListener("change", () => {
   deleteSelectedBtn.disabled = checked.length === 0;
 });
 
+// safely delete images
+deleteSelectedBtn.addEventListener("click", async () => {
+  const checkedCards = document.querySelectorAll(".select-checkbox:checked");
+
+  if (!checkedCards.length) return;
+
+  if (!confirm(`Delete ${checkedCards.length} image(s)?`)) return;
+
+  for (const checkbox of checkedCards) {
+    const card = checkbox.closest(".portrait-card");
+    const id = card.dataset.id;
+    const imageUrl = card.dataset.url;
+    const fileName = imageUrl.split("/").pop();
+    const filePath = `portraits/${fileName}`;
+
+    await client.storage.from("gallery").remove([filePath]);
+    await client.from("portraits").delete().eq("id", id);
+
+    card.remove();
+  }
+
+  deleteSelectedBtn.disabled = true;
+});
+
+
