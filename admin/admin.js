@@ -272,6 +272,10 @@ uploadBtn.addEventListener("click", async () => {
 });
 
 // gallery loader
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
 async function loadAdminGallery() {
   adminGallery.innerHTML = "Loading...";
 
@@ -289,6 +293,9 @@ async function loadAdminGallery() {
       adminGallery.innerHTML = "<p>No images found.</p>";
       return;
     }
+
+    // shuffle images
+    const shuffled = shuffle(data);
 
     data.forEach(item => {
       const card = document.createElement("div");
