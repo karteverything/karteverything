@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const slideshowContainer = document.querySelector(".slideshow-container");
 
+  // shuffle slideshow
+  function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
   if (!window.supabaseClient) {
     console.error("Supabase not initialized. Check supabase.js inclusion order.");
     return;
@@ -17,6 +22,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.log("No Supabase portraits found.");
       return;
     }
+
+    // shuffle slideshow
+    const shuffled = shuffle(data);
 
     // append supabase images as slides
     data.forEach((item) => {
