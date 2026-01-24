@@ -305,7 +305,7 @@ async function loadAdminGallery() {
         <h3>${item.title}</h3>
         
         <div class="card-actions">
-          <button class="edit-btn">Edit</button>
+          <button class="edit-btn">Rename Image</button>
         </div>
       `;
 
