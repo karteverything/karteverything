@@ -402,7 +402,7 @@ ul {
 
 /* services Section */
 .services-section {
-  background-color: #e0e0e0;
+  background-color: #4d4d4d;
   padding: 80px 20px;
   display: flex;
   flex-direction: column;
@@ -416,13 +416,13 @@ ul {
 
 .services-section h2 {
   font-size: 1.2rem;
-  color: #333;
+  color: lightgray;
   margin-bottom: 20px;
 }
 
 .services-section p {
   font-size: 1rem;
-  color: #555;
+  color: lightgray;
   max-width: 700px;
   margin-bottom: 60px;
   line-height: 1.6;
