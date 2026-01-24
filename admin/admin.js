@@ -453,7 +453,7 @@ function attachGalleryListeners(card) {
   }
 }
 
-// delete button
+// delete image button
 const deleteSelectedBtn = document.getElementById("delete-selected");
 
 document.addEventListener("change", () => {

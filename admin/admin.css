@@ -527,3 +527,9 @@ body {
   height: 16px;
   cursor: pointer;
 }
+
+.danger-btn {
+  background-color: #fff;
+  border-radius: 4px;
+  border: solid 1px;
+}
