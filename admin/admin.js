@@ -260,6 +260,7 @@ uploadBtn.addEventListener("click", async () => {
     uploadMsg.textContent = "Image upload successful!";
     setTimeout(() => (uploadMsg.textContent = ""), 3000);
 
+    // clear inputs on upload
     imageInput.value = "";
     fileNameText.textContent = "";
     clearBtn.style.display = "none";
