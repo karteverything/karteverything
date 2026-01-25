@@ -263,6 +263,7 @@ uploadBtn.addEventListener("click", async () => {
     imageInput.value = "";
     fileNameText.textContent = "";
     clearBtn.style.display = "none";
+    document.getElementById("title").value = "";
 
     loadAdminGallery();
   } catch (err) {
