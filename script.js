@@ -90,4 +90,18 @@ fullscreenBtn.addEventListener("click", () => {
   }
 });
 
+// keyboard navigation
+const prev = document.querySelector("prev");
+const next = document.querySelector("next");
+
+document.addEventListener('keydown', function (e) {
+
+  if(e.key === 'ArrowRight') {
+    next.click();
+  }
+
+  if(e.key === 'ArrowLeft') {
+    prev.click();
+  }
+});
 
