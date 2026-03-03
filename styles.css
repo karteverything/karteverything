@@ -836,7 +836,7 @@ ul {
   color: lightgray;
 }
 
-.blog-post-container h2 {
+.blog-post-container, article h2 {
   font-size: 1.4rem;
   color: #eee;
   margin-top: 2rem;
