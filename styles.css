@@ -847,7 +847,7 @@ ul {
   color: lightgray;
 }
 
-.blog-post-container, article h2 {
+.blog-post-container h2 {
   font-size: 1.4rem;
   color: #eee;
   margin-top: 2rem;
@@ -860,6 +860,10 @@ ul {
   font-size: 0.9rem;
   margin-bottom: 1.2rem;
   color: #eee;
+}
+
+article h2 {
+    color: #eee;
 }
 
 article p {
