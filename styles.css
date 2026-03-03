@@ -675,6 +675,7 @@ ul {
 /* blog section */
 #blog {
     background-color: #4d4d4d;
+    padding: 60px 20px;
 }
 
 .blog-section {
@@ -735,7 +736,7 @@ ul {
     flex-direction: column;
     justify-content: space-between;
     height: 250px;
-    overflow: hidden;
+    overflow: hidden; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease;
 }
@@ -797,6 +798,12 @@ ul {
 
     .blog-snippet {
         font-size: 0.9rem;
+    }
+
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem;
     }
 }
 
