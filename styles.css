@@ -715,8 +715,12 @@ ul {
 }
 
 .blog-grid {
+    /*
     display: flex;
     flex-wrap: wrap;
+    */
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
     gap: 2rem;
     justify-content: center;
 }
