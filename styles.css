@@ -1014,7 +1014,7 @@ input[type=text], textarea {
 .contact-form input,
 .contact-form textarea {
     width: 90%;
-    padding: 0.5rem;
+    padding: 0.35rem;
     margin-bottom: 1rem;
     border: 2px solid #ccc;
     border-radius: 8px;
@@ -1130,7 +1130,7 @@ input[type=text], textarea {
 
     .contact-form input,
     .contact-form textarea {
-        padding: 0.5rem;
+        padding: 0.35rem;
     }
 }
 
