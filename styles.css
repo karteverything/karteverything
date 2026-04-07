@@ -1036,6 +1036,9 @@ input[type=text], textarea {
 .contact-right h3 {
     font-size: 1.1rem;
 }
+.contact-right.fa-phone {
+    text-decoration: none;
+}
 
 .social-icons h3 {
     margin-top: 30px;
