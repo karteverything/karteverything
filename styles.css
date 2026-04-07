@@ -1037,6 +1037,10 @@ input[type=text], textarea {
     font-size: 1.1rem;
 }
 
+.contact-right span {
+    text-decoration: none;
+}
+
 .social-icons h3 {
     margin-top: 30px;
     font-size: 1.1rem;
@@ -1069,7 +1073,6 @@ input[type=text], textarea {
 
 .fa-solid {
     font-size: 12px;
-    text-decoration: none;
 }
 
 .contact-right span {
