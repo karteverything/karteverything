@@ -718,6 +718,12 @@ ul {
     }
 }
 
+@media (max-width: 900px) {
+  .gallery-grid {
+    column-count: 2;
+  }
+}
+
 /* blog section */
 #blog {
     background-color: #4d4d4d;
