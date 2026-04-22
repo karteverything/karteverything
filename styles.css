@@ -638,20 +638,35 @@ ul {
   margin-bottom: 16px;
 }
 
-.grid-item img {
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* image */
+.image-wrapper img {
   width: 100%;
   height: auto;
   display: block;
 }
 
+/* caption overlay */
 .caption {
   position: absolute;
   bottom: 0;
   width: 100%;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  padding: 8px;
+  padding: 10px;
   font-size: 14px;
+  color: white;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* show on hover */
+.caption {
+  opacity: 1;
 }
 
 @keyframes fade {
