@@ -26,8 +26,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.classList.add("grid-item");
 
       card.innerHTML = `
-        <img src="${item.image_url}" alt="${item.title || ''}">
-        <div class="caption">${item.title || ''}</div>
+        <div class="image-wrapper">
+          <img src="${item.image_url}" alt="${item.title || ''}" loading="lazy">
+          <div class="caption">${item.title || ''}</div>
+        </div>
       `;
 
       container.appendChild(card);
