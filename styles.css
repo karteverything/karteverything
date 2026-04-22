@@ -665,7 +665,7 @@ ul {
 }
 
 /* show on hover */
-.caption {
+.image-wrapper:hover .caption {
   opacity: 1;
 }
 
@@ -711,6 +711,10 @@ ul {
     .prev, .next {
         font-size: 18px;
         padding: 8px 12px;
+    }
+
+    .caption {
+        font-size: 12px;
     }
 }
 
