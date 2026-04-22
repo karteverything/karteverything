@@ -627,6 +627,33 @@ ul {
     animation-duration: 1.5s;
 }
 
+/* grid */
+.gallery-grid {
+  column-count: 3;
+  column-gap: 16px;
+}
+
+.grid-item {
+  break-inside: avoid;
+  margin-bottom: 16px;
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.caption {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 8px;
+  font-size: 14px;
+}
+
 @keyframes fade {
     from { opacity: 0.4; }
     to { opacity: 1; }
